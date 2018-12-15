@@ -5,6 +5,10 @@
  */
 package com.example.demo;
 
+import com.example.demo.entities.Persoon;
+import com.example.demo.entities.Werknemer;
+import com.example.demo.services.PersoonService;
+import com.example.demo.services.WerknemerService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 
  * Uitleg: 
  * @RequestBody = annotatie om aan te geven dat de gestuurde data in JSON formaat is
- * @ResponseBody = idem als RequestBody maar nu is het antwoord in JSON
+ * @ResponseBody = annotatie om aan te geven dat de ontvangen data in JSON formaat is
  * 
  * 
  * Hoe functionaliteit testen?
@@ -32,7 +36,10 @@ public class PersonenController {
     
     @Autowired
     private PersoonService persoonService;
+    @Autowired
+    private WerknemerService werknemerService;
     
+    //PERSONEN
     @RequestMapping(value = "/personen", method = RequestMethod.GET)
     @ResponseBody
     public List<Persoon> getAllPersonen(){
@@ -50,4 +57,24 @@ public class PersonenController {
     public void addPersoon(@RequestBody Persoon persoon){
         persoonService.addPersoon(persoon);
     }
+    
+    //WERKNEMERS
+    @RequestMapping(method = RequestMethod.GET, value = "/werknemers")
+    @ResponseBody
+    public List<Werknemer> getAllWerknemers(){
+        return werknemerService.getAllPersonen();
+    }
+    
+    @RequestMapping(value = "/werknemers/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Werknemer getWerknemer(@PathVariable int id){
+        return werknemerService.getWerknemer(id);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/werknemers")
+    @ResponseBody
+    public void addWerknemer(@RequestBody Werknemer persoon){
+        werknemerService.addWerknemer(persoon);
+    }
+
 }

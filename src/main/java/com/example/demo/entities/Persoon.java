@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.demo;
+package com.example.demo.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -11,10 +11,12 @@ import javax.persistence.*;
 /**
  *
  * @author Arthur
+ * We kiezen voor de strategie joined : elke afgeleide klasse zal een aparte tabel krijgen en verwijzen naar de oudertabel (persoon)
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="personen")
-public class Persoon implements Serializable{
+public abstract class Persoon implements Serializable{
     
 
     private int id;

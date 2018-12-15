@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.demo;
+package com.example.demo.services;
 
+import com.example.demo.entities.Persoon;
+import com.example.demo.entities.Werknemer;
+import com.example.demo.repositories.PersoonRepository;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
