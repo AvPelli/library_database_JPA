@@ -1,28 +1,26 @@
 # groep-9
 
-Instellingen:
+# Project Title
 
-Database url: jdbc:mysql://localhost:3306/restaurant?zeroDateTimeBehavior=convertToNull
+## Instellingen en installatie
 
-Database username: iii
+### Database gegevens
+jdbc:mysql://localhost:3306/restaurant?zeroDateTimeBehavior=convertToNull
 
-Database password: iiipwd
+username: iii
 
-14-12-2018
-Communiceren met database via HTTP requests 
+password: iiipwd
 
-GET:         http://localhost:8080/personen
+## Overzicht
 
-GET:         http://localhost:8080/personen/{id}
+14-12-2018: Communiceren met database via HTTP requests 
 
-POST(JSON):  http://localhost:8080/personen
+15-12-2018: Eerste versie GUI, overleg structuur database
 
-
-To do:
+## To do
 
 1-1, 1-veel, veel-veel relaties
 
+## Bugs
 
-Bugs:
-
-Na afsluiten applicatie "reset" de database zichzelf => oplossen
+Na afsluiten applicatie "reset" de database zichzelf. 
