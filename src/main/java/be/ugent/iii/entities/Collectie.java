@@ -6,6 +6,7 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -21,13 +22,23 @@ public class Collectie implements Serializable {
     @Basic
     @Column(name = "KLASSE")
     private String klasse;
+    
+    @ManyToOne
+    @JoinColumn(name = "BIBLIOTHEEK")
+    private Bibliotheek bib;
+    
+    @OneToMany(mappedBy = "collectie")
+    List<Boek> boeken;
+    
+    /*
     @Basic
     @Column(name = "DIVISIE")
     private String divisie;
     @Basic
     @Column(name = "SECTIE")
     private String sectie;
-
+    */
+    
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getID() {
         return ID;
@@ -45,6 +56,23 @@ public class Collectie implements Serializable {
         this.klasse = klasse;
     }
 
+    public Bibliotheek getBib() {
+        return bib;
+    }
+
+    public void setBib(Bibliotheek bib) {
+        this.bib = bib;
+    }
+
+    public List<Boek> getBoeken() {
+        return boeken;
+    }
+
+    public void setBoeken(List<Boek> boeken) {
+        this.boeken = boeken;
+    }
+
+    /*
     public String getDivisie() {
         return divisie;
     }
@@ -60,6 +88,7 @@ public class Collectie implements Serializable {
     public void setSectie(String sectie) {
         this.sectie = sectie;
     }
+    */
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">

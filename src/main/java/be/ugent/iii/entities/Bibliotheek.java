@@ -6,6 +6,7 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -37,6 +38,9 @@ public class Bibliotheek implements Serializable {
     })
     private Adres adres;
     
+    @OneToMany(mappedBy = "bib")
+    private List<Collectie> collecties;
+    
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getID() {
         return ID;
@@ -60,6 +64,14 @@ public class Bibliotheek implements Serializable {
 
     public void setAdres(Adres adres) {
         this.adres = adres;
+    }
+
+    public List<Collectie> getCollecties() {
+        return collecties;
+    }
+
+    public void setCollecties(List<Collectie> collecties) {
+        this.collecties = collecties;
     }
     // </editor-fold>
 

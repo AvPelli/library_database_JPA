@@ -5,18 +5,26 @@
  */
 package be.ugent.iii.factory;
 
-import be.ugent.iii.entities.Adres;
-import be.ugent.iii.entities.Bibliotheek;
-import be.ugent.iii.entities.Boek;
-import java.time.LocalDate;
+import be.ugent.iii.dao.BibliotheekDao;
+import be.ugent.iii.entities.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
  * @author axeld
  */
 public class BibliotheekFactory {
+    
+    private static final Random r = new Random();
+    
+    public void maakDatabaseAan(BibliotheekDao dao) {
+        dao.addBibliotheek(maakBibliotheek());
+        dao.addCollecties(maakCollecties());
+        dao.addBoeken(maakBoeken());
+    }
+    
     public Bibliotheek maakBibliotheek() {
         Bibliotheek bib = new Bibliotheek();
         bib.setNaam("De Krook");
@@ -30,23 +38,86 @@ public class BibliotheekFactory {
         return bib;
     }
     
-    public Boek maakBoek(String titel, String taal, LocalDate uitgaveDatum, int isbn) {
+    public List<Collectie> maakCollectiesMetBibliotheek(Bibliotheek bib) {
+        List<Collectie> collecties = maakCollecties();
+        for (Collectie collectie : collecties) {
+            collectie.setBib(bib);
+        }
+        return collecties;
+    }
+    
+    public Collectie maakCollectie(String klasse) {
+        Collectie collectie = new Collectie();
+        collectie.setKlasse(klasse);
+        //collectie.setBib(maakBibliotheek());
+        return collectie;
+    }
+    
+    public List<Collectie> maakCollecties() {
+        List<Collectie> collecties = new ArrayList<>();
+        collecties.add(maakCollectie("Computerwetenschappen"));
+        collecties.add(maakCollectie("Literatuur"));
+        return collecties;
+    }
+    
+    public Boek maakBoek(String titel, String taal, int jaarVanUitgave, int isbn) {
         Boek boek = new Boek();
         boek.setTitel(titel);
         boek.setTaal(taal);
-        boek.setUitgaveDatum(uitgaveDatum);
+        boek.setJaarVanUitgave(jaarVanUitgave);
         boek.setISBN(isbn);
         return boek;
     }
     
    public  List<Boek> maakBoeken() {
-        List<Boek> boeken = new ArrayList<>();
-        LocalDate date = LocalDate.of(2018, 12, 16);
-        boeken.add(maakBoek("Programmeren voor dummies", "nl", date, 1));
-        boeken.add(maakBoek("Computer Networking", "en", date, 2));
-        boeken.add(maakBoek("C# Design Patterns", "en", date, 3));
-        boeken.add(maakBoek("Learning Perl", "en", date, 4));
-        boeken.add(maakBoek("Animal Farm", "en", date, 5));
+        List<Boek> boeken = new ArrayList<>(); 
+        String[] titels = {"Programmeren voor dummies", "Computer Networking", "C# Design Patterns", "Learning Perl", "Animal Farm"};
+        String[] talen = {"nl", "en", "en", "en", "en"};
+        int[] jaren = {2018, 2013, 2017, 2007, 1945};
+        for (int i = 0; i < titels.length; i++) {
+            boeken.add(maakBoek(titels[i], talen[i], jaren[i], i + 1));
+        }
         return boeken;
     }
+   
+   public Bibliotheek maakBibliotheekMetCollecties() {
+       Bibliotheek bib = maakBibliotheek();
+       List<Collectie> collecties = maakCollectiesMetBoeken();
+       bib.setCollecties(collecties);
+       for (Collectie c : collecties) {
+           c.setBib(bib);
+           for (Boek b : c.getBoeken()) {
+               b.setCollectie(c);
+           }
+       }
+       return bib;
+   }
+   
+   public List<Collectie> maakCollectiesMetBoeken() {
+      List<Collectie> collecties = new ArrayList<>();
+      
+      String[] titels = {"Computer Networking", "Learning Perl"};
+      String[] talen = {"en", "en"};
+      int[] jaren = {2013, 2007};
+      Collectie collectie = maakCollectie("Computerwetenschappen");
+      collectie.setBoeken(maakBoeken(titels, talen, jaren));
+      collecties.add(collectie);
+      
+      titels = new String[]{"Animal Farm", "1984"};
+      talen = new String[]{"en", "en"};
+      jaren = new int[]{1945, 1948};
+      collectie = maakCollectie("Literatuur");
+      collectie.setBoeken(maakBoeken(titels, talen, jaren));
+      collecties.add(collectie);
+      
+      return collecties;
+   }
+   
+   public List<Boek> maakBoeken(String[] titels, String[] talen, int[] jaren) {
+       List<Boek> boeken = new ArrayList<>();
+       for (int i = 0; i < titels.length; i++) {
+           boeken.add(maakBoek(titels[i], talen[i], jaren[i], 0 + r.nextInt(10000)));
+       }
+       return boeken;
+   }
 }

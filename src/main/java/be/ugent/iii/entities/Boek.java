@@ -6,7 +6,6 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -26,11 +25,15 @@ public class Boek implements Serializable {
     @Column(name = "TAAL")
     private String taal;
     @Basic
-    @Column(name = "UITGAVE_DATUM")
-    private LocalDate uitgaveDatum;
+    @Column(name = "JAAR_UITGAVE")
+    private int jaarVanUitgave;
     @Basic
     @Column(name = "ISBN")
     private int ISBN;
+    @ManyToOne
+    @JoinColumn(name = "COLLECTIE")
+    private Collectie collectie;
+    
     @Transient
     private String samenvatting;
     
@@ -59,14 +62,14 @@ public class Boek implements Serializable {
         this.taal = taal;
     }
 
-    public LocalDate getUitgaveDatum() {
-        return uitgaveDatum;
+    public int getJaarVanUitgave() {
+        return jaarVanUitgave;
     }
 
-    public void setUitgaveDatum(LocalDate uitgaveDatum) {
-        this.uitgaveDatum = uitgaveDatum;
+    public void setJaarVanUitgave(int jaarVanUitgave) {
+        this.jaarVanUitgave = jaarVanUitgave;
     }
-    
+
     public int getISBN() {
         return ISBN;
     }
@@ -75,6 +78,14 @@ public class Boek implements Serializable {
         this.ISBN = ISBN;
     }
 
+    public Collectie getCollectie() {
+        return collectie;
+    }
+
+    public void setCollectie(Collectie collectie) {
+        this.collectie = collectie;
+    }
+    
     public String getSamenvatting() {
         return samenvatting;
     }
@@ -109,7 +120,7 @@ public class Boek implements Serializable {
     
     @Override
     public String toString() {
-        return "Boek{" + "ID=" + ID + ", titel=" + titel + ", taal=" + taal + ", ISBN=" + ISBN + '}';
+        return "Boek{" + "ID=" + ID + ", titel=" + titel + ", taal=" + taal + ", jaarVanUitgave=" + jaarVanUitgave + ", ISBN=" + ISBN + '}';
     }
     // </editor-fold>
 }

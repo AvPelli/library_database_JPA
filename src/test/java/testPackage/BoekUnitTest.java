@@ -41,7 +41,8 @@ public class BoekUnitTest {
     public void setUp() {
         factory = new BibliotheekFactory();
         dao = new BibliotheekDao();
-        createDatabase();
+        factory.maakDatabaseAan(dao);
+        //createDatabase();
     }
     
     @After
@@ -55,6 +56,7 @@ public class BoekUnitTest {
     // @Test
     // public void hello() {}
     
+    /*
     private void createDatabase() {
         System.out.println("HIER!!!!!!!!!");
         List<Boek> boeken = factory.maakBoeken();
@@ -62,7 +64,8 @@ public class BoekUnitTest {
         Bibliotheek bib = factory.maakBibliotheek();
         dao.addBibliotheek(bib);
     }
-
+    */
+    
     @Test
     public void testVoegBoekenToe() {
         /*
@@ -100,4 +103,6 @@ public class BoekUnitTest {
         }
         assertEquals(dao.getBibliotheken().size(), 1);
     }
+    
+    
 }
