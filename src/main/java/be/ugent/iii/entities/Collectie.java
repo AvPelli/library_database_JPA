@@ -6,6 +6,7 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -28,7 +29,7 @@ public class Collectie implements Serializable {
     private Bibliotheek bib;
     
     @OneToMany(mappedBy = "collectie")
-    List<Boek> boeken;
+    List<Boek> boeken = new ArrayList<>();
     
     /*
     @Basic
@@ -112,6 +113,11 @@ public class Collectie implements Serializable {
         }
         final Collectie other = (Collectie) obj;
         return this.ID == other.ID;
+    }
+    
+    @Override
+    public String toString() {
+        return "Collectie{" + "ID=" + ID + ", klasse=" + klasse + '}';
     }
     // </editor-fold>
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.ugent.iii.add;
+package be.ugent.iii.unittests;
 
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entities.*;
@@ -20,12 +20,12 @@ import static org.junit.Assert.*;
  *
  * @author axeld
  */
-public class TestBibliotheek {
+public class TestToevoegen {
     
     BibliotheekFactory factory;
     BibliotheekDao dao;
     
-    public TestBibliotheek() {
+    public TestToevoegen() {
     }
     
     @BeforeClass
@@ -43,7 +43,8 @@ public class TestBibliotheek {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        dao.close();
     }
 
     // TODO add test methods here.
@@ -52,16 +53,19 @@ public class TestBibliotheek {
     // @Test
     // public void hello() {}
     @Test
-    public void addBibMetCollectiesEnBoeken() {
-        Bibliotheek bib = factory.maakBibliotheekMetCollecties();
-        List<Collectie> colllecties  = bib.getCollecties();
-        
+    public void BilbiotheekToevoegen() {
+        int aantalVoor = dao.getBibliotheken().size();
+        Bibliotheek bib = factory.maakBibliotheek();
         dao.addBibliotheek(bib);
-        dao.addCollecties(colllecties);
-        for (Collectie c : colllecties) {
-            dao.addBoeken(c.getBoeken());
-        }
+        int id = bib.getID();
         
-        assertEquals(1, 1);
+        List<Bibliotheek> lijst = dao.getBibliotheken();
+        int aantalNa = dao.getBibliotheken().size();
+        
+        Bibliotheek bibOpId = dao.zoekBib(id);
+        
+        assertEquals("Aantal bibliotheken geïncrementeerd?", aantalVoor + 1, aantalNa);
+        assertTrue("Bibliotheek toegevoegd?", lijst.contains(bib));
+        assertEquals("Bibliotheek gevonden met ID?", bib, bibOpId);
     }
 }

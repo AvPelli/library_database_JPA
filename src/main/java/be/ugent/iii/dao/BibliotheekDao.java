@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,6 +29,7 @@ public class BibliotheekDao implements AutoCloseable {
         emf.close();
     }
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om entiteiten toe te voegen">
     private void addObject(Object object) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -46,6 +48,32 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
     }
     
+    public void addBibliotheek(Bibliotheek bib) {
+        addObject(bib);
+        if (!bib.getCollecties().isEmpty()) {
+            addCollecties(bib.getCollecties());
+        }
+    }
+    
+    public void addBibliotheken(List<Bibliotheek> lijst) {
+        for (Bibliotheek bib : lijst) {
+            addBibliotheek(bib);
+        }
+    }
+    
+    public void addCollectie(Collectie collectie) {
+        addObject(collectie);
+        if (!collectie.getBoeken().isEmpty()) {
+            addBoeken(collectie.getBoeken());
+        }
+    }
+    
+    public void addCollecties(List<Collectie> collecties) {
+        for (Collectie c : collecties) {
+            addCollectie(c);
+        }
+    }
+    
     public void addBoek(Boek boek) {
         addObject(boek);
     }
@@ -53,7 +81,9 @@ public class BibliotheekDao implements AutoCloseable {
     public void addBoeken(List<Boek> boeken) {
         addObjects(boeken);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om entiteiten uit de database op te halen">
     public List<Boek> getBoeken() {
         EntityManager em = emf.createEntityManager();
         List<Boek> boeken = em.createQuery("select b from Boek b", Boek.class).getResultList();
@@ -61,15 +91,11 @@ public class BibliotheekDao implements AutoCloseable {
         return boeken;
     }
     
-    public Boek getBoek(int id) {
+    public List<Collectie> getCollecties() {
         EntityManager em = emf.createEntityManager();
-        Boek boek = em.find(Boek.class, id);
+        List<Collectie> collecties = em.createQuery("select c from Collectie c", Collectie.class).getResultList();
         em.close();
-        return boek;
-    }
-    
-    public void addBibliotheek(Bibliotheek bib) {
-        addObject(bib);
+        return collecties;
     }
     
     public List<Bibliotheek> getBibliotheken() {
@@ -79,11 +105,32 @@ public class BibliotheekDao implements AutoCloseable {
         return lijst;
     }
     
-    public void addCollectie(Collectie collectie) {
-        addObject(collectie);
+    public List<Auteur> getAuteurs() {
+        EntityManager em = emf.createEntityManager();
+        List<Auteur> auteurs = em.createQuery("select a from Auteur a", Auteur.class).getResultList();
+        em.close();
+        return auteurs;
+    }
+    // </editor-fold>
+    
+    public Boek getBoek(int id) {
+        EntityManager em = emf.createEntityManager();
+        Boek boek = em.find(Boek.class, id);
+        em.close();
+        return boek;
     }
     
-    public void addCollecties(List<Collectie> collecties) {
-        addObjects(collecties);
+    public Bibliotheek zoekBib(int id) {
+        EntityManager em = emf.createEntityManager();
+        Bibliotheek bib = em.find(Bibliotheek.class, id);
+        em.close();
+        return bib;
+    }
+    
+    public Bibliotheek getBibliotheek(String naam) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Bibliotheek> query = em.createQuery("select b from Bibliotheek b where b.naam = ?1", Bibliotheek.class).setParameter(1, naam);
+        Bibliotheek bib = query.getResultList().get(0);
+        return bib;
     }
 }

@@ -6,6 +6,8 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -33,6 +35,9 @@ public class Boek implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
+    
+    @ManyToMany
+    List<Auteur> auteurs = new ArrayList<>();
     
     @Transient
     private String samenvatting;
