@@ -1,14 +1,14 @@
-package com.example.demo;
-
+package be.ugent.iii.projectJPA;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class ProjectJpaApplication {
 
 	public static void main(String[] args) {
-            SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(ProjectJpaApplication.class, args);
 	}
+
 }
 
