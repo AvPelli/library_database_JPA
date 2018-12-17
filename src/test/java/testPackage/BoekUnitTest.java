@@ -7,6 +7,7 @@ package testPackage;
 
 import be.ugent.iii.factory.BibliotheekFactory;
 import be.ugent.iii.dao.BibliotheekDao;
+import be.ugent.iii.entities.Bibliotheek;
 import be.ugent.iii.entities.Boek;
 import java.util.List;
 import org.junit.After;
@@ -40,6 +41,7 @@ public class BoekUnitTest {
     public void setUp() {
         factory = new BibliotheekFactory();
         dao = new BibliotheekDao();
+        createDatabase();
     }
     
     @After
@@ -52,11 +54,21 @@ public class BoekUnitTest {
     //
     // @Test
     // public void hello() {}
-      
-    @Test
-    public void testVoegBoekenToe() {
+    
+    private void createDatabase() {
+        System.out.println("HIER!!!!!!!!!");
         List<Boek> boeken = factory.maakBoeken();
         dao.addBoeken(boeken);
+        Bibliotheek bib = factory.maakBibliotheek();
+        dao.addBibliotheek(bib);
+    }
+
+    @Test
+    public void testVoegBoekenToe() {
+        /*
+        List<Boek> boeken = factory.maakBoeken();
+        dao.addBoeken(boeken);
+        */
         for (Boek boek : dao.getBoeken()) {
             System.out.println(boek);
         }
@@ -65,14 +77,27 @@ public class BoekUnitTest {
     
     @Test
     public void testZoekBoek() {
+        /*
         List<Boek> boeken = factory.maakBoeken();
         dao.addBoeken(boeken);
-        
+        */
         Boek boek = new Boek();
         boek.setID(1);
         Boek other = dao.getBoek(boek.getID());
         System.out.println(boek);
         System.out.println(other);
         assertEquals(boek, other);    
+    }
+    
+    @Test
+    public void testVoegBibliotheekToe() {
+        /*
+        Bibliotheek bib = factory.maakBibliotheek();
+        dao.addBibliotheek(bib);
+        */
+        for (Bibliotheek b : dao.getBibliotheken()) {
+            System.out.println(b);
+        }
+        assertEquals(dao.getBibliotheken().size(), 1);
     }
 }

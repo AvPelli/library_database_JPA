@@ -21,7 +21,22 @@ public class Bibliotheek implements Serializable {
     @Basic
     @Column(name = "NAAM")
     private String naam;
-
+    
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "straatNaam",
+                column = @Column(name = "STRAAT")),
+        @AttributeOverride(name = "huisNr",
+                column = @Column(name = "HUIS_NR")),
+        @AttributeOverride(name = "postcode",
+                column = @Column(name = "POSTCODE")),
+        @AttributeOverride(name = "gemeente",
+                column = @Column(name = "GEMEENTE")),
+        @AttributeOverride(name = "land",
+                column = @Column(name = "LAND"))
+    })
+    private Adres adres;
+    
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getID() {
         return ID;
@@ -37,6 +52,14 @@ public class Bibliotheek implements Serializable {
 
     public void setNaam(String naam) {
         this.naam = naam;
+    }
+
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
     }
     // </editor-fold>
 
@@ -61,6 +84,11 @@ public class Bibliotheek implements Serializable {
         }
         final Bibliotheek other = (Bibliotheek) obj;
         return this.ID == other.ID;
+    }
+    
+    @Override
+    public String toString() {
+        return "Bibliotheek{" + "ID=" + ID + ", naam=" + naam + ", adres=" + adres + '}';
     }
     // </editor-fold>
 }

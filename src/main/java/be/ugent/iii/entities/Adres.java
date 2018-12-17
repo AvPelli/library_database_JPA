@@ -5,10 +5,67 @@
  */
 package be.ugent.iii.entities;
 
+import java.io.Serializable;
+import javax.persistence.Embeddable;
+
 /**
  *
  * @author axeld
  */
-public class Adres {
-    
+@Embeddable
+public class Adres implements Serializable {
+    private String straatNaam;
+    private int huisNr;
+    private String postcode;
+    private String gemeente;
+    private String land;
+
+    // <editor-fold defaultstate="collapsed" desc="getters/setters">
+    public String getStraatNaam() {
+        return straatNaam;
+    }
+
+    public void setStraatNaam(String straatNaam) {
+        this.straatNaam = straatNaam;
+    }
+
+    public int getHuisNr() {
+        return huisNr;
+    }
+
+    public void setHuisNr(int huisNr) {
+        this.huisNr = huisNr;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getGemeente() {
+        return gemeente;
+    }
+
+    public void setGemeente(String gemeente) {
+        this.gemeente = gemeente;
+    }
+
+    public String getLand() {
+        return land;
+    }
+
+    public void setLand(String land) {
+        this.land = land;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
+    @Override
+    public String toString() {
+        return "Adres{" + "straatNaam=" + straatNaam + ", huisNr=" + huisNr + ", postCode=" + postcode + ", gemeente=" + gemeente + ", land=" + land + '}';
+    }
+    // </editor-fold>
 }

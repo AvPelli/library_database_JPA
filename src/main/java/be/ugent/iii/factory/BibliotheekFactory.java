@@ -5,6 +5,8 @@
  */
 package be.ugent.iii.factory;
 
+import be.ugent.iii.entities.Adres;
+import be.ugent.iii.entities.Bibliotheek;
 import be.ugent.iii.entities.Boek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +17,19 @@ import java.util.List;
  * @author axeld
  */
 public class BibliotheekFactory {
+    public Bibliotheek maakBibliotheek() {
+        Bibliotheek bib = new Bibliotheek();
+        bib.setNaam("De Krook");
+        Adres adres = new Adres();
+        adres.setStraatNaam("Makebaplein");
+        adres.setHuisNr(1);
+        adres.setPostcode("9000");
+        adres.setGemeente("Gent");
+        adres.setLand("België");
+        bib.setAdres(adres);
+        return bib;
+    }
+    
     public Boek maakBoek(String titel, String taal, LocalDate uitgaveDatum, int isbn) {
         Boek boek = new Boek();
         boek.setTitel(titel);

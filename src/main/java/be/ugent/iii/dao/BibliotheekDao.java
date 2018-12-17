@@ -5,6 +5,7 @@
  */
 package be.ugent.iii.dao;
 
+import be.ugent.iii.entities.Bibliotheek;
 import be.ugent.iii.entities.Boek;
 import java.util.Collection;
 import java.util.List;
@@ -66,5 +67,16 @@ public class BibliotheekDao implements AutoCloseable {
         Boek boek = em.find(Boek.class, id);
         em.close();
         return boek;
+    }
+    
+    public void addBibliotheek(Bibliotheek bib) {
+        addObject(bib);
+    }
+    
+    public List<Bibliotheek> getBibliotheken() {
+        EntityManager em = emf.createEntityManager();
+        List<Bibliotheek> lijst = em.createQuery("select b from Bibliotheek b", Bibliotheek.class).getResultList();
+        em.close();
+        return lijst;
     }
 }

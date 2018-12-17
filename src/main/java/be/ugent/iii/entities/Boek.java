@@ -106,10 +106,10 @@ public class Boek implements Serializable {
         final Boek other = (Boek) obj;
         return this.ID == other.ID;
     }
-    // </editor-fold>
-
+    
     @Override
     public String toString() {
         return "Boek{" + "ID=" + ID + ", titel=" + titel + ", taal=" + taal + ", ISBN=" + ISBN + '}';
     }
+    // </editor-fold>
 }
