@@ -5,7 +5,7 @@
 ## Instellingen en installatie
 
 ### Database gegevens
-jdbc:mysql://localhost:3306/restaurant?zeroDateTimeBehavior=convertToNull
+jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
 
 username: iii
 
