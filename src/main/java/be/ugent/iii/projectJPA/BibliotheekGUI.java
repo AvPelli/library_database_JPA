@@ -13,6 +13,7 @@ import be.ugent.iii.entities.Collectie;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
 import javafx.scene.control.Alert;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -264,14 +265,14 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         StringBuilder s = new StringBuilder();
         int keuze = ZoekButtonGroup.getSelection().getMnemonic();
-        
+
         try {
             comboboxHulpMethode(s, keuze);
             ResultTextArea.setText(s.toString());
         } catch (NumberFormatException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "Het ingevoerde ID kan enkel uit cijfers bestaan");
+            JOptionPane.showMessageDialog(this, "Het ingevoerde ID kan enkel uit cijfers bestaan");
         } catch (Exception ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR, "Het gevraagde item bestaat niet");
+            JOptionPane.showMessageDialog(this, "Het gevraagde item bestaat niet");
         }
     }//GEN-LAST:event_ZoekButtonActionPerformed
     private void comboboxHulpMethode(StringBuilder b, int keuze) throws Exception {
@@ -338,7 +339,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         return;
                     //ID
                     case 2:
-                        b.append(dao.getBoek(Integer.parseInt(IDTextField.getText())));
+                        Boek s = dao.getBoek(Integer.parseInt(IDTextField.getText()));
+                        if (s == null) {
+                            throw new Exception();
+                        } else {
+                            b.append(s);
+                        }
                         return;
                     //NAAM
                     case 3:
