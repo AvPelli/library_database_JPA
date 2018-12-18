@@ -8,6 +8,8 @@ package be.ugent.iii.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -36,11 +38,17 @@ public class Boek implements Serializable {
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
     
-    @ManyToMany
-    List<Auteur> auteurs = new ArrayList<>();
+    //MappedBy refers to the name of the Entity property (be.ugent.iii.entities.Auteur.boeken)
+    @ManyToMany(mappedBy = "boeken")
+    public Set<Auteur> auteurs;
     
     @Transient
     private String samenvatting;
+    
+    //ManyToMany: add method required
+    public boolean add(Auteur auteur){
+        return auteurs.add(auteur);
+    }
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getID() {
@@ -98,31 +106,18 @@ public class Boek implements Serializable {
     public void setSamenvatting(String samenvatting) {
         this.samenvatting = samenvatting;
     }
+
+    public Set<Auteur> getAuteurs() {
+        return auteurs;
+    }
+
+    private void setAuteurs(Set<Auteur> auteurs) {
+        this.auteurs = auteurs;
+    }
+
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.ID;
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Boek other = (Boek) obj;
-        return this.ID == other.ID;
-    }
-    
     @Override
     public String toString() {
         return "Boek{" + "ID=" + ID + ", titel=" + titel + ", taal=" + taal + ", jaarVanUitgave=" + jaarVanUitgave + ", ISBN=" + ISBN + '}';
