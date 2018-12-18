@@ -37,6 +37,8 @@ public class Boek implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
+    @OneToOne(mappedBy = "boek")
+    private Lening lening;
     
     //MappedBy refers to the name of the Entity property (be.ugent.iii.entities.Auteur.boeken)
     @ManyToMany(mappedBy = "boeken")
@@ -98,7 +100,15 @@ public class Boek implements Serializable {
     public void setCollectie(Collectie collectie) {
         this.collectie = collectie;
     }
-    
+
+    public Lening getLening() {
+        return lening;
+    }
+
+    public void setLening(Lening lening) {
+        this.lening = lening;
+    }
+
     public String getSamenvatting() {
         return samenvatting;
     }

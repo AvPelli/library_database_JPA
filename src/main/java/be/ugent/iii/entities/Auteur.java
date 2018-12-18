@@ -37,6 +37,7 @@ public class Auteur extends Persoon {
     private void setBoeken(Set<Boek> boeken) {
         this.boeken = boeken;
     }
+    
     // </editor-fold>  
 
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">

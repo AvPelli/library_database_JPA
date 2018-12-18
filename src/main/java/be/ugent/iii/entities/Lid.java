@@ -5,6 +5,7 @@
  */
 package be.ugent.iii.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -30,9 +31,12 @@ public class Lid extends Persoon {
     })
     private Adres adres;
     
+    @OneToMany(mappedBy = "lid")
+    private List<Lening> leningen = new ArrayList<>();
+    /*
     @ManyToMany
     private List<Bibliotheek> bibs;
-
+    */
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public Adres getAdres() {
         return adres;
@@ -42,6 +46,15 @@ public class Lid extends Persoon {
         this.adres = adres;
     }
 
+    public List<Lening> getLeningen() {
+        return leningen;
+    }
+
+    public void setLeningen(List<Lening> leningen) {
+        this.leningen = leningen;
+    }
+     
+    /*
     public List<Bibliotheek> getBibs() {
         return bibs;
     }
@@ -49,6 +62,7 @@ public class Lid extends Persoon {
     public void setBibs(List<Bibliotheek> bibs) {
         this.bibs = bibs;
     }
+    */
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">

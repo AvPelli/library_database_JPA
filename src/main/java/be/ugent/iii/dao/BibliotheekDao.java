@@ -133,4 +133,19 @@ public class BibliotheekDao implements AutoCloseable {
         Bibliotheek bib = query.getResultList().get(0);
         return bib;
     }
+    
+    /*
+    public void addAuteur(List<Boek> boeken) {
+        Auteur auteur = new Auteur();
+        auteur.setVoorNaam("George");
+        auteur.setAchterNaam("Orwell");
+        auteur.setGeslacht('M');
+        auteur.setBoeken(boeken);
+        for (Boek boek : boeken) {
+            boek.getAuteurs().add(auteur);
+        }
+        addObject(auteur);
+        addObjects(boeken);
+    }
+    */
 }
