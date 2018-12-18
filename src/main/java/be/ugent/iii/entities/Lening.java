@@ -5,16 +5,75 @@
  */
 package be.ugent.iii.entities;
 
-import javax.persistence.Entity;
+import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  *
  * @author axeld
  */
-public class Lening {
+@Entity
+@Table(name = "LENINGEN")
+public class Lening implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
     
+    @ManyToOne
     private Lid lid;
+    @OneToOne()
+    @MapsId
+    @JoinColumn(name = "BOEK")
     private Boek boek;
-    
-    
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public Lid getLid() {
+        return lid;
+    }
+
+    public void setLid(Lid lid) {
+        this.lid = lid;
+    }
+
+    public Boek getBoek() {
+        return boek;
+    }
+
+    public void setBoek(Boek boek) {
+        this.boek = boek;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.Id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Lening other = (Lening) obj;
+        return this.Id == other.Id;
+    }
+
+    @Override
+    public String toString() {
+        return "Lening{" + "Id=" + Id + ", lid=" + lid + ", boek=" + boek + '}';
+    }
 }

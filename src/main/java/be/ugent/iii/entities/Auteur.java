@@ -16,10 +16,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "AUTEURS")
 public class Auteur extends Persoon {
-    @ManyToMany
+    /*
+    @ManyToMany(mappedBy = "auteurs")
     private List<Boek> boeken = new ArrayList<>();
-
+    */
+    
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
+    /*
     public List<Boek> getBoeken() {
         return boeken;
     }
@@ -27,6 +30,7 @@ public class Auteur extends Persoon {
     public void setBoeken(List<Boek> boeken) {
         this.boeken = boeken;
     }
+    */
     // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">

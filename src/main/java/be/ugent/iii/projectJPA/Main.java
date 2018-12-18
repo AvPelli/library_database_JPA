@@ -8,6 +8,7 @@ package be.ugent.iii.projectJPA;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entities.*;
 import be.ugent.iii.factory.BibliotheekFactory;
+import java.util.List;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BibliotheekFactory factory = new BibliotheekFactory();
         BibliotheekDao dao = new BibliotheekDao();
+     
         Bibliotheek bib = factory.maakBibliotheekMetCollecties();
         dao.addBibliotheek(bib);
         System.out.println(bib);
@@ -35,6 +37,9 @@ public class Main {
         for (Collectie c : other.getCollecties()) {
             System.out.println(c);
         }
+        //List<Boek> boeken = factory.maakLiteratuurBoeken();
+        //dao.addAuteur(boeken);
+        
         dao.close();
     }
     

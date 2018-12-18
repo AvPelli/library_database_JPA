@@ -9,6 +9,7 @@ import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entities.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -67,5 +68,19 @@ public class TestToevoegen {
         assertEquals("Aantal bibliotheken geïncrementeerd?", aantalVoor + 1, aantalNa);
         assertTrue("Bibliotheek toegevoegd?", lijst.contains(bib));
         assertEquals("Bibliotheek gevonden met ID?", bib, bibOpId);
+    }
+    
+    @Test 
+    public void BibliothekenToevoegen() {
+        int aantalVoor = dao.getBibliotheken().size();
+        String[] namen = {"Bibliotheek Dendermonde", "Boston Public Library", "Seattle Central Parlement", "Vatican Library", "National Library Of St. Marks"};
+        List<Bibliotheek> lijstVoor = factory.maakBibliotheken(namen);
+        dao.addBibliotheken(lijstVoor);
+        
+        List<Bibliotheek> lijstNa = dao.getBibliotheken();
+        int aantalNa = lijstNa.size();
+        
+        assertEquals("Aantal bibliotheken verhoogd?", aantalVoor + namen.length, aantalNa);
+        assertThat(lijstVoor, is(lijstNa));
     }
 }

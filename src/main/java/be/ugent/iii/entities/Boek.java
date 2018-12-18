@@ -35,10 +35,16 @@ public class Boek implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
+    @OneToOne(mappedBy = "boek")
+    private Lening lening;
     
+    /*
     @ManyToMany
+    @JoinTable(name = "BOEKEN_AUTEURS",
+            joinColumns = { @JoinColumn(name = "FK_BOEK") },
+            inverseJoinColumns = { @JoinColumn(name = "FK_AUTEUR") })
     List<Auteur> auteurs = new ArrayList<>();
-    
+    */
     @Transient
     private String samenvatting;
     
@@ -90,7 +96,15 @@ public class Boek implements Serializable {
     public void setCollectie(Collectie collectie) {
         this.collectie = collectie;
     }
-    
+
+    public Lening getLening() {
+        return lening;
+    }
+
+    public void setLening(Lening lening) {
+        this.lening = lening;
+    }
+
     public String getSamenvatting() {
         return samenvatting;
     }
@@ -98,6 +112,16 @@ public class Boek implements Serializable {
     public void setSamenvatting(String samenvatting) {
         this.samenvatting = samenvatting;
     }
+
+    /*
+    public List<Auteur> getAuteurs() {
+        return auteurs;
+    }
+
+    public void setAuteurs(List<Auteur> auteurs) {
+        this.auteurs = auteurs;
+    }
+    */
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
