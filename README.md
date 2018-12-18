@@ -1,6 +1,6 @@
 # groep-9
 
-# Project Title
+# Bibliotheek
 
 ## Instellingen en installatie
 
@@ -17,10 +17,14 @@ password: iiipwd
 
 15-12-2018: Eerste versie GUI, overleg structuur database
 
+17-12-2018: Entiteiten toegevoegd + DAO klasse met entitymanager ipv controller met http requests
+
+18-12-2018: GUI die gebruik maakt van de nieuwe DAO klasse
+
 ## To do
 
-1-1, 1-veel, veel-veel relaties
+Verder uitwerken database en GUI
 
 ## Bugs
 
-Na afsluiten applicatie "reset" de database zichzelf. 
+ 
