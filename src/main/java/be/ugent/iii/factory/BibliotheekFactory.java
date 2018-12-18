@@ -14,8 +14,9 @@ import java.util.Random;
  *
  * @author axeld
  */
-public class BibliotheekFactory { 
-    
+public class BibliotheekFactory {
+
+    //<editor-fold defaultstate="collapsed" desc="Bibliotheek">
     public Bibliotheek maakBibliotheek() {
         Bibliotheek bib = new Bibliotheek();
         bib.setNaam("De Krook");
@@ -28,7 +29,7 @@ public class BibliotheekFactory {
         bib.setAdres(adres);
         return bib;
     }
-    
+
     public Bibliotheek maakBibliotheekMetCollecties() {
         Bibliotheek bib = maakBibliotheek();
         List<Collectie> collecties = maakCollectiesMetBoeken();
@@ -38,7 +39,7 @@ public class BibliotheekFactory {
         }
         return bib;
     }
-    
+
     public List<Bibliotheek> maakBibliotheken(String[] namen) {
         List<Bibliotheek> lijst = new ArrayList<>();
         for (String naam : namen) {
@@ -48,21 +49,23 @@ public class BibliotheekFactory {
         }
         return lijst;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Collecties">
     public Collectie maakCollectie(String klasse) {
         Collectie collectie = new Collectie();
         collectie.setKlasse(klasse);
         return collectie;
     }
-    
+
     public Collectie maakInformaticaCollectie() {
         return maakCollectieMetBoeken("Computerwetenschappen", maakInformaticaBoeken());
     }
-    
+
     public Collectie maakLiteratuurCollectie() {
         return maakCollectieMetBoeken("Literatuur", maakLiteratuurBoeken());
     }
-    
+
     public Collectie maakCollectieMetBoeken(String klasse, List<Boek> boeken) {
         Collectie collectie = maakCollectie(klasse);
         collectie.setBoeken(boeken);
@@ -71,7 +74,7 @@ public class BibliotheekFactory {
         }
         return collectie;
     }
-    
+
     public List<Collectie> maakCollectiesMetBoeken() {
         List<Collectie> collecties = new ArrayList<>();
         collecties.add(maakInformaticaCollectie());
@@ -79,7 +82,9 @@ public class BibliotheekFactory {
         collecties.add(maakCollectie("Social sciences"));
         return collecties;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Boeken">
     public Boek maakBoek(String titel, String taal, int jaar) {
         Boek boek = new Boek();
         boek.setTitel(titel);
@@ -88,7 +93,7 @@ public class BibliotheekFactory {
         boek.setISBN((new Random()).nextInt(1000));
         return boek;
     }
-    
+
     public List<Boek> maakBoeken(String[] titels, String[] talen, int[] jaren) {
         List<Boek> boeken = new ArrayList<>();
         for (int i = 0; i < titels.length; i++) {
@@ -96,18 +101,33 @@ public class BibliotheekFactory {
         }
         return boeken;
     }
-    
+
     public List<Boek> maakInformaticaBoeken() {
         String[] titels = {"Computer Networking", "Learning Perl"};
         String[] talen = {"en", "en"};
         int[] jaren = {2013, 2017};
         return maakBoeken(titels, talen, jaren);
     }
-    
+
     public List<Boek> maakLiteratuurBoeken() {
         String[] titels = {"Animal Farm", "1984"};
         String[] talen = {"en", "en"};
         int[] jaren = {1945, 1948};
         return maakBoeken(titels, talen, jaren);
     }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Auteur">
+    public Auteur maakAuteur() {
+        Auteur auteur = new Auteur();
+        auteur.setVoorNaam("George");
+        auteur.setAchterNaam("Orwell");
+        auteur.setGeslacht('M');
+        for (Boek b : auteur.getBoeken()) {
+            b.add(auteur);
+        }
+        
+        return auteur;
+    }
+    //</editor-fold>
 }

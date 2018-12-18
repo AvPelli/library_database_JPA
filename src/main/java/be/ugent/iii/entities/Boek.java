@@ -8,8 +8,6 @@ package be.ugent.iii.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -42,7 +40,7 @@ public class Boek implements Serializable {
     
     //MappedBy refers to the name of the Entity property (be.ugent.iii.entities.Auteur.boeken)
     @ManyToMany(mappedBy = "boeken")
-    public Set<Auteur> auteurs;
+    public List<Auteur> auteurs = new ArrayList<>();
     
     @Transient
     private String samenvatting;
@@ -117,11 +115,11 @@ public class Boek implements Serializable {
         this.samenvatting = samenvatting;
     }
 
-    public Set<Auteur> getAuteurs() {
+    public List<Auteur> getAuteurs() {
         return auteurs;
     }
 
-    private void setAuteurs(Set<Auteur> auteurs) {
+    private void setAuteurs(List<Auteur> auteurs) {
         this.auteurs = auteurs;
     }
 

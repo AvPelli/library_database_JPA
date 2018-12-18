@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
 /**
@@ -18,6 +19,7 @@ import javax.persistence.TypedQuery;
  * @author axeld
  */
 public class BibliotheekDao implements AutoCloseable {
+    @PersistenceUnit
     EntityManagerFactory emf;
     
     public BibliotheekDao() {
@@ -56,9 +58,10 @@ public class BibliotheekDao implements AutoCloseable {
     }
     
     public void addBibliotheken(List<Bibliotheek> lijst) {
-        for (Bibliotheek bib : lijst) {
+        addObjects(lijst);
+        /*for (Bibliotheek bib : lijst) {
             addBibliotheek(bib);
-        }
+        }*/
     }
     
     public void addCollectie(Collectie collectie) {
@@ -80,6 +83,14 @@ public class BibliotheekDao implements AutoCloseable {
     
     public void addBoeken(List<Boek> boeken) {
         addObjects(boeken);
+    }
+    
+    public void addAuteur(Auteur auteur){
+        addObject(auteur);
+    }
+    
+    public void addAuteurs(List<Auteur> auteurs){
+        addObjects(auteurs);
     }
     // </editor-fold>
     

@@ -31,7 +31,7 @@ public class Lid extends Persoon {
     })
     private Adres adres;
     
-    @OneToMany(mappedBy = "lid")
+    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lid")
     private List<Lening> leningen = new ArrayList<>();
     /*
     @ManyToMany

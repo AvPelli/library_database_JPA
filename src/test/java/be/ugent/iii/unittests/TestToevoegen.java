@@ -9,6 +9,8 @@ import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entities.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,8 +46,12 @@ public class TestToevoegen {
     }
     
     @After
-    public void tearDown() throws Exception {
-        dao.close();
+    public void tearDown() {
+        try {
+            dao.close();
+        } catch (Exception ex) {
+            System.out.println("Kan entitymanager niet sluiten!");
+        }
     }
 
     // TODO add test methods here.
@@ -54,7 +60,7 @@ public class TestToevoegen {
     // @Test
     // public void hello() {}
     @Test
-    public void BilbiotheekToevoegen() {
+    public void BilbiotheekToevoegen() throws Exception {
         int aantalVoor = dao.getBibliotheken().size();
         Bibliotheek bib = factory.maakBibliotheek();
         dao.addBibliotheek(bib);
@@ -68,19 +74,38 @@ public class TestToevoegen {
         assertEquals("Aantal bibliotheken geïncrementeerd?", aantalVoor + 1, aantalNa);
         assertTrue("Bibliotheek toegevoegd?", lijst.contains(bib));
         assertEquals("Bibliotheek gevonden met ID?", bib, bibOpId);
+        dao.close();
     }
     
     @Test 
-    public void BibliothekenToevoegen() {
+    public void BibliothekenToevoegen() throws Exception {
         int aantalVoor = dao.getBibliotheken().size();
         String[] namen = {"Bibliotheek Dendermonde", "Boston Public Library", "Seattle Central Parlement", "Vatican Library", "National Library Of St. Marks"};
         List<Bibliotheek> lijstVoor = factory.maakBibliotheken(namen);
+        
+        //add bibliotheken to database
         dao.addBibliotheken(lijstVoor);
+
         
         List<Bibliotheek> lijstNa = dao.getBibliotheken();
         int aantalNa = lijstNa.size();
         
-        assertEquals("Aantal bibliotheken verhoogd?", aantalVoor + namen.length, aantalNa);
-        assertThat(lijstVoor, is(lijstNa));
+        assertEquals("Aantal bibliotheken verhoogd?", aantalVoor+lijstVoor.size(), aantalNa);
+        assertEquals(lijstVoor,lijstNa);
+        dao.close();
+    }
+    
+    @Test
+    public void AuteurToevoegen() throws Exception{
+        int aantalAuteursVoor = dao.getAuteurs().size();     
+        int aantalBoekenVoor = dao.getBoeken().size();
+        Auteur a = factory.maakAuteur();
+        dao.addAuteur(a);
+        int aantalAuteursNa = dao.getAuteurs().size();
+        int aantalBoekenNa = dao.getBoeken().size();
+        
+        assertEquals(aantalAuteursVoor+1, aantalAuteursNa);
+        assertEquals(aantalBoekenVoor+a.getBoeken().size(), aantalBoekenNa);
+        dao.close();
     }
 }

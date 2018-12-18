@@ -23,18 +23,18 @@ public class Auteur extends Persoon {
     @JoinTable(name = "BOEKEN_PER_AUTEUR",
             joinColumns = @JoinColumn(name = "AUTEUR"),
             inverseJoinColumns = @JoinColumn(name = "BOEK"))
-    private Set<Boek> boeken;
+    private List<Boek> boeken = new ArrayList<>();
 
     public boolean add(Boek boek) {
         return boeken.add(boek);
     }
 
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
-    public Set<Boek> getBoeken() {
+    public List<Boek> getBoeken() {
         return boeken;
     }
 
-    private void setBoeken(Set<Boek> boeken) {
+    private void setBoeken(List<Boek> boeken) {
         this.boeken = boeken;
     }
     

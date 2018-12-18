@@ -39,7 +39,7 @@ public class Bibliotheek implements Serializable {
     })
     private Adres adres;
     
-    @OneToMany(mappedBy = "bib")
+    @OneToMany(cascade = CascadeType.REMOVE ,mappedBy = "bib")
     private List<Collectie> collecties = new ArrayList<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
