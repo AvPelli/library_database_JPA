@@ -148,6 +148,26 @@ public class TestToevoegen {
 
         assertEquals("Aantal leningen correct?", leningenVoor + boeken.size(), leningenNa);
     }
+    
+    @Test
+    public void LeningVerwijderen(){
+        int leningenVoor = dao.getLeningen().size();
+        
+        //Lid en Boek aanmaken + uitlenen
+        Lid l = factory.maakLid();
+        Boek b = factory.maakBoek("Test lening", "NL", 1995);
+        Lening le = factory.maakLening(l, b);
+        dao.addLening(le);
+        
+        //test of lening gelukt is:
+        assertEquals(leningenVoor+1, dao.getLeningen().size());
+        
+        //Lening verwijderen:
+        dao.BoekTeruggebracht(l, b);
+        
+        //test of terugbrengen gelukt is:
+        assertEquals(leningenVoor, dao.getLeningen().size());
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Test Query met parameter">

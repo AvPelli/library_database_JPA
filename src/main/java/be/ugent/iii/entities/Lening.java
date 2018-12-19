@@ -24,7 +24,7 @@ public class Lening implements Serializable {
     // 1-n bidirectionele relatie tussen leden en leningen
     
     // Lazy fetching: enkel wanneer gevraagd wordt om de leden zal hibernate ze opvragen
-    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LID_ID")
     private Lid lid;
     

@@ -34,9 +34,10 @@ public class Lid extends Persoon {
     })
     private Adres adres;
     
-    //@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lid")
     // 1-n bidirectionele relatie tussen leden en leningen
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "lid")
+    //orphanRemoval: bij het verwijderen van een boek uit de lening tabel
+    //wordt enkel dit boek verwijderd en niet het lid (lid kan nog andere boeken hebben)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "lid", orphanRemoval = true)
     private final List<Lening> leningen = new ArrayList<>();
     /*
     @ManyToMany

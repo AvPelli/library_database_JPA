@@ -119,7 +119,16 @@ public class BibliotheekDao implements AutoCloseable {
 
     // <editor-fold defaultstate="collapsed" desc="methodes om leningen toe te voegen">
     public void addLening(Lening lening) {
-        addObject(lening);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        
+        em.persist(lening.getBoek());
+        em.persist(lening.getLid());
+        em.persist(lening);
+        
+        em.getTransaction().commit();
+        em.close();
+        
     }
 
     public void addLeningen(List<Lening> leningen) {
@@ -197,10 +206,10 @@ public class BibliotheekDao implements AutoCloseable {
     //Query met parameter
     public List<Boek> getBoekenByTaal(String taal) {
         EntityManager em = emf.createEntityManager();
-        
+
         Query opdracht = em.createQuery("Select b from Boek b where b.taal = :taal");
         opdracht.setParameter("taal", taal);
-        
+
         List<Boek> boeken = opdracht.getResultList();
         return boeken;
     }
@@ -220,4 +229,23 @@ public class BibliotheekDao implements AutoCloseable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database te verwijderen">
+    public void BoekTeruggebracht(Lid l, Boek b) {
+        EntityManager em = emf.createEntityManager();
+        Query opdracht = em.createQuery("Select l from Lening l where l.boek.ID = :id and l.lid.ID = :lidid");
+        opdracht.setParameter("id", b.getID());
+        opdracht.setParameter("lidid", l.getID());
+
+        List<Lening> result = opdracht.getResultList();
+        //verwijderen teruggebrachte boek
+        em.getTransaction().begin();
+        if (!result.isEmpty()) {
+            for (Lening le : result) {
+                em.remove(le);
+            }
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+    //</editor-fold>
 }
