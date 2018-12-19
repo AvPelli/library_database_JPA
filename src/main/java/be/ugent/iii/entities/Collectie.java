@@ -7,7 +7,9 @@ package be.ugent.iii.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -17,6 +19,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "COLLECTIES")
 public class Collectie implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -24,23 +27,20 @@ public class Collectie implements Serializable {
     @Column(name = "KLASSE")
     private String klasse;
     
+    // 1-n bidirectionele relatie tussen bibliotheken en collecties
     @ManyToOne
-    @JoinColumn(name = "BIBLIOTHEEK")
+    @JoinColumn(name = "BIBLIOTHEEK_ID")
     private Bibliotheek bib;
     
+    // 1-n bidirectionele relatie tussen boeken en collecties
     @OneToMany(mappedBy = "collectie")
-    List<Boek> boeken = new ArrayList<>();
-    
-    /*
-    @Basic
-    @Column(name = "DIVISIE")
-    private String divisie;
-    @Basic
-    @Column(name = "SECTIE")
-    private String sectie;
-    */
+    private final List<Boek> boeken = new ArrayList<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
+    private boolean isSameAsFormer(Bibliotheek bib) {
+        return this.bib == null ? bib == null : this.bib.equals(bib);
+    }
+    
     public int getID() {
         return ID;
     }
@@ -62,41 +62,68 @@ public class Collectie implements Serializable {
     }
 
     public void setBib(Bibliotheek bib) {
+        // oneindige lus vermijden
+        if (isSameAsFormer(bib)) {
+            return;
+        }
+        // nieuwe bib instellen
+        Bibliotheek oudeBib = this.bib;
         this.bib = bib;
+        // collectie van oude bib verwijderen
+        if (oudeBib != null) {
+            oudeBib.removeCollectie(this);
+        }
+        // collectie aan nieuwe bib toevoegen
+        if (bib != null) {
+            bib.addCollectie(this);
+        }
     }
 
     public List<Boek> getBoeken() {
         return boeken;
     }
 
-    public void setBoeken(List<Boek> boeken) {
-        this.boeken = boeken;
+    public void addBoek(Boek boek) {
+        // oneindige lus vermijden
+        if (boeken.contains(boek)) {
+            return;
+        }
+        // nieuw boek toevoegen
+        boeken.add(boek);
+        // nieuwe collectie instellen
+        boek.setCollectie(this);
     }
-
-    /*
-    public String getDivisie() {
-        return divisie;
+    
+    public void addAllBoeken(Collection<Boek> boeken) {
+        for (Boek boek : boeken) {
+            addBoek(boek);
+        }
     }
-
-    public void setDivisie(String divisie) {
-        this.divisie = divisie;
+    
+    public void removeBoek(Boek boek) {
+        // oneindige lus vermijden
+        if (!boeken.contains(boek)) {
+            return;
+        }
+        // boek verwijderen
+        boeken.remove(boek);
+        // collectie verwijderen
+        boek.setCollectie(null);
     }
-
-    public String getSectie() {
-        return sectie;
+    
+    public void removeAllBoeken(Collection<Boek> boeken) {
+        for (Boek boek : boeken) {
+            removeBoek(boek);
+        }
     }
-
-    public void setSectie(String sectie) {
-        this.sectie = sectie;
-    }
-    */
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + this.ID;
+        int hash = 3;
+        hash = 41 * hash + this.ID;
+        hash = 41 * hash + Objects.hashCode(this.klasse);
         return hash;
     }
 
@@ -112,7 +139,13 @@ public class Collectie implements Serializable {
             return false;
         }
         final Collectie other = (Collectie) obj;
-        return this.ID == other.ID;
+        if (this.ID != other.ID) {
+            return false;
+        }
+        if (!Objects.equals(this.klasse, other.klasse)) {
+            return false;
+        }
+        return true;
     }
     
     @Override
@@ -120,4 +153,5 @@ public class Collectie implements Serializable {
         return "Collectie{" + "ID=" + ID + ", klasse=" + klasse + '}';
     }
     // </editor-fold>
+    
 }

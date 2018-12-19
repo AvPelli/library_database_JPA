@@ -59,10 +59,12 @@ public class TestToevoegen {
     //
     // @Test
     // public void hello() {}
+    
+    
     @Test
     public void BilbiotheekToevoegen() throws Exception {
         int aantalVoor = dao.getBibliotheken().size();
-        Bibliotheek bib = factory.maakBibliotheek();
+        Bibliotheek bib = factory.maakDeKrook();
         dao.addBibliotheek(bib);
         int id = bib.getID();
         
@@ -72,6 +74,8 @@ public class TestToevoegen {
         Bibliotheek bibOpId = dao.zoekBib(id);
         
         assertEquals("Aantal bibliotheken geïncrementeerd?", aantalVoor + 1, aantalNa);
+        System.out.println(bib);
+        System.out.println(lijst);
         assertTrue("Bibliotheek toegevoegd?", lijst.contains(bib));
         assertEquals("Bibliotheek gevonden met ID?", bib, bibOpId);
         dao.close();
@@ -96,10 +100,22 @@ public class TestToevoegen {
     }
     
     @Test
+    public void BibliothekenToevoegenMetCollecties() {
+        Bibliotheek bib = factory.maakDeKrookMetCollecties();
+        dao.addBibliotheek(bib);
+        assertTrue(true);
+    }
+    
+    @Test
     public void AuteurToevoegen() throws Exception{
         int aantalAuteursVoor = dao.getAuteurs().size();     
         int aantalBoekenVoor = dao.getBoeken().size();
-        Auteur a = factory.maakAuteur();
+        Auteur a = factory.maakGeorgeOrwell();
+        System.out.println(a.getBoeken());
+        /*
+        omegekeerde volgorde geeft een error, waarom?
+        */
+        //dao.addBoeken(a.getBoeken());
         dao.addAuteur(a);
         int aantalAuteursNa = dao.getAuteurs().size();
         int aantalBoekenNa = dao.getBoeken().size();

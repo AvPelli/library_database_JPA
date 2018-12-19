@@ -387,7 +387,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                 //Maak bibliotheek
                 BibliotheekFactory factory = new BibliotheekFactory();
                 dao = new BibliotheekDao();
-                Bibliotheek bib = factory.maakBibliotheekMetCollecties();
+                Bibliotheek bib = factory.maakDeKrookMetCollecties();
                 dao.addBibliotheek(bib);
                 //start GUI
                 new BibliotheekGUI().setVisible(true);

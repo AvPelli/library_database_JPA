@@ -6,6 +6,7 @@
 package be.ugent.iii.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
 
@@ -16,6 +17,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "LEDEN")
 public class Lid extends Persoon {
+    
+    // Adres is een value-object
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "straatNaam",
@@ -31,8 +34,10 @@ public class Lid extends Persoon {
     })
     private Adres adres;
     
-    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lid")
-    private List<Lening> leningen = new ArrayList<>();
+    //@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lid")
+    // 1-n bidirectionele relatie tussen leden en leningen
+    @OneToMany(mappedBy = "lid")
+    private final List<Lening> leningen = new ArrayList<>();
     /*
     @ManyToMany
     private List<Bibliotheek> bibs;
@@ -50,19 +55,39 @@ public class Lid extends Persoon {
         return leningen;
     }
 
-    public void setLeningen(List<Lening> leningen) {
-        this.leningen = leningen;
+    public void addLening(Lening lening) {
+        // oneindige lus vermijden
+        if (leningen.contains(lening)) {
+            return;
+        }
+        // nieuwe lening toevoegen
+        leningen.add(lening);
+        // nieuw lid instellen
+        lening.setLid(this);
     }
-     
-    /*
-    public List<Bibliotheek> getBibs() {
-        return bibs;
+    
+    public void addAllLeningen(Collection<Lening> leningen) {
+        for (Lening lening : leningen) {
+            addLening(lening);
+        }
     }
-
-    public void setBibs(List<Bibliotheek> bibs) {
-        this.bibs = bibs;
+    
+    public void removeLening(Lening lening) {
+        // oneindige lus vermijden
+        if (!leningen.contains(lening)) {
+            return;
+        }
+        // lening verwijderen
+        leningen.remove(lening);
+        // lid verwijderen
+        lening.setLid(null);
     }
-    */
+    
+    public void removeAllLeningen(Collection<Lening> leningen) {
+        for (Lening lening : leningen) {
+            removeLening(lening);
+        }
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">

@@ -31,7 +31,7 @@ public class BibliotheekDao implements AutoCloseable {
         emf.close();
     }
     
-    // <editor-fold defaultstate="collapsed" desc="methodes om entiteiten toe te voegen">
+    // <editor-fold defaultstate="collapsed" desc="algemene methodes om entiteiten toe te voegen">
     private void addObject(Object object) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -49,7 +49,9 @@ public class BibliotheekDao implements AutoCloseable {
         em.getTransaction().commit();
         em.close();
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om bibliotheken toe te voegen">
     public void addBibliotheek(Bibliotheek bib) {
         addObject(bib);
         if (!bib.getCollecties().isEmpty()) {
@@ -58,12 +60,13 @@ public class BibliotheekDao implements AutoCloseable {
     }
     
     public void addBibliotheken(List<Bibliotheek> lijst) {
-        addObjects(lijst);
-        /*for (Bibliotheek bib : lijst) {
+        for (Bibliotheek bib : lijst) {
             addBibliotheek(bib);
-        }*/
+        }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om collecties toe te voegen">
     public void addCollectie(Collectie collectie) {
         addObject(collectie);
         if (!collectie.getBoeken().isEmpty()) {
@@ -76,30 +79,47 @@ public class BibliotheekDao implements AutoCloseable {
             addCollectie(c);
         }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om boeken toe te voegen">
     public void addBoek(Boek boek) {
         addObject(boek);
+        // DIT GEEFT EEN FOUT!! detached entity...
+        /*
+        if (!boek.getAuteurs().isEmpty()) {
+            addAuteurs(boek.getAuteurs());
+        }
+        */
     }
     
     public void addBoeken(List<Boek> boeken) {
-        addObjects(boeken);
+        for (Boek b : boeken) {
+            addBoek(b);
+        }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om auteurs toe te voegen">
     public void addAuteur(Auteur auteur){
+        if (!auteur.getBoeken().isEmpty()) {
+            addBoeken(auteur.getBoeken());
+        }
         addObject(auteur);
     }
     
     public void addAuteurs(List<Auteur> auteurs){
-        addObjects(auteurs);
+        for (Auteur auteur : auteurs) {
+            addAuteur(auteur);
+        }
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="methodes om entiteiten uit de database op te halen">
-    public List<Boek> getBoeken() {
+    // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database op te halen">
+    public List<Bibliotheek> getBibliotheken() {
         EntityManager em = emf.createEntityManager();
-        List<Boek> boeken = em.createQuery("select b from Boek b", Boek.class).getResultList();
+        List<Bibliotheek> lijst = em.createQuery("select b from Bibliotheek b", Bibliotheek.class).getResultList();
         em.close();
-        return boeken;
+        return lijst;
     }
     
     public List<Collectie> getCollecties() {
@@ -109,11 +129,11 @@ public class BibliotheekDao implements AutoCloseable {
         return collecties;
     }
     
-    public List<Bibliotheek> getBibliotheken() {
+    public List<Boek> getBoeken() {
         EntityManager em = emf.createEntityManager();
-        List<Bibliotheek> lijst = em.createQuery("select b from Bibliotheek b", Bibliotheek.class).getResultList();
+        List<Boek> boeken = em.createQuery("select b from Boek b", Boek.class).getResultList();
         em.close();
-        return lijst;
+        return boeken;
     }
     
     public List<Auteur> getAuteurs() {
@@ -124,6 +144,7 @@ public class BibliotheekDao implements AutoCloseable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database op te halen">
     public Boek getBoek(int id) {
         EntityManager em = emf.createEntityManager();
         Boek boek = em.find(Boek.class, id);
@@ -144,19 +165,6 @@ public class BibliotheekDao implements AutoCloseable {
         Bibliotheek bib = query.getResultList().get(0);
         return bib;
     }
+    // </editor-fold>
     
-    /*
-    public void addAuteur(List<Boek> boeken) {
-        Auteur auteur = new Auteur();
-        auteur.setVoorNaam("George");
-        auteur.setAchterNaam("Orwell");
-        auteur.setGeslacht('M');
-        auteur.setBoeken(boeken);
-        for (Boek boek : boeken) {
-            boek.getAuteurs().add(auteur);
-        }
-        addObject(auteur);
-        addObjects(boeken);
-    }
-    */
 }

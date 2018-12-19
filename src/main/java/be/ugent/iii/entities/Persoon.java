@@ -6,6 +6,7 @@
 package be.ugent.iii.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Persoon implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected int ID;
@@ -64,8 +66,11 @@ public abstract class Persoon implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + this.ID;
+        int hash = 5;
+        hash = 41 * hash + this.ID;
+        hash = 41 * hash + Objects.hashCode(this.voorNaam);
+        hash = 41 * hash + Objects.hashCode(this.achterNaam);
+        hash = 41 * hash + this.geslacht;
         return hash;
     }
 
@@ -84,6 +89,15 @@ public abstract class Persoon implements Serializable {
         if (this.ID != other.ID) {
             return false;
         }
+        if (this.geslacht != other.geslacht) {
+            return false;
+        }
+        if (!Objects.equals(this.voorNaam, other.voorNaam)) {
+            return false;
+        }
+        if (!Objects.equals(this.achterNaam, other.achterNaam)) {
+            return false;
+        }
         return true;
     }
     
@@ -92,4 +106,5 @@ public abstract class Persoon implements Serializable {
         return "ID=" + ID + ", voorNaam=" + voorNaam + ", achterNaam=" + achterNaam + ", geslacht=" + geslacht;
     }
     // </editor-fold>
+    
 }

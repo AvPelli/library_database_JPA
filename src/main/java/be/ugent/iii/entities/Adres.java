@@ -14,6 +14,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Adres implements Serializable {
+    
     private String straatNaam;
     private int huisNr;
     private String postcode;
@@ -68,4 +69,5 @@ public class Adres implements Serializable {
         return "Adres{" + "straatNaam=" + straatNaam + ", huisNr=" + huisNr + ", postCode=" + postcode + ", gemeente=" + gemeente + ", land=" + land + '}';
     }
     // </editor-fold>
+    
 }

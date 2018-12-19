@@ -7,7 +7,9 @@ package be.ugent.iii.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -17,6 +19,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "BIBLIOTHEKEN")
 public class Bibliotheek implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
@@ -24,6 +27,7 @@ public class Bibliotheek implements Serializable {
     @Column(name = "NAAM")
     private String naam;
     
+    // adres is een value-object
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "straatNaam",
@@ -39,8 +43,10 @@ public class Bibliotheek implements Serializable {
     })
     private Adres adres;
     
-    @OneToMany(cascade = CascadeType.REMOVE ,mappedBy = "bib")
-    private List<Collectie> collecties = new ArrayList<>();
+    //@OneToMany(cascade = CascadeType.REMOVE ,mappedBy = "bib")
+    // 1-n bidirectionele relatie tussen bibliotheken en collecties
+    @OneToMany(mappedBy = "bib")
+    private final List<Collectie> collecties = new ArrayList<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getID() {
@@ -71,16 +77,47 @@ public class Bibliotheek implements Serializable {
         return collecties;
     }
 
-    public void setCollecties(List<Collectie> collecties) {
-        this.collecties = collecties;
+    public void addCollectie(Collectie collectie) {
+        // oneindige lus vermijden
+        if (collecties.contains(collectie)) {
+            return;
+        }
+        // nieuwe collectie toevoegen
+        collecties.add(collectie);
+        // nieuwe bibliotheek instellen
+        collectie.setBib(this);
+    }
+    
+    public void addAllCollecties(Collection<Collectie> collecties) {
+        for (Collectie c : collecties) {
+            addCollectie(c);
+        }
+    }
+    
+    public void removeCollectie(Collectie collectie) {
+        // oneindige lus vermijden
+        if (!collecties.contains(collectie)) {
+            return;
+        }
+        // collectie verwijderen
+        collecties.remove(collectie);
+        // bibliotheek verwijderen
+        collectie.setBib(null);
+    }
+    
+    public void removeAllCollecties(Collection<Collectie> collecties) {
+        for (Collectie c : collecties) {
+            removeCollectie(c);
+        }
     }
     // </editor-fold>
-
+    
     // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + this.ID;
+        int hash = 3;
+        hash = 19 * hash + this.ID;
+        hash = 19 * hash + Objects.hashCode(this.naam);
         return hash;
     }
 
@@ -96,7 +133,13 @@ public class Bibliotheek implements Serializable {
             return false;
         }
         final Bibliotheek other = (Bibliotheek) obj;
-        return this.ID == other.ID;
+        if (this.ID != other.ID) {
+            return false;
+        }
+        if (!Objects.equals(this.naam, other.naam)) {
+            return false;
+        }
+        return true;
     }
     
     @Override
@@ -104,4 +147,5 @@ public class Bibliotheek implements Serializable {
         return "Bibliotheek{" + "ID=" + ID + ", naam=" + naam + ", adres=" + adres + '}';
     }
     // </editor-fold>
+    
 }
