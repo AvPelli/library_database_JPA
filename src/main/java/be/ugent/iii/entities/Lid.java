@@ -36,7 +36,7 @@ public class Lid extends Persoon {
     
     //@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lid")
     // 1-n bidirectionele relatie tussen leden en leningen
-    @OneToMany(mappedBy = "lid")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "lid")
     private final List<Lening> leningen = new ArrayList<>();
     /*
     @ManyToMany

@@ -18,14 +18,6 @@ import javax.persistence.*;
 @Table(name = "AUTEURS")
 public class Auteur extends Persoon {
     
-    /*
-    @ManyToMany
-    @JoinTable(name = "BOEKEN_PER_AUTEUR",
-            joinColumns = @JoinColumn(name = "AUTEUR"),
-            inverseJoinColumns = @JoinColumn(name = "BOEK"))
-    */
-    
-    
     // n-n bidirectionele relatie tussen auteurs en boeken
     @ManyToMany
     @JoinTable(name = "BOEKEN_AUTEURS",

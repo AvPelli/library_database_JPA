@@ -23,7 +23,7 @@ public class BibliotheekFactory {
         bib.setAdres(adres);
         return bib;
     }
-    
+
     public List<Bibliotheek> maakBibliotheken(String[] namen) {
         List<Bibliotheek> lijst = new ArrayList<>();
         for (String naam : namen) {
@@ -31,7 +31,7 @@ public class BibliotheekFactory {
         }
         return lijst;
     }
-    
+
     public Bibliotheek maakDeKrook() {
         Adres adres = new Adres();
         adres.setStraatNaam("Makebaplein");
@@ -48,7 +48,7 @@ public class BibliotheekFactory {
         bib.addAllCollecties(collecties);
         return bib;
     }
-    
+
     public Bibliotheek maakDeKrookVolledig() {
         Bibliotheek bib = maakDeKrook();
         List<Collectie> collecties = new ArrayList<>();
@@ -68,7 +68,7 @@ public class BibliotheekFactory {
         collectie.setKlasse(klasse);
         return collectie;
     }
-    
+
     public List<Collectie> maakCollecties(String[] klasses) {
         List<Collectie> collecties = new ArrayList<>();
         for (String klasse : klasses) {
@@ -76,13 +76,13 @@ public class BibliotheekFactory {
         }
         return collecties;
     }
-    
+
     public Collectie maakCollectieMetBoeken(String klasse, List<Boek> boeken) {
         Collectie collectie = maakCollectie(klasse);
         collectie.addAllBoeken(boeken);
         return collectie;
     }
-    
+
     public List<Collectie> maakCollectiesMetBoeken() {
         List<Collectie> collecties = new ArrayList<>();
         collecties.add(maakInformaticaCollectie());
@@ -98,19 +98,19 @@ public class BibliotheekFactory {
     public Collectie maakLiteratuurCollectie() {
         return maakCollectieMetBoeken("Literatuur", maakOrwellBoeken());
     }
-    
+
     public Collectie maakInformaticaCollectieMetBoeken() {
         return maakCollectieMetBoeken("Informatica", maakInformaticaBoekenMetAuteurs());
     }
-    
+
     public Collectie maakLiteratuurCollectieMetBoeken() {
         return maakCollectieMetBoeken("Literatuur", maakLiteratuurBoekenMetAuteurs());
     }
-    
+
     public Collectie maakWetenschappenCollectieMetBoeken() {
         return maakCollectieMetBoeken("Wetenschappen", maakWetenschappenBoekMetAuteurs());
     }
-    
+
     public Collectie maakGeschiedenisCollectieMetBoeken() {
         return maakCollectieMetBoeken("Geschiedenis", maakGeschiedenisBoekenMetAuteurs());
     }
@@ -133,7 +133,7 @@ public class BibliotheekFactory {
         }
         return boeken;
     }
-    
+
     public List<Boek> maakOrwellBoeken() {
         String[] titels = {"Animal Farm", "1984"};
         String[] talen = {"EN", "EN"};
@@ -147,21 +147,21 @@ public class BibliotheekFactory {
         int[] jaren = {2013, 2017};
         return maakBoeken(titels, talen, jaren);
     }
-    
+
     public List<Boek> maakGeschiedenisBoeken() {
         String[] titels = {"Sapiens", "Congo", "Guns, Germs & Steel", "The Rise And Fall Of The Dinosaurs"};
         String[] talen = {"EN", "NL", "EN", "EN"};
         int[] jaren = {2011, 2010, 1997, 2018};
         return maakBoeken(titels, talen, jaren);
     }
-    
+
     public List<Boek> maakWetenschappenBoeken() {
         String[] titels = {"A Brief History Of Time", "The Selfish Gene"};
         String[] talen = {"EN", "EN"};
         int[] jaren = {1988, 1989};
         return maakBoeken(titels, talen, jaren);
     }
-    
+
     public List<Boek> maakLiterauurBoeken() {
         String[] titels = {"The Handmaid's Tale", "Lord Of The Flies"};
         String[] talen = {"EN", "EN"};
@@ -170,7 +170,7 @@ public class BibliotheekFactory {
         boeken.addAll(maakOrwellBoeken());
         return boeken;
     }
-    
+
     public List<Boek> maakGeschiedenisBoekenMetAuteurs() {
         String[] voornamen = {"Yuval", "David", "Jared", "Steve"};
         String[] achternamen = {"Harari", "Van Reybrouck", "Diamond", "Brusatte"};
@@ -184,7 +184,7 @@ public class BibliotheekFactory {
         }
         return boeken;
     }
-    
+
     public List<Boek> maakWetenschappenBoekMetAuteurs() {
         String[] voornamen = {"Stephen", "Richard"};
         String[] achternamen = {"Hawling", "Dawkins"};
@@ -198,7 +198,7 @@ public class BibliotheekFactory {
         }
         return boeken;
     }
-    
+
     public List<Boek> maakLiteratuurBoekenMetAuteurs() {
         String[] voornamen = {"Margaret", "William", "George"};
         String[] achternamen = {"Atwood", "Goulding", "Orwell"};
@@ -213,7 +213,7 @@ public class BibliotheekFactory {
         auteurs.get(2).addBoek(boeken.get(3));
         return boeken;
     }
-    
+
     public List<Boek> maakInformaticaBoekenMetAuteurs() {
         List<Boek> boeken = new ArrayList<>();
         Boek boek1 = maakBoek("Modern Operating Systems", "EN", 2014);
@@ -231,8 +231,10 @@ public class BibliotheekFactory {
         boek2 = maakBoek("Intermediate Perl", "EN", 2006);
         a1 = maakAuteur("Randal", "Schwartz", 'M');
         a2 = maakAuteur("Brian", "Foy", 'M');
-        boek1.addAuteur(a1); boek1.addAuteur(a2);
-        boek2.addAuteur(a1); boek2.addAuteur(a2);
+        boek1.addAuteur(a1);
+        boek1.addAuteur(a2);
+        boek2.addAuteur(a1);
+        boek2.addAuteur(a2);
         boeken.add(boek1);
         boeken.add(boek2);
         return boeken;
@@ -247,7 +249,7 @@ public class BibliotheekFactory {
         auteur.setGeslacht(geslacht);
         return auteur;
     }
-    
+
     public List<Auteur> maakAuteurs(String[] voornamen, String[] achternamen, char[] geslacht) {
         List<Auteur> auteurs = new ArrayList<>();
         for (int i = 0; i < voornamen.length; i++) {
@@ -255,7 +257,7 @@ public class BibliotheekFactory {
         }
         return auteurs;
     }
-    
+
     public Auteur maakGeorgeOrwell() {
         Auteur auteur = maakAuteur("George", "Orwell", 'M');
         auteur.addAllBoeken(maakOrwellBoeken());
@@ -263,5 +265,21 @@ public class BibliotheekFactory {
         return auteur;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="methodes om leningen aan te maken">
+    public Lening maakLening(Lid l, Boek b) {
+        Lening lening = new Lening();
+        lening.setBoek(b);
+        lening.setLid(l);
+        l.addLening(lening);
+        return lening;
+    }
+    //</editor-fold>
     
+    public Lid maakLid(){
+        Lid lid = new Lid();
+        lid.setVoorNaam("voornaam");
+        lid.setAchterNaam("achternaam");
+        return lid;
+    }
 }
