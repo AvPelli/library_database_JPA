@@ -129,28 +129,53 @@ public class TestToevoegen {
 
     // <editor-fold defaultstate="collapsed" desc="Tests leningen">
     @Test
-    public void LeningenToevoegen(){
+    public void LeningenToevoegen() {
         int leningenVoor = dao.getLeningen().size();
+
+        // lid en boeken zijn nu in Transient state
         List<Boek> boeken = factory.maakOrwellBoeken();
         Lid lid = factory.maakLid();
-        
-        // lid en boeken zijn nu in Transient state
-        // Niet lening per lening toevoegen (dao.addLening): 
-        // na toevoegen is lid in detached state
-        // stel dat hetzelfde lid nog een ander boek leent dan krijg je een
-        // detached entity error
-        
+
         ArrayList<Lening> leningen = new ArrayList<>();
-        for(Boek boek : boeken){
+        for (Boek boek : boeken) {
             Lening l = factory.maakLening(lid, boek);
             leningen.add(l);
         }
-        
+
         dao.addLeningen(leningen);
-        
+
         int leningenNa = dao.getLeningen().size();
-        
-        assertEquals("Aantal leningen correct?",leningenVoor+boeken.size(), leningenNa);
+
+        assertEquals("Aantal leningen correct?", leningenVoor + boeken.size(), leningenNa);
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Test Query met parameter">
+    @Test
+    public void ZoekBoekenMetTaal() {
+        //Test engels
+        List<Boek> resultEngels = dao.getBoekenByTaal("EN");
+
+        boolean allesEngels = true;
+        for (Boek b : resultEngels) {
+            if (!b.getTaal().equalsIgnoreCase("EN")) {
+                allesEngels = false;
+                break;
+            }
+        }
+        assertTrue("ALLES ENGELS: OK",allesEngels);
+
+        //Test nederlands
+        List<Boek> resultNederlands = dao.getBoekenByTaal("NL");
+
+        boolean allesNederlands = true;
+        for (Boek b : resultNederlands) {
+            if (!b.getTaal().equalsIgnoreCase("NL")) {
+                allesNederlands = false;
+                break;
+            }
+        }
+        assertTrue("ALLES NEDERLANDS: OK",allesNederlands);
+    }
+    //</editor-fold>
 }

@@ -26,7 +26,6 @@ password: iiipwd
 ## To Do
 - Functionaliteiten toevoegen:
   - Objecten opvragen ("lazy" + niet "lazy")
-  - Objecten opvragen via parameters
   - Objecten aanpassen
 - Unittests schrijven
   - speciale gevallen bedenken en testen

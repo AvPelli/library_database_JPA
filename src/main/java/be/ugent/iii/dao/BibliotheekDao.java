@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -120,35 +121,34 @@ public class BibliotheekDao implements AutoCloseable {
     public void addLening(Lening lening) {
         addObject(lening);
     }
-    
-    public void addLeningen(List<Lening> leningen){
+
+    public void addLeningen(List<Lening> leningen) {
         /*
             addObjects(leningen) lukt niet
             lening bestaat uit een boek en een lid, beide in transient state
             wanneer we de lening opslaan met addObjects dan krijgen we de
             error "object references an unsaved transient instance - save the transient instance before flushing"
-        */
-        
-       EntityManager em = emf.createEntityManager();
-       em.getTransaction().begin();
-       for(Lening l : leningen){
-           //eerst boek en lid (child objects) naar persistent state, daarna lening (parent object)
-           em.persist(l.getBoek());
-           em.persist(l.getLid());
-           em.persist(l);
-       }
-       em.getTransaction().commit();
-       em.close();
-    }
-    
-    // </editor-fold>
+         */
 
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        for (Lening l : leningen) {
+            //eerst boek en lid (child objects) naar persistent state, daarna lening (parent object)
+            em.persist(l.getBoek());
+            em.persist(l.getLid());
+            em.persist(l);
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="methodes om leden toe te voegen">
     public void addLid(Lid lid) {
         addObject(lid);
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database op te halen">
     public List<Bibliotheek> getBibliotheken() {
         EntityManager em = emf.createEntityManager();
@@ -192,6 +192,17 @@ public class BibliotheekDao implements AutoCloseable {
         Boek boek = em.find(Boek.class, id);
         em.close();
         return boek;
+    }
+
+    //Query met parameter
+    public List<Boek> getBoekenByTaal(String taal) {
+        EntityManager em = emf.createEntityManager();
+        
+        Query opdracht = em.createQuery("Select b from Boek b where b.taal = :taal");
+        opdracht.setParameter("taal", taal);
+        
+        List<Boek> boeken = opdracht.getResultList();
+        return boeken;
     }
 
     public Bibliotheek zoekBib(int id) {
