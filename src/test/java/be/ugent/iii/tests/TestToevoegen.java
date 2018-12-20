@@ -9,6 +9,7 @@ import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -104,13 +105,33 @@ public class TestToevoegen {
     @Test
     public void GeefBoekenVanAuteur(){
         //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
-        List<Boek> toevoegen = factory.maakInformaticaBoekenMetAuteurs();
-        dao.addBoeken(toevoegen);
+        Bibliotheek b = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(b);
         
-        List<Boek> boeken = dao.getBoekenByAuteur("Andrew", "Tanenbaum");
+        List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
         
         assertEquals(boeken.size(), 2);
     }
+    
+    @Test
+    public void VerwijderBoekMetId(){
+        //Verwijderen boek in tabel "boeken", in tabel "collectie
+        Bibliotheek b = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(b);
+        
+        List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
+        
+        for(Integer id : boeken){
+            dao.VerwijderBoek(id);
+        }
+        
+        //Alle boeken van Andrew Tanenbaum zijn verwijderd:
+        List<Integer> result = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
+        assertEquals(result.size(), 0);
+        
+    }
+    
+    
     //</editor-fold>
 
     /* VOORLOPIG IN COMMENTAAR

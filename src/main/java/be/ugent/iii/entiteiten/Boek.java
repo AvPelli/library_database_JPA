@@ -39,7 +39,7 @@ public class Boek implements Serializable {
     @Column(name = "ISBN")
     private int ISBN;
     
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
     

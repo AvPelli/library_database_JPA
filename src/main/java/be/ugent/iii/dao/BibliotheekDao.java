@@ -140,7 +140,7 @@ public class BibliotheekDao implements AutoCloseable {
         return boeken;
     }
     
-    public List<Boek> getBoekenByAuteur(String voornaam, String achternaam){
+    public List<Integer> getIdOfBoekenByAuteur(String voornaam, String achternaam){
         EntityManager em = emf.createEntityManager();
         
         Query opdracht = em.createQuery("select a from Auteur a where a.achterNaam= :achternaam and a.voorNaam = :voornaam");
@@ -149,7 +149,7 @@ public class BibliotheekDao implements AutoCloseable {
         List<Auteur> auteurs = opdracht.getResultList();
         
         //Meerdere auteurs met dezelfde voor én achternaam
-        List<Boek> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         if(auteurs.size() > 1){
             
         } else {
@@ -194,6 +194,21 @@ public class BibliotheekDao implements AutoCloseable {
             for (Lening le : result) {
                 em.remove(le);
             }
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    public void VerwijderBoek(int id){
+        //Elk boek zit in een collectie
+        EntityManager em = emf.createEntityManager();
+        Query opdracht = em.createQuery("select b from Boek b where b.id = :id");
+        opdracht.setParameter("id", id);
+        
+        List<Boek> result = opdracht.getResultList();
+        em.getTransaction().begin();
+        for(Boek b : result){
+            em.remove(b);
         }
         em.getTransaction().commit();
         em.close();
