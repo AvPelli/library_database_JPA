@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.ugent.iii.entities;
+package be.ugent.iii.entiteiten;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,26 +16,31 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Persoon implements Serializable {
-    
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    protected int ID;
+    @Column(name = "ID")
+    private int id;
+    
     @Basic
     @Column(name = "VOORNAAM")
     protected String voorNaam;
+    
     @Column(name = "ACHTERNAAM")
     protected String achterNaam;
+    
     @Basic
     @Column(name = "GESLACHT")
     protected char geslacht;
-    
+
     // <editor-fold defaultstate="collapsed" desc="getters/setters">
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getVoorNaam() {
@@ -63,14 +68,14 @@ public abstract class Persoon implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + this.ID;
-        hash = 41 * hash + Objects.hashCode(this.voorNaam);
-        hash = 41 * hash + Objects.hashCode(this.achterNaam);
-        hash = 41 * hash + this.geslacht;
+        int hash = 7;
+        hash = 79 * hash + this.id;
+        hash = 79 * hash + Objects.hashCode(this.voorNaam);
+        hash = 79 * hash + Objects.hashCode(this.achterNaam);
+        hash = 79 * hash + this.geslacht;
         return hash;
     }
 
@@ -86,7 +91,7 @@ public abstract class Persoon implements Serializable {
             return false;
         }
         final Persoon other = (Persoon) obj;
-        if (this.ID != other.ID) {
+        if (this.id != other.id) {
             return false;
         }
         if (this.geslacht != other.geslacht) {
@@ -100,10 +105,10 @@ public abstract class Persoon implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return "ID=" + ID + ", voorNaam=" + voorNaam + ", achterNaam=" + achterNaam + ", geslacht=" + geslacht;
+        return "id=" + id + ", voorNaam=" + voorNaam + ", achterNaam=" + achterNaam + ", geslacht=" + geslacht;
     }
     // </editor-fold>
     

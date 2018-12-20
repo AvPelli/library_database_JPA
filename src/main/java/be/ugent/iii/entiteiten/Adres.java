@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.ugent.iii.entities;
+package be.ugent.iii.entiteiten;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -63,7 +63,7 @@ public class Adres implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="other boilerplate code">
+    // <editor-fold defaultstate="collapsed" desc="toString">
     @Override
     public String toString() {
         return "Adres{" + "straatNaam=" + straatNaam + ", huisNr=" + huisNr + ", postCode=" + postcode + ", gemeente=" + gemeente + ", land=" + land + '}';

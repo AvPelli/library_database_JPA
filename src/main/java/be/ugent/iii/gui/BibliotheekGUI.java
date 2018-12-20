@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.ugent.iii.projectJPA;
+package be.ugent.iii.gui;
 
 import be.ugent.iii.dao.BibliotheekDao;
-import be.ugent.iii.entities.Auteur;
-import be.ugent.iii.entities.Bibliotheek;
-import be.ugent.iii.entities.Boek;
-import be.ugent.iii.entities.Collectie;
+import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
-import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
@@ -275,6 +271,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Het gevraagde item bestaat niet");
         }
     }//GEN-LAST:event_ZoekButtonActionPerformed
+    
     private void comboboxHulpMethode(StringBuilder b, int keuze) throws Exception {
         String comboBoxSelectie = KeuzeComboBox.getSelectedItem().toString();
 
@@ -379,6 +376,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BibliotheekGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
