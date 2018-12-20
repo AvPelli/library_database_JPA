@@ -53,6 +53,10 @@ public class BibliotheekDao implements AutoCloseable {
         addObjects(bibliotheeken);
     }
     
+    public void addCollectie(Collectie collectie) {
+        addObject(collectie);
+    }
+    
     public void addBoeken(List<Boek> boeken){
         addObjects(boeken);
     }

@@ -6,7 +6,7 @@
 package be.ugent.iii.entiteiten;
 
 import java.io.Serializable;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Adres implements Serializable {
     
     private String straatNaam;
     private int huisNr;
-    private String postcode;
+    private String postcode; 
     private String gemeente;
     private String land;
 

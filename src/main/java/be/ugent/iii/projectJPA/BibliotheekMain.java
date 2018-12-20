@@ -30,13 +30,20 @@ public class BibliotheekMain {
         List<Boek> resultaat3 = dao.zoekBoekenOpTaal("NL");
         List<Boek> resultaat4 = dao.zoekBoekenOpTaal("EN");
         List<Boek> resultaat5 = dao.zoekBoekenOpTaal("DE");
-        dao.close();
-        toonBibliotheek(bibliotheek);
+        /*
         System.out.println(resultaat1);
         System.out.println(resultaat2);
         System.out.println(resultaat3);
         System.out.println(resultaat4);
         System.out.println(resultaat5);
+        */
+        toonBibliotheek(bibliotheek);
+        bibliotheek = factory.maakBibliotheek("Stadsbibliotheek Dendermonde", new Adres());
+        Collectie collectie = factory.maakCollectie("Filosofie en psychologie");
+        collectie.setBibliotheek(bibliotheek);
+        dao.addCollectie(collectie);
+        toonBibliotheek(bibliotheek);
+        dao.close();
     }
     
     private static void toonBibliotheek(Bibliotheek bibliotheek) {

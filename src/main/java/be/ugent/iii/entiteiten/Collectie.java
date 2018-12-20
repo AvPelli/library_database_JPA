@@ -27,7 +27,7 @@ public class Collectie implements Serializable {
     @Column(name = "KLASSE")
     private String klasse;
     
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "BIBLIOTHEEK")
     private Bibliotheek bibliotheek;
     

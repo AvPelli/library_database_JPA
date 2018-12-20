@@ -30,15 +30,15 @@ public class Bibliotheek implements Serializable {
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "straatNaam",
-                column = @Column(name = "STRAAT")),
+                column = @Column(name = "STRAAT", nullable = true)),
         @AttributeOverride(name = "huisNr",
-                column = @Column(name = "HUIS_NR")),
+                column = @Column(name = "HUIS_NR", nullable = true)),
         @AttributeOverride(name = "postcode",
-                column = @Column(name = "POSTCODE")),
+                column = @Column(name = "POSTCODE", nullable = true)),
         @AttributeOverride(name = "gemeente",
-                column = @Column(name = "GEMEENTE")),
+                column = @Column(name = "GEMEENTE", nullable = true)),
         @AttributeOverride(name = "land",
-                column = @Column(name = "LAND"))
+                column = @Column(name = "LAND", nullable = true))
     })
     private Adres adres;
     
