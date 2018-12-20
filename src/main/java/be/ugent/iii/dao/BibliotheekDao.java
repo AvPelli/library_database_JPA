@@ -52,6 +52,10 @@ public class BibliotheekDao implements AutoCloseable {
     public void addBibliotheken(List<Bibliotheek> bibliotheeken) {
         addObjects(bibliotheeken);
     }
+    
+    public void addBoeken(List<Boek> boeken){
+        addObjects(boeken);
+    }
     // </editor-fold>
     
     public List<Boek> zoekBoekenOpTitel(String titel) {
@@ -134,6 +138,31 @@ public class BibliotheekDao implements AutoCloseable {
 
         List<Boek> boeken = opdracht.getResultList();
         return boeken;
+    }
+    
+    public List<Boek> getBoekenByAuteur(String voornaam, String achternaam){
+        EntityManager em = emf.createEntityManager();
+        
+        Query opdracht = em.createQuery("select a from Auteur a where a.achterNaam= :achternaam and a.voorNaam = :voornaam");
+        opdracht.setParameter("achternaam", achternaam);
+        opdracht.setParameter("voornaam", voornaam);
+        List<Auteur> auteurs = opdracht.getResultList();
+        
+        //Meerdere auteurs met dezelfde voor én achternaam
+        List<Boek> result = new ArrayList<>();
+        if(auteurs.size() > 1){
+            
+        } else {
+            Auteur a = auteurs.get(0);
+            int id = a.getId();
+            //Query over join-table is makkelijker met createNativeQuery ipv JPQL versie createQuery
+            //Parameter wordt wel op een andere manier meegegeven
+            Query zoekBoeken = em.createNativeQuery("SELECT BOEK FROM AUTEURS_PER_BOEK WHERE AUTEUR = ?1");
+            zoekBoeken.setParameter(1, id);
+            
+            result = zoekBoeken.getResultList();
+        }
+        return result;
     }
 
     public Bibliotheek zoekBib(int id) {

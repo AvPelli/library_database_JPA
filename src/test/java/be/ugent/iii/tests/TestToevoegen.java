@@ -100,6 +100,17 @@ public class TestToevoegen {
         dao.addBibliotheek(bib);
         assertTrue(true);
     }
+    
+    @Test
+    public void GeefBoekenVanAuteur(){
+        //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
+        List<Boek> toevoegen = factory.maakInformaticaBoekenMetAuteurs();
+        dao.addBoeken(toevoegen);
+        
+        List<Boek> boeken = dao.getBoekenByAuteur("Andrew", "Tanenbaum");
+        
+        assertEquals(boeken.size(), 2);
+    }
     //</editor-fold>
 
     /* VOORLOPIG IN COMMENTAAR
