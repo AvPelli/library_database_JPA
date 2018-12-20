@@ -54,6 +54,24 @@ public class BibliotheekDao implements AutoCloseable {
     }
     // </editor-fold>
     
+    public List<Boek> zoekBoekenOpTitel(String titel) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Boek> query =
+                em.createQuery("select b from Boek b where b.titel = ?1", Boek.class).setParameter(1, titel);
+        List<Boek> resultaat = query.getResultList();
+        em.close();
+        return resultaat;
+    }
+    
+    public List<Boek> zoekBoekenOpTaal(String taal) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Boek> query =
+                em.createQuery("select b from Boek b where b.taal = ?1", Boek.class).setParameter(1, taal);
+        List<Boek> resultaat = query.getResultList();
+        em.close();
+        return resultaat;
+    }
+    
     // nog niet getest vanaf hier
     
     // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database op te halen">

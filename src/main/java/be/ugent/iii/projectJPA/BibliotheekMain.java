@@ -8,6 +8,7 @@ package be.ugent.iii.projectJPA;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
+import java.util.List;
 
 /**
  *
@@ -24,8 +25,18 @@ public class BibliotheekMain {
         BibliotheekDao dao = new BibliotheekDao();
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
+        List<Boek> resultaat1 = dao.zoekBoekenOpTitel("Congo");
+        List<Boek> resultaat2 = dao.zoekBoekenOpTaal("FR");
+        List<Boek> resultaat3 = dao.zoekBoekenOpTaal("NL");
+        List<Boek> resultaat4 = dao.zoekBoekenOpTaal("EN");
+        List<Boek> resultaat5 = dao.zoekBoekenOpTaal("DE");
         dao.close();
         toonBibliotheek(bibliotheek);
+        System.out.println(resultaat1);
+        System.out.println(resultaat2);
+        System.out.println(resultaat3);
+        System.out.println(resultaat4);
+        System.out.println(resultaat5);
     }
     
     private static void toonBibliotheek(Bibliotheek bibliotheek) {
