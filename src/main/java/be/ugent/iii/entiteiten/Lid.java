@@ -40,7 +40,7 @@ public class Lid extends Persoon {
     
     // GEBRUIK CascadeType.ALL => geassocieerde leningen worden samen met het lid verwijderd
     // 1-veel bidirectionele compositie met als ouder lid
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "lid")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "lid", fetch = FetchType.EAGER)
     private final Set<Lening> leningen = new HashSet<>();
     
     //<editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

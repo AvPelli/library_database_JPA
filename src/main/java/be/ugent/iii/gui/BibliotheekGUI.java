@@ -8,18 +8,16 @@ package be.ugent.iii.gui;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
-import java.awt.Component;
+import be.ugent.iii.projectJPA.ProjectJpaBibApplication;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ButtonModel;
-import javax.swing.DefaultListCellRenderer;
+import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
+import org.hibernate.Hibernate;
 
 /**
  *
@@ -33,11 +31,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private static BibliotheekDao dao;
     private static BibliotheekFactory factory;
     private static Lid huidigLid;
-    
+
     public BibliotheekGUI() {
         this.setTitle("Bibliotheek");
         initComponents();
         Library.setEnabledAt(1, false);
+        Library.setEnabledAt(2, false);
 
         IDTextField.setEnabled(false);
         NaamTextField.setEnabled(false);
@@ -79,6 +78,11 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         BeschikbaarLijst = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
         LeenButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        GeleendeBoeken = new javax.swing.JList<>();
+        GeleendeLabel = new javax.swing.JLabel();
+        TerugbrengButton = new javax.swing.JButton();
 
         ZoekButtonGroup.add(AlleRadioButton);
         ZoekButtonGroup.add(IDRadioButton);
@@ -239,7 +243,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
 
         jLabel4.setText("Beschikbare boeken:");
 
-        LeenButton.setText("Dibs");
+        LeenButton.setText("Leen");
         LeenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LeenButtonActionPerformed(evt);
@@ -250,36 +254,37 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         SearchPanel.setLayout(SearchPanelLayout);
         SearchPanelLayout.setHorizontalGroup(
             SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SearchPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LeenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createSequentialGroup()
-                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(SearchPanelLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(LeenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(SearchPanelLayout.createSequentialGroup()
                         .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AlleRadioButton)
                             .addGroup(SearchPanelLayout.createSequentialGroup()
-                                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(NaamRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(IDRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(53, 53, 53)
+                                .addGap(66, 66, 66)
                                 .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(IDTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(NaamTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ZoekButton, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(SearchPanelLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(KeuzeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
-                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(AlleRadioButton)
+                                    .addGroup(SearchPanelLayout.createSequentialGroup()
+                                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(NaamRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(IDRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(53, 53, 53)
+                                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(IDTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(NaamTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ZoekButton, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(SearchPanelLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(KeuzeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
+                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(208, 208, 208))
         );
         SearchPanelLayout.setVerticalGroup(
@@ -309,12 +314,42 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(20, 20, 20)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(29, 29, 29)
-                .addComponent(LeenButton, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(LeenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         Library.addTab("Opzoeken en uitlenen", SearchPanel);
+
+        jScrollPane3.setViewportView(GeleendeBoeken);
+
+        TerugbrengButton.setText("Terugbrengen");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(304, 304, 304)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(TerugbrengButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                    .addComponent(GeleendeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(401, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(GeleendeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(TerugbrengButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+
+        Library.addTab("Geleende boeken", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -363,11 +398,23 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             Lid lid = dao.getLid(id);
             if (lid != null) {
                 Library.setEnabledAt(1, true);
+                Library.setEnabledAt(2, true);
             } else {
                 throw new Exception("Lid bestaat niet!");
             }
 
             RegistreerResultaat.setText("Welkom " + lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
+            huidigLid = lid;
+            GeleendeLabel.setText(lid.getVoorNaam() + " " + lid.getAchterNaam() + ", dit zijn uw geleende boeken:");
+            
+            Set<Lening> leningen = huidigLid.getLeningen();
+            DefaultListModel listmodel = new DefaultListModel();
+
+            for (Lening a : leningen) {
+                Boek b = a.getBoek();
+                listmodel.addElement(b);
+            }
+            GeleendeBoeken.setModel(listmodel);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
         } catch (Exception ex) {
@@ -425,10 +472,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
 
     private void LeenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeenButtonActionPerformed
         // TODO add your handling code here:
-        List<String> gekozenBoeken = BeschikbaarLijst.getsel
-        for(String s : gekozenBoeken){
-            String[] boeken = s.split(" ");
-            Boek b = dao.getBoek(Integer.parseInt(boeken[0]));
+        List<Boek> gekozenBoeken = BeschikbaarLijst.getSelectedValuesList();
+        Hibernate.initialize(huidigLid.getLeningen());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projectJpaPU");
+        EntityManager em = emf.createEntityManager();
+        for (Boek b : gekozenBoeken) {
+            Boek boek = em.find(Boek.class, b.getId());
             Lening lening = factory.leenBoekAanLid(huidigLid, b);
             dao.addLening(lening);
         }
@@ -520,7 +569,6 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         List<Boek> lijst = dao.getBoeken();
                         List<Boek> beschikbaar = new ArrayList<>();
                         DefaultListModel listmodel = new DefaultListModel();
-                        
 
                         for (Boek a : lijst) {
                             b.append(a.toString()).append("\n");
@@ -586,6 +634,9 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                 dao = new BibliotheekDao();
                 Bibliotheek bib = factory.maakDeKrookVolledig();
                 dao.addBibliotheek(bib);
+
+                //Start hibernate
+                ProjectJpaBibApplication.main(args);
                 //start GUI
                 new BibliotheekGUI().setVisible(true);
             }
@@ -594,7 +645,9 @@ public class BibliotheekGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AlleRadioButton;
-    private javax.swing.JList<String> BeschikbaarLijst;
+    private javax.swing.JList<Boek> BeschikbaarLijst;
+    private javax.swing.JList<Boek> GeleendeBoeken;
+    private javax.swing.JLabel GeleendeLabel;
     private javax.swing.JRadioButton IDRadioButton;
     private javax.swing.JTextField IDTextField;
     private javax.swing.JComboBox<String> KeuzeComboBox;
@@ -612,13 +665,16 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private javax.swing.JTextField RegistreerVoornaam;
     private javax.swing.JTextArea ResultTextArea;
     private javax.swing.JPanel SearchPanel;
+    private javax.swing.JButton TerugbrengButton;
     private javax.swing.JButton ZoekButton;
     private javax.swing.ButtonGroup ZoekButtonGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }
