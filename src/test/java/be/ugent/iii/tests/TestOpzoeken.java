@@ -89,13 +89,13 @@ public class TestOpzoeken {
         toonBibliotheek(bibliotheek);
         System.out.println(bibliotheek.getCollecties());
         System.out.println(resultaat.getCollecties());
-        assertEquals("alle collecties mee opgevraagd?", bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
-        //assertThat(bibliotheek.getCollecties(), is(resultaat.getCollecties()));
+        assertEquals("correct aantal collecties opgevraagd?", bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
+        assertEquals("correcte collecties opgevraagd?", new HashSet<>(bibliotheek.getCollecties()), new HashSet<>(resultaat.getCollecties()));
     }
     
     // Deze test gaat na of boeken correct kunnen worden opgevraagd via
     // de naam en voornaam van één van hun auteurs
-    // Opmerking: we gaan er hier (wat onvoorzichtig) vanuit dat geen 2 verschillende auteurs dezelfde naam hebben
+    // Opmerking: we gaan er hier (wat onvoorzichtig) vanuit dat geen 2 verschillende auteurs dezelfde naam hebben in de databank
     @Test
     public void testGeefBoekenVanAuteur() {
         int aantalVoor = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum").size();
