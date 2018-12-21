@@ -8,6 +8,7 @@ package be.ugent.iii.tests;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
+import java.util.HashSet;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
@@ -53,8 +54,18 @@ public class TestOpzoeken {
     }
 
     // TODO add test methods here.
-    
-    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden
+    // Deze test gaat na of alle collecties uit de database correct kunnen worden opgevraagd
+    @Test
+    public void testGetCollecties() {
+        List<Collectie> verwacht = dao.getCollecties();
+        Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
+        verwacht.addAll(bibliotheek.getCollecties());
+        dao.addBibliotheek(bibliotheek);
+        List<Collectie> werkelijk = dao.getCollecties();
+        assertEquals("alle collecties opgevraagd?", new HashSet<>(verwacht), new HashSet<>(werkelijk));
+    }
+     
+    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden met lazy opvraging
     @Test
     public void testGetBibliotheekLazy() {
         int aantalVoor = dao.getBibliotheken().size();
@@ -86,7 +97,7 @@ public class TestOpzoeken {
     // de naam en voornaam van één van hun auteurs
     // Opmerking: we gaan er hier (wat onvoorzichtig) vanuit dat geen 2 verschillende auteurs dezelfde naam hebben
     @Test
-    public void GeefBoekenVanAuteur() {
+    public void testGeefBoekenVanAuteur() {
         int aantalVoor = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum").size();
         //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
         dao.addBibliotheek(factory.maakDeKrookVolledig());
@@ -96,7 +107,7 @@ public class TestOpzoeken {
 
     // Deze test gaat na of een collectie boeken kan worden opgevraagd via hun taal
     @Test
-    public void ZoekBoekenMetTaal() {
+    public void testZoekBoekenMetTaal() {
         int aantalEngels = dao.getBoekenByTaal("EN").size();
         int aantalNederlands = dao.getBoekenByTaal("NL").size();
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
