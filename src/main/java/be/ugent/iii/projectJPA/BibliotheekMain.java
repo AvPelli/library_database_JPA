@@ -25,35 +25,25 @@ public class BibliotheekMain {
         BibliotheekDao dao = new BibliotheekDao();
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
-        List<Boek> resultaat1 = dao.zoekBoekenOpTitel("Congo");
-        List<Boek> resultaat2 = dao.zoekBoekenOpTaal("FR");
-        List<Boek> resultaat3 = dao.zoekBoekenOpTaal("NL");
-        List<Boek> resultaat4 = dao.zoekBoekenOpTaal("EN");
-        List<Boek> resultaat5 = dao.zoekBoekenOpTaal("DE");
-        /*
-        System.out.println(resultaat1);
-        System.out.println(resultaat2);
-        System.out.println(resultaat3);
-        System.out.println(resultaat4);
-        System.out.println(resultaat5);
-        */
-        /*
-        toonBibliotheek(bibliotheek);
-        bibliotheek = factory.maakBibliotheek("Stadsbibliotheek Dendermonde", new Adres());
-        Collectie collectie = factory.maakCollectie("Filosofie en psychologie");
-        collectie.setBibliotheek(bibliotheek);
-        dao.addCollectie(collectie);
-        toonBibliotheek(bibliotheek);
-        dao.close(); */
-        toonBibliotheek(bibliotheek);
-        dao.VerwijderLid("Axel", "De Decker");
+        Bibliotheek bibliotheek2 = factory.maakBibliotheek("Stadsbibliotheek Dendermonde", null);
+        Collectie collectie = factory.maakCollectie("Sociale Wetenschappen");
+        collectie.setBibliotheek(bibliotheek2);
+        Boek boek = factory.maakTheRighteousMind();
+        boek.setCollectie(collectie);
+        dao.addBoek(boek);
+        int id = boek.getId();
+        dao.VerwijderBoek(id);
+        //dao.addCollectie(collectie);
+        //System.out.println(boek.getCollectie().getBibliotheek().getId());
+        //toonBibliotheek(bibliotheek);
+        //dao.VerwijderLid("Axel", "De Decker");
+        dao.close();
         toonBibliotheek(bibliotheek);
     }
     
     private static void toonBibliotheek(Bibliotheek bibliotheek) {
         System.out.println("-----BIBLIOTHEEK-----");
         System.out.println(bibliotheek);
-        System.out.println("");
         System.out.println("-----Catalogus-----");
         for (Collectie collectie : bibliotheek.getCollecties()) {
             System.out.println(collectie);
@@ -74,7 +64,6 @@ public class BibliotheekMain {
             }
         }
         System.out.println("-----Einde leden-----");
-        System.out.println("");
         System.out.println("-----EINDE BIBLIOTHEEK-----");
     }
     

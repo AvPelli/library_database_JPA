@@ -27,7 +27,7 @@ public class BibliotheekDao implements AutoCloseable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="methodes om entiteiten toe te voegen">
-    private void addObject(Object object) {
+    public void addObject(Object object) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(object);
@@ -35,7 +35,7 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
     }
 
-    private void addObjects(Collection collection) {
+    public void addObjects(Collection collection) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         for (Object object : collection) {
@@ -63,6 +63,16 @@ public class BibliotheekDao implements AutoCloseable {
     
     public void addLid(Lid lid){
         addObject(lid);
+    }
+    
+    public void addBoek(Boek boek) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Collectie collectie = boek.getCollectie();
+        em.persist(collectie);
+        em.persist(boek);
+        em.getTransaction().commit();
+        em.close();
     }
     // </editor-fold>
 

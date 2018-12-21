@@ -363,4 +363,13 @@ public class BibliotheekFactory {
     }
     //</editor-fold>
     
+    public Boek maakTheRighteousMind() {
+        Auteur auteur = maakAuteur("Jonathan", "Haidt", 'M');
+        Boek boek1 = maakBoek("The Righteous Mind", "EN", 2012);
+        Boek boek2 = maakBoek("The Happiness Hypothesis", "EN", 2006);
+        auteur.add(boek1);
+        auteur.add(boek2);
+        return boek1;
+    }
+    
 }

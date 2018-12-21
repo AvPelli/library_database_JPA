@@ -23,7 +23,8 @@ public class Auteur extends Persoon implements Serializable {
         Auteur toevoegen = alle boeken toevoegen in "auteurs_per_boek"
         => Cascade.ALL
     */
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "auteurs")
+    // boeken van auteurs worden niet automatisch toegevoegd
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "auteurs")
     private final Set<Boek> boeken = new HashSet<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">
