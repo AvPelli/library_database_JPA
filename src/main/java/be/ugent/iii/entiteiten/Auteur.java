@@ -17,7 +17,13 @@ import javax.persistence.*;
 @Table(name = "AUTEURS")
 public class Auteur extends Persoon implements Serializable {
     
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "auteurs")
+    /*
+        "auteurs_per_boek" tabel: bijvoorbeeld 3 auteurs voor 1 boek = 3 rijen in de tabel
+        Auteur verwijderen = alle entries van de auteur in "auteurs_per_boek" verwijderen
+        Auteur toevoegen = alle boeken toevoegen in "auteurs_per_boek"
+        => Cascade.ALL
+    */
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "auteurs")
     private final Set<Boek> boeken = new HashSet<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

@@ -41,11 +41,20 @@ public class Bibliotheek implements Serializable {
                 column = @Column(name = "LAND", nullable = true))
     })
     private Adres adres;
-    
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "bibliotheek")
+    /*
+        Collectie heeft foreign key naar bibliotheek
+        Wanneer een bibliotheek verwijderd wordt dan moet de collectie
+        ook verwijderd worden (anders wijst de foreign key naar niets meer)
+        => Cascade.ALL
+    */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
     private final Set<Collectie> collecties = new HashSet<>();
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "bibliotheek")
+    /*
+        Zelfde redenering als collectie, Lid heeft foreign key naar bibliotheek
+        => Cascade.ALL
+    */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
     private final Set<Lid> leden = new HashSet<>();
 
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

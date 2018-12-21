@@ -39,11 +39,14 @@ public class Boek implements Serializable {
     @Column(name = "ISBN")
     private int ISBN;
     
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
     
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    /*
+        Zelfde redenering als bij Auteur klasse
+    */
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "AUTEURS_PER_BOEK",
             joinColumns = @JoinColumn(name = "BOEK"),
             inverseJoinColumns = @JoinColumn(name = "AUTEUR"))

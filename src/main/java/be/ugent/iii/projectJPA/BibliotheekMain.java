@@ -37,13 +37,17 @@ public class BibliotheekMain {
         System.out.println(resultaat4);
         System.out.println(resultaat5);
         */
+        /*
         toonBibliotheek(bibliotheek);
         bibliotheek = factory.maakBibliotheek("Stadsbibliotheek Dendermonde", new Adres());
         Collectie collectie = factory.maakCollectie("Filosofie en psychologie");
         collectie.setBibliotheek(bibliotheek);
         dao.addCollectie(collectie);
         toonBibliotheek(bibliotheek);
-        dao.close();
+        dao.close(); */
+        toonBibliotheek(bibliotheek);
+        dao.VerwijderLid("Axel", "De Decker");
+        toonBibliotheek(bibliotheek);
     }
     
     private static void toonBibliotheek(Bibliotheek bibliotheek) {

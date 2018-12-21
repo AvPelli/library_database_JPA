@@ -112,7 +112,7 @@ public class TestToevoegen {
         
         assertEquals(boeken.size(), 2);
     }
-    
+   
     @Test
     public void VerwijderBoekMetId(){
         //Verwijderen boek in tabel "boeken", in tabel "collectie
@@ -120,14 +120,27 @@ public class TestToevoegen {
         dao.addBibliotheek(b);
         
         List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
+        assertEquals(2, boeken.size());
         
         for(Integer id : boeken){
-            dao.VerwijderBoek(id);
+            assertTrue(dao.VerwijderBoek(id));
         }
         
         //Alle boeken van Andrew Tanenbaum zijn verwijderd:
         List<Integer> result = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-        assertEquals(result.size(), 0);
+        assertNull(result);
+    }
+    
+    @Test 
+    public void VerwijderLidMetId(){
+        Bibliotheek b = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(b);
+        
+        List<Lid> ledenVoor = dao.getLeden();
+        dao.VerwijderLid("Axel", "De Decker");
+        
+        assertEquals(ledenVoor.size()-1, dao.getLeden().size());
+        assertNull(dao.getLid("Axel", "De Decker"));
         
     }
     

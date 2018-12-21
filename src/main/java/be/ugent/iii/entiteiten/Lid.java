@@ -35,7 +35,7 @@ public class Lid extends Persoon {
     @JoinColumn(name = "BIBLIOTHEEK")
     private Bibliotheek bibliotheek;
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "lid")
+@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "lid")
     private final Set<Lening> leningen = new HashSet<>();
     
     //<editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">
