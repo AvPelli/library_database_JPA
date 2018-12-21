@@ -53,10 +53,21 @@ public class TestOpzoeken {
     }
 
     // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden
+    @Test
+    public void testGetBibliotheekLazy() {
+        int aantalVoor = dao.getBibliotheken().size();
+        Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(bibliotheek);
+        int aantalNa = dao.getBibliotheken().size();
+        Bibliotheek resultaat = dao.zoekBib(bibliotheek.getId());
+        assertEquals("bibliotheek toegevoegd?", aantalVoor + 1, aantalNa);
+        assertEquals("bilbiotheek opgevraagd op id?", resultaat, bibliotheek);
+    }
+    
+    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden
+    // en het resultaat de correcte geassocieerde collecties, boeken en auteurs bevat 
     @Test
     public void testGetBibliotheekMetCatalogus() {
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
