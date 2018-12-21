@@ -46,7 +46,7 @@ public class Bibliotheek implements Serializable {
     // GEBRUIK CascadeType.ALL => geassocieerde collecties worden samen met de bibliotheek verwijderd
     // 1-veel bidirectionele compositie met als ouder bibliotheek
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
-    private final Set<Collectie> collecties = new HashSet<>();
+    private Set<Collectie> collecties = new HashSet<>();
     
     // GEBRUIK CascadeType.ALL => geassocieerde leden worden samen met de bibliotheek verwijderd
     // 1-veel bidirectionele compositie met als ouder bibliotheek
@@ -80,6 +80,10 @@ public class Bibliotheek implements Serializable {
 
     public Set<Collectie> getCollecties() {
         return collecties;
+    }
+
+    public void setCollecties(Set<Collectie> collecties) {
+        this.collecties = collecties;
     }
 
     public boolean add(Collectie collectie) {
