@@ -9,6 +9,7 @@ import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.List;
+import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,6 +58,20 @@ public class TestOpzoeken {
     // @Test
     // public void hello() {}
     @Test
+    public void testGetBibliotheekMetCatalogus() {
+        Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(bibliotheek);
+        Bibliotheek resultaat = dao.getBibliotheekMetCatalogus(bibliotheek.getId());
+        System.out.println(resultaat.getCollecties());
+        System.out.println(resultaat);
+        toonBibliotheek(bibliotheek);
+        System.out.println(bibliotheek.getCollecties());
+        System.out.println(resultaat.getCollecties());
+        assertEquals(bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
+        //assertThat(bibliotheek.getCollecties(), is(resultaat.getCollecties()));
+    }
+    
+    @Test
     public void GeefBoekenVanAuteur() {
         //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
         Bibliotheek b = factory.maakDeKrookVolledig();
@@ -92,5 +107,22 @@ public class TestOpzoeken {
             }
         }
         assertTrue("ALLES NEDERLANDS: OK", allesNederlands);
+    }
+    
+    private static void toonBibliotheek(Bibliotheek bibliotheek) {
+        System.out.println("-----BIBLIOTHEEK-----");
+        System.out.println(bibliotheek);
+        System.out.println("-----Catalogus-----");
+        for (Collectie collectie : bibliotheek.getCollecties()) {
+            System.out.println(collectie);
+            for (Boek boek : collectie.getBoeken()) {
+                System.out.println("\t" + boek);
+                for (Auteur auteur : boek.getAuteurs()) {
+                    System.out.println("\t\t" + auteur);
+                }
+            }
+        }
+        System.out.println("-----Einde catalogus-----");
+        System.out.println("-----EINDE BIBLIOTHEEK-----");
     }
 }

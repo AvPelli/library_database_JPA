@@ -45,7 +45,7 @@ public class Boek implements Serializable {
     
     // GEEN CascadeType.ALL gebruiken => inclusief DETACH, alle geassocieerde auteurs zouden tezamen met een boek verwijderd worden
     // veel-veel bidirectionele associatie
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "AUTEURS_PER_BOEK",
             joinColumns = @JoinColumn(name = "BOEK"),
             inverseJoinColumns = @JoinColumn(name = "AUTEUR"))

@@ -193,6 +193,15 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
         return bib;
     }
+    
+    public Bibliotheek getBibliotheekMetCatalogus(int id) {
+        EntityManager em = emf.createEntityManager();
+        Bibliotheek bibliotheek = em.find(Bibliotheek.class, id);
+        Set<Collectie> collecties = new HashSet<>(bibliotheek.getCollecties());
+        em.close();
+        bibliotheek.setCollecties(collecties);
+        return bibliotheek;
+    }
 
     public Bibliotheek getBibliotheek(String naam) {
         EntityManager em = emf.createEntityManager();
