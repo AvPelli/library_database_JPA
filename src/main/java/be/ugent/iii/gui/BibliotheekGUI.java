@@ -21,10 +21,13 @@ public class BibliotheekGUI extends javax.swing.JFrame {
      * Creates new form BibliotheekGUI
      */
     private static BibliotheekDao dao;
+    private static BibliotheekFactory factory;
 
     public BibliotheekGUI() {
         this.setTitle("Bibliotheek");
         initComponents();
+        Library.setEnabledAt(1, false);
+        Library.setEnabledAt(2, false);
     }
 
     /**
@@ -42,6 +45,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         LidID = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         LoginButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        RegistreerVoornaam = new javax.swing.JTextField();
+        RegistreerAchternaam = new javax.swing.JTextField();
+        RegistreerGeslacht = new javax.swing.JComboBox<>();
+        RegistreerButton = new javax.swing.JButton();
+        RegistreerResultaat = new javax.swing.JLabel();
         SearchPanel = new javax.swing.JPanel();
         AlleRadioButton = new javax.swing.JRadioButton();
         IDRadioButton = new javax.swing.JRadioButton();
@@ -63,31 +72,76 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         jLabel1.setText("Lid ID:");
 
         LoginButton.setText("Log in");
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Nieuwe gebruiker:");
+
+        RegistreerVoornaam.setText("Voornaam");
+
+        RegistreerAchternaam.setText("Achternaam");
+
+        RegistreerGeslacht.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Man", "Vrouw" }));
+
+        RegistreerButton.setText("Registreer");
+        RegistreerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistreerButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout LoginPanelLayout = new javax.swing.GroupLayout(LoginPanel);
         LoginPanel.setLayout(LoginPanelLayout);
         LoginPanelLayout.setHorizontalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(LoginButton)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(382, Short.MAX_VALUE))
+                        .addGap(161, 161, 161)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LoginButton))
+                        .addGap(177, 177, 177)
+                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RegistreerButton)))
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(RegistreerResultaat, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         LoginPanelLayout.setVerticalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(57, 57, 57)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(LoginButton)
-                .addContainerGap(208, Short.MAX_VALUE))
+                    .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LoginButton)
+                    .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(RegistreerButton)
+                .addGap(41, 41, 41)
+                .addComponent(RegistreerResultaat, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         Library.addTab("Inloggen", LoginPanel);
@@ -271,6 +325,54 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Het gevraagde item bestaat niet");
         }
     }//GEN-LAST:event_ZoekButtonActionPerformed
+
+    private void RegistreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistreerButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            String voornaam = RegistreerVoornaam.getText();
+            String achternaam = RegistreerAchternaam.getText();
+            String geslacht = RegistreerGeslacht.getSelectedItem().toString();
+            if( voornaam.isEmpty() || achternaam.isEmpty()){
+                throw new Exception("Er is een veld niet ingevuld");
+            } else {
+                Lid lid;
+                if(geslacht.equalsIgnoreCase("man")){
+                    lid = factory.maakLid(voornaam, achternaam, 'M', null);
+                } else {
+                    lid = factory.maakLid(voornaam, achternaam, 'V', null);                   
+                }
+                dao.addLid(lid);
+            }
+            
+            RegistreerResultaat.setText("Registratie gelukt, uw ID (onthouden!):" + dao.getLid(voornaam, achternaam).getId());
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_RegistreerButtonActionPerformed
+
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+        // TODO add your handling code here:
+        try{
+            int id = Integer.parseInt(LidID.getText());
+            
+            //Als lid bestaat: opzoeken en uitlenen activeren
+            Lid lid = dao.getLid(id);
+            if(lid != null){
+                Library.setEnabledAt(1, true);
+                Library.setEnabledAt(2, true);
+            } else {
+                throw new Exception("Lid bestaat niet!");
+            }
+            
+            RegistreerResultaat.setText("Welkom "+ lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_LoginButtonActionPerformed
     
     private void comboboxHulpMethode(StringBuilder b, int keuze) throws Exception {
         String comboBoxSelectie = KeuzeComboBox.getSelectedItem().toString();
@@ -383,7 +485,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 //Maak bibliotheek
-                BibliotheekFactory factory = new BibliotheekFactory();
+                factory = new BibliotheekFactory();
                 dao = new BibliotheekDao();
                 Bibliotheek bib = factory.maakDeKrookMetCollecties();
                 dao.addBibliotheek(bib);
@@ -405,11 +507,17 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JRadioButton NaamRadioButton;
     private javax.swing.JTextField NaamTextField;
+    private javax.swing.JTextField RegistreerAchternaam;
+    private javax.swing.JButton RegistreerButton;
+    private javax.swing.JComboBox<String> RegistreerGeslacht;
+    private javax.swing.JLabel RegistreerResultaat;
+    private javax.swing.JTextField RegistreerVoornaam;
     private javax.swing.JTextArea ResultTextArea;
     private javax.swing.JPanel SearchPanel;
     private javax.swing.JButton ZoekButton;
     private javax.swing.ButtonGroup ZoekButtonGroup;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

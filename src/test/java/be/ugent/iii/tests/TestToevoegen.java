@@ -144,6 +144,19 @@ public class TestToevoegen {
         
     }
     
+    @Test
+    public void VoegLidToe(){
+        Bibliotheek b = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(b);
+        
+        List<Lid> ledenVoor = dao.getLeden();
+        Lid lid = factory.maakLid("TestLid", "TestLid", 'M', null);
+        dao.addLid(lid);
+        
+        assertEquals(ledenVoor.size()+1, dao.getLeden().size());
+        assertNotNull(dao.getLid("TestLid", "TestLid"));
+    }
+    
     
     //</editor-fold>
 

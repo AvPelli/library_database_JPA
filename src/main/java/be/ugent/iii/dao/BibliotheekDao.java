@@ -60,6 +60,10 @@ public class BibliotheekDao implements AutoCloseable {
     public void addBoeken(List<Boek> boeken) {
         addObjects(boeken);
     }
+    
+    public void addLid(Lid lid){
+        addObject(lid);
+    }
     // </editor-fold>
 
     public List<Boek> zoekBoekenOpTitel(String titel) {
@@ -204,6 +208,13 @@ public class BibliotheekDao implements AutoCloseable {
         }
         em.close();
         return null;
+    }
+    
+    public Lid getLid(int id){
+        EntityManager em = emf.createEntityManager();
+        Lid lid = em.find(Lid.class, id);
+        em.close();
+        return lid;   
     }
     // </editor-fold>
 
