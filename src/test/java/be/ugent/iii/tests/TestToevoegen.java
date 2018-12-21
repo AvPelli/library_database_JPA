@@ -8,8 +8,8 @@ package be.ugent.iii.tests;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -101,67 +101,7 @@ public class TestToevoegen {
         dao.addBibliotheek(bib);
         assertTrue(true);
     }
-    
-    @Test
-    public void GeefBoekenVanAuteur(){
-        //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
-        Bibliotheek b = factory.maakDeKrookVolledig();
-        dao.addBibliotheek(b);
-        
-        List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-        
-        assertEquals(boeken.size(), 2);
-    }
-   
-    @Test
-    public void VerwijderBoekMetId(){
-        //Verwijderen boek in tabel "boeken", in tabel "collectie
-        Bibliotheek b = factory.maakDeKrookVolledig();
-        dao.addBibliotheek(b);
-        
-        List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-        assertEquals(2, boeken.size());
-        
-        for(Integer id : boeken){
-            assertTrue(dao.VerwijderBoek(id));
-        }
-        
-        //Alle boeken van Andrew Tanenbaum zijn verwijderd:
-        List<Integer> result = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-        assertNull(result);
-    }
-    
-    @Test 
-    public void VerwijderLidMetId(){
-        Bibliotheek b = factory.maakDeKrookVolledig();
-        dao.addBibliotheek(b);
-        
-        List<Lid> ledenVoor = dao.getLeden();
-        dao.VerwijderLid("Axel", "De Decker");
-        
-        assertEquals(ledenVoor.size()-1, dao.getLeden().size());
-        assertNull(dao.getLid("Axel", "De Decker"));
-        
-    }
-    
-    @Test
-    public void VoegLidToe(){
-        Bibliotheek b = factory.maakDeKrookVolledig();
-        dao.addBibliotheek(b);
-        
-        List<Lid> ledenVoor = dao.getLeden();
-        Lid lid = factory.maakLid("TestLid", "TestLid", 'M', null);
-        dao.addLid(lid);
-        
-        assertEquals(ledenVoor.size()+1, dao.getLeden().size());
-        assertNotNull(dao.getLid("TestLid", "TestLid"));
-    }
-    
-    
-    //</editor-fold>
 
-    /* VOORLOPIG IN COMMENTAAR
-    // <editor-fold defaultstate="collapsed" desc="Tests Auteurs">
     @Test
     public void AuteurToevoegen() throws Exception {
         int aantalAuteursVoor = dao.getAuteurs().size();
@@ -178,78 +118,34 @@ public class TestToevoegen {
         assertEquals(aantalBoekenVoor + a.getBoeken().size(), aantalBoekenNa);
         dao.close();
     }
-    //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Tests leningen">
     @Test
-    public void LeningenToevoegen() {
+    public void VoegLidToe() {
+        Bibliotheek b = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(b);
+
+        List<Lid> ledenVoor = dao.getLeden();
+        Lid lid = factory.maakLid("TestLid", "TestLid", 'M', null);
+        dao.addLid(lid);
+
+        assertEquals(ledenVoor.size() + 1, dao.getLeden().size());
+        assertNotNull(dao.getLid("TestLid", "TestLid"));
+    }
+
+    @Test
+    public void LeningToevoegen() {
         int leningenVoor = dao.getLeningen().size();
 
         // lid en boeken zijn nu in Transient state
         List<Boek> boeken = factory.maakOrwellBoeken();
-        Lid lid = factory.maakLid();
+        Lid l = factory.maakLid("TestLid", "TestLid", 'M', null);
 
-        ArrayList<Lening> leningen = new ArrayList<>();
-        for (Boek boek : boeken) {
-            Lening l = factory.maakLening(lid, boek);
-            leningen.add(l);
-        }
-
-        dao.addLeningen(leningen);
-
+        Lening lening = factory.leenBoekAanLid(l, boeken.get(0));
+        dao.addLening(lening);
         int leningenNa = dao.getLeningen().size();
 
-        assertEquals("Aantal leningen correct?", leningenVoor + boeken.size(), leningenNa);
+        assertEquals("Aantal leningen correct?", leningenVoor + 1, leningenNa);
     }
-    
-    @Test
-    public void LeningVerwijderen(){
-        int leningenVoor = dao.getLeningen().size();
-        
-        //Lid en Boek aanmaken + uitlenen
-        Lid l = factory.maakLid();
-        Boek b = factory.maakBoek("Test lening", "NL", 1995);
-        Lening le = factory.maakLening(l, b);
-        dao.addLening(le);
-        
-        //test of lening gelukt is:
-        assertEquals(leningenVoor+1, dao.getLeningen().size());
-        
-        //Lening verwijderen:
-        dao.BoekTeruggebracht(l, b);
-        
-        //test of terugbrengen gelukt is:
-        assertEquals(leningenVoor, dao.getLeningen().size());
-    }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Test Query met parameter">
-    @Test
-    public void ZoekBoekenMetTaal() {
-        //Test engels
-        List<Boek> resultEngels = dao.getBoekenByTaal("EN");
-
-        boolean allesEngels = true;
-        for (Boek b : resultEngels) {
-            if (!b.getTaal().equalsIgnoreCase("EN")) {
-                allesEngels = false;
-                break;
-            }
-        }
-        assertTrue("ALLES ENGELS: OK",allesEngels);
-
-        //Test nederlands
-        List<Boek> resultNederlands = dao.getBoekenByTaal("NL");
-
-        boolean allesNederlands = true;
-        for (Boek b : resultNederlands) {
-            if (!b.getTaal().equalsIgnoreCase("NL")) {
-                allesNederlands = false;
-                break;
-            }
-        }
-        assertTrue("ALLES NEDERLANDS: OK",allesNederlands);
-    }
     //</editor-fold>
-    */
 }

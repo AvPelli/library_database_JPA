@@ -60,11 +60,11 @@ public class BibliotheekDao implements AutoCloseable {
     public void addBoeken(List<Boek> boeken) {
         addObjects(boeken);
     }
-    
-    public void addLid(Lid lid){
+
+    public void addLid(Lid lid) {
         addObject(lid);
     }
-    
+
     public void addBoek(Boek boek) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -74,27 +74,24 @@ public class BibliotheekDao implements AutoCloseable {
         em.getTransaction().commit();
         em.close();
     }
+    
+    public void addLening(Lening lening){
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(lening.getBoek());
+        em.persist(lening.getLid());
+        em.persist(lening);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    public void addLeningen(List<Lening> leningen){
+        for(Lening l : leningen){
+            addLening(l);
+        }
+    }
     // </editor-fold>
 
-    public List<Boek> zoekBoekenOpTitel(String titel) {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Boek> query
-                = em.createQuery("select b from Boek b where b.titel = ?1", Boek.class).setParameter(1, titel);
-        List<Boek> resultaat = query.getResultList();
-        em.close();
-        return resultaat;
-    }
-
-    public List<Boek> zoekBoekenOpTaal(String taal) {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Boek> query
-                = em.createQuery("select b from Boek b where b.taal = ?1", Boek.class).setParameter(1, taal);
-        List<Boek> resultaat = query.getResultList();
-        em.close();
-        return resultaat;
-    }
-
-    // nog niet getest vanaf hier
     // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database op te halen">
     public List<Bibliotheek> getBibliotheken() {
         EntityManager em = emf.createEntityManager();
@@ -170,20 +167,20 @@ public class BibliotheekDao implements AutoCloseable {
         if (!auteurs.isEmpty()) {
             Auteur a = auteurs.get(0);
             int id = a.getId();
-            
+
             /*
                 createNativeQuery gebruiken: createQuery() is JPQL, deze kan enkel queries
                 opstellen voor ENTITIES. "Auteurs_per_boek" is geen entity maar een joined table.
-            */
+             */
             Query zoekBoeken = em.createNativeQuery("SELECT BOEK FROM AUTEURS_PER_BOEK WHERE AUTEUR = ?1");
-            zoekBoeken.setParameter(1, ""+id);
+            zoekBoeken.setParameter(1, "" + id);
 
             result = zoekBoeken.getResultList();
         }
         em.close();
-        
+
         //Checken of er wel degelijk boeken gevonden zijn
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return null;
         } else {
             return result;
@@ -219,12 +216,30 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
         return null;
     }
-    
-    public Lid getLid(int id){
+
+    public Lid getLid(int id) {
         EntityManager em = emf.createEntityManager();
         Lid lid = em.find(Lid.class, id);
         em.close();
-        return lid;   
+        return lid;
+    }
+
+    public List<Boek> zoekBoekenOpTitel(String titel) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Boek> query
+                = em.createQuery("select b from Boek b where b.titel = ?1", Boek.class).setParameter(1, titel);
+        List<Boek> resultaat = query.getResultList();
+        em.close();
+        return resultaat;
+    }
+
+    public List<Boek> zoekBoekenOpTaal(String taal) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Boek> query
+                = em.createQuery("select b from Boek b where b.taal = ?1", Boek.class).setParameter(1, taal);
+        List<Boek> resultaat = query.getResultList();
+        em.close();
+        return resultaat;
     }
     // </editor-fold>
 
@@ -281,7 +296,7 @@ public class BibliotheekDao implements AutoCloseable {
         em.getTransaction().commit();
         em.close();
     }
-    
+
     public void verplaatsBoek(Collectie collectie, Boek boek) {
         EntityManager em = emf.createEntityManager();
         //em.persist();
