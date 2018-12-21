@@ -27,11 +27,15 @@ public class Collectie implements Serializable {
     @Column(name = "KLASSE")
     private String klasse;
     
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+    // GEEN CascadeType.ALL gebruiken => inclusief DETACH, geassocieerde bibliotheek zou tezamen met een collectie verwijderd worden
+    // 1-veel bidirectionele compositie met als ouder bibliotheek
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = "BIBLIOTHEEK")
     private Bibliotheek bibliotheek;
     
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "collectie")
+    // GEBRUIK CascadeType.ALL => geassocieerde boeken worden samen met de collectie verwijderd
+    // 1-veel bidirectionele compositie met als ouder compositie
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectie")
     private final Set<Boek> boeken = new HashSet<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

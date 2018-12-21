@@ -43,17 +43,16 @@ public class Boek implements Serializable {
     @JoinColumn(name = "COLLECTIE")
     private Collectie collectie;
     
-    /*
-        Zelfde redenering als bij Auteur klasse
-    */
-    // MOET PERSIST ZIJN: BIJ ALL WORDT DE AUTEUR SAMEN MET EEN BOEK VERWIJDERD
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    // GEEN CascadeType.ALL gebruiken => inclusief DETACH, alle geassocieerde auteurs zouden tezamen met een boek verwijderd worden
+    // veel-veel bidirectionele associatie
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "AUTEURS_PER_BOEK",
             joinColumns = @JoinColumn(name = "BOEK"),
             inverseJoinColumns = @JoinColumn(name = "AUTEUR"))
     private final Set<Auteur> auteurs = new HashSet<>();
     
-    @OneToOne(mappedBy = "boek", optional = true)
+    // 1-1 bidirectionele compositie met als ouder compositie
+    @OneToOne(mappedBy = "boek", optional = true, orphanRemoval = true)
     private Lening ontlening;
     
     public boolean isBeschikbaar() {
@@ -136,7 +135,7 @@ public class Boek implements Serializable {
 
     public void setOntlening(Lening ontlening) {
         this.ontlening = ontlening;
-        if (ontlening.getBoek() != this) {
+        if (ontlening != null && ontlening.getBoek() != this) {
             ontlening.setBoek(this);
         }
     }

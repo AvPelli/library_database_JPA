@@ -17,14 +17,9 @@ import javax.persistence.*;
 @Table(name = "AUTEURS")
 public class Auteur extends Persoon implements Serializable {
     
-    /*
-        "auteurs_per_boek" tabel: bijvoorbeeld 3 auteurs voor 1 boek = 3 rijen in de tabel
-        Auteur verwijderen = alle entries van de auteur in "auteurs_per_boek" verwijderen
-        Auteur toevoegen = alle boeken toevoegen in "auteurs_per_boek"
-        => Cascade.ALL
-    */
-    // boeken van auteurs worden niet automatisch toegevoegd
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "auteurs")
+    // GEEN CascadeType.ALL gebruiken => inclusief DETACH, alle geassocieerde auteurs zouden tezamen met een boek verwijderd worden
+    // veel-veel bidirectionele associatie
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "auteurs")
     private final Set<Boek> boeken = new HashSet<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

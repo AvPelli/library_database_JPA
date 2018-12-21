@@ -26,6 +26,27 @@ public class BibliotheekFactory {
         return bib;
     }
     
+    
+    public Bibliotheek maakBibliotheekDendermonde() {
+        Adres adres = new Adres();
+        adres.setStraatNaam("Kerkstraat");
+        adres.setHuisNr(111);
+        adres.setGemeente("Dendermonde");
+        adres.setPostcode("9200");
+        adres.setLand("België");
+        Bibliotheek bibliotheek = maakBibliotheek("Openbare Bibliotheek Dendermonde", adres);
+        Collectie collectie = maakCollectie("Psychologie en filosofie");
+        collectie.setBibliotheek(bibliotheek);
+        Lid lid = maakLid("anoniem", "", 'x', null);
+        bibliotheek.add(lid);
+        Auteur auteur = maakHaidt();
+        for (Boek boek : auteur.getBoeken()) {
+            boek.setCollectie(collectie);
+            leenBoekAanLid(lid, boek);
+        }
+        return  bibliotheek;
+    }
+    
     // een aantal bibliotheken zonder associaties
     public List<Bibliotheek> maakBibliotheken(String[] namen) {
         List<Bibliotheek> lijst = new ArrayList<>();
@@ -102,7 +123,7 @@ public class BibliotheekFactory {
             int ontleend = new Random().nextInt(2);
             int i = new Random().nextInt(leden.length);
             if (ontleend == 1) {
-                maakLening(leden[i], boek);
+                leenBoekAanLid(leden[i], boek);
             }
         }
         return bibliotheek;
@@ -315,6 +336,15 @@ public class BibliotheekFactory {
         Auteur auteur = maakAuteur("George", "Orwell", 'M');
         return auteur;
     }
+    
+    public Auteur maakHaidt() {
+        Auteur auteur = maakAuteur("Jonathan", "Haidt", 'M');
+        Boek boek1 = maakBoek("The Righteous Mind", "EN", 2012);
+        Boek boek2 = maakBoek("The Happiness Hypothesis", "EN", 2006);
+        auteur.add(boek1);
+        auteur.add(boek2);
+        return auteur;
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="methodes om leden aan te maken">
@@ -349,7 +379,7 @@ public class BibliotheekFactory {
     
     //<editor-fold defaultstate="collapsed" desc="methodes om leningen aan te maken">
     // 1 lening met lid en boek (noodzakelijk)
-    public Lening maakLening(Lid lid, Boek boek) {
+    public Lening leenBoekAanLid(Lid lid, Boek boek) {
         Lening lening = new Lening();
         lening.setCheckOutDatum(maakRandomDatum());
         lening.setLid(lid);
@@ -362,14 +392,5 @@ public class BibliotheekFactory {
         return new Date(118, new Random().nextInt(12), new Random().nextInt(29));
     }
     //</editor-fold>
-    
-    public Boek maakTheRighteousMind() {
-        Auteur auteur = maakAuteur("Jonathan", "Haidt", 'M');
-        Boek boek1 = maakBoek("The Righteous Mind", "EN", 2012);
-        Boek boek2 = maakBoek("The Happiness Hypothesis", "EN", 2006);
-        auteur.add(boek1);
-        auteur.add(boek2);
-        return boek1;
-    }
     
 }

@@ -27,6 +27,7 @@ public class Bibliotheek implements Serializable {
     @Column(name = "NAAM")
     private String naam;
     
+    // value object
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "straatNaam",
@@ -41,19 +42,14 @@ public class Bibliotheek implements Serializable {
                 column = @Column(name = "LAND", nullable = true))
     })
     private Adres adres;
-    /*
-        Collectie heeft foreign key naar bibliotheek
-        Wanneer een bibliotheek verwijderd wordt dan moet de collectie
-        ook verwijderd worden (anders wijst de foreign key naar niets meer)
-        => Cascade.ALL
-    */
+    
+    // GEBRUIK CascadeType.ALL => geassocieerde collecties worden samen met de bibliotheek verwijderd
+    // 1-veel bidirectionele compositie met als ouder bibliotheek
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
     private final Set<Collectie> collecties = new HashSet<>();
     
-    /*
-        Zelfde redenering als collectie, Lid heeft foreign key naar bibliotheek
-        => Cascade.ALL
-    */
+    // GEBRUIK CascadeType.ALL => geassocieerde leden worden samen met de bibliotheek verwijderd
+    // 1-veel bidirectionele compositie met als ouder bibliotheek
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
     private final Set<Lid> leden = new HashSet<>();
 

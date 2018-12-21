@@ -231,10 +231,9 @@ public class BibliotheekDao implements AutoCloseable {
     // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database te verwijderen">
     public void BoekTeruggebracht(Lid l, Boek b) {
         EntityManager em = emf.createEntityManager();
-        Query opdracht = em.createQuery("Select l from Lening l where l.boek.ID = :id and l.lid.ID = :lidid");
+        Query opdracht = em.createQuery("Select l from Lening l where l.boek.id = :id and l.lid.id = :lidid");
         opdracht.setParameter("id", b.getId());
         opdracht.setParameter("lidid", l.getId());
-
         List<Lening> result = opdracht.getResultList();
         //verwijderen teruggebrachte boek
         em.getTransaction().begin();
@@ -280,6 +279,12 @@ public class BibliotheekDao implements AutoCloseable {
             em.remove(lid);
         }
         em.getTransaction().commit();
+        em.close();
+    }
+    
+    public void verplaatsBoek(Collectie collectie, Boek boek) {
+        EntityManager em = emf.createEntityManager();
+        //em.persist();
         em.close();
     }
     //</editor-fold>

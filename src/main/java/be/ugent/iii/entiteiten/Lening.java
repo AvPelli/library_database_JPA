@@ -25,24 +25,16 @@ public class Lening implements Serializable {
     @Column(name = "CHECK_OUT_DATUM")
     private Date checkOutDatum;
     
+    // 1-veel bidirectionele compositie met als ouder lid
     @ManyToOne(optional = false)
     @JoinColumn(name = "LID")
     private Lid lid;
     
+    // 1-1 bidirectionele compositie met als ouder boek
     @OneToOne(optional = false)
     @MapsId
     @JoinColumn(name = "BOEK")
     private Boek boek;
-    
-    /*
-    @Basic
-    @Column(name = "LEENTERMIJN")
-    private int leentermijn;
-    
-    @Basic
-    @Column(name = "BOETE_PER_DAG")
-    private double boetePerDag;
-    */
     
     //<editor-fold defaultstate="collapsed" desc="getters/setters">
     public int getId() {

@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Table(name = "LEDEN")
 public class Lid extends Persoon {
     
+    // value object
     @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "straatNaam",
@@ -31,11 +32,15 @@ public class Lid extends Persoon {
     })
     private Adres adres;
 
+    // GEEN CascadeType.ALL gebruiken => inclusief DETACH, geassocieerde bibliotheek zou tezamen met een lid verwijderd worden
+    // 1-veel bidirectionele compositie met als ouder bibliotheek
     @ManyToOne
     @JoinColumn(name = "BIBLIOTHEEK")
     private Bibliotheek bibliotheek;
     
-@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "lid")
+    // GEBRUIK CascadeType.ALL => geassocieerde leningen worden samen met het lid verwijderd
+    // 1-veel bidirectionele compositie met als ouder lid
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "lid")
     private final Set<Lening> leningen = new HashSet<>();
     
     //<editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

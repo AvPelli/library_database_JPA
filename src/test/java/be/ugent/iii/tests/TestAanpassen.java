@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author axeld
  */
-public class testRelatieMetCascade {
+public class TestAanpassen {
     
-    public testRelatieMetCascade() {
+    public TestAanpassen() {
     }
     
     @BeforeClass
