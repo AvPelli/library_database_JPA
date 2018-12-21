@@ -181,7 +181,7 @@ public class BibliotheekDao implements AutoCloseable {
 
         //Checken of er wel degelijk boeken gevonden zijn
         if (result.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         } else {
             return result;
         }
