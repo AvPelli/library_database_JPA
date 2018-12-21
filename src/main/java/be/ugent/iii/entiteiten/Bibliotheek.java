@@ -146,7 +146,8 @@ public class Bibliotheek implements Serializable {
 
     @Override
     public String toString() {
-        return "Bibliotheek{" + "id=" + id + ", naam=" + naam + ", adres=" + adres + '}';
+        return ""+id+" "+naam+" "+adres;
+        //return "Bibliotheek{" + "id=" + id + ", naam=" + naam + ", adres=" + adres + '}';
     } 
     // </editor-fold>
     

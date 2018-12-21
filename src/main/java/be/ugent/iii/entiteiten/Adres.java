@@ -66,7 +66,8 @@ public class Adres implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="toString">
     @Override
     public String toString() {
-        return "Adres{" + "straatNaam=" + straatNaam + ", huisNr=" + huisNr + ", postCode=" + postcode + ", gemeente=" + gemeente + ", land=" + land + '}';
+        return ""+straatNaam+" "+huisNr+"-"+postcode+" "+gemeente;
+        //return "Adres{" + "straatNaam=" + straatNaam + ", huisNr=" + huisNr + ", postCode=" + postcode + ", gemeente=" + gemeente + ", land=" + land + '}';
     }
     // </editor-fold>
     

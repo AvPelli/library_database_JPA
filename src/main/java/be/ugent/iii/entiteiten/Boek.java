@@ -177,7 +177,8 @@ public class Boek implements Serializable {
     
     @Override
     public String toString() {
-        return "Boek{" + "id=" + id + ", titel=" + titel + ", taal=" + taal + ", jaarVanUitgave=" + jaarVanUitgave + ", ISBN=" + ISBN + ", beschikbaar=" + isBeschikbaar() + '}';
+        return ""+id+" "+titel+" "+taal+" "+jaarVanUitgave;
+        //return "Boek{" + "id=" + id + ", titel=" + titel + ", taal=" + taal + ", jaarVanUitgave=" + jaarVanUitgave + ", ISBN=" + ISBN + ", beschikbaar=" + isBeschikbaar() + '}';
     }
     // </editor-fold>
     
