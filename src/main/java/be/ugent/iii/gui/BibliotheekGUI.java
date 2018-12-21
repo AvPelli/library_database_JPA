@@ -8,7 +8,11 @@ package be.ugent.iii.gui;
 import be.ugent.iii.dao.BibliotheekDao;
 import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ButtonModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,7 +31,9 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         this.setTitle("Bibliotheek");
         initComponents();
         Library.setEnabledAt(1, false);
-        Library.setEnabledAt(2, false);
+
+        IDTextField.setEnabled(false);
+        NaamTextField.setEnabled(false);
     }
 
     /**
@@ -61,13 +67,25 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ResultTextArea = new javax.swing.JTextArea();
         NaamTextField = new javax.swing.JTextField();
-        LoanPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        BeschikbaarLijst = new javax.swing.JList<>();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         ZoekButtonGroup.add(AlleRadioButton);
         ZoekButtonGroup.add(IDRadioButton);
         ZoekButtonGroup.add(NaamRadioButton);
 
+        AlleRadioButton.setSelected(true);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1150, 400));
+
+        Library.setMinimumSize(new java.awt.Dimension(0, 0));
+        Library.setPreferredSize(new java.awt.Dimension(1150, 400));
+
+        LoginPanel.setPreferredSize(new java.awt.Dimension(1150, 400));
 
         jLabel1.setText("Lid ID:");
 
@@ -100,51 +118,60 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(79, 79, 79)
+                        .addGap(192, 192, 192)
                         .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LoginButton))
-                        .addGap(177, 177, 177)
-                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(RegistreerButton)))
-                    .addGroup(LoginPanelLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addComponent(RegistreerResultaat, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                            .addComponent(LoginButton))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(154, 154, 154))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RegistreerButton)))
+                .addGap(272, 272, 272))
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addGap(142, 142, 142)
+                .addComponent(RegistreerResultaat, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         LoginPanelLayout.setVerticalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LoginButton)
-                    .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(RegistreerButton)
-                .addGap(41, 41, 41)
+                .addGap(62, 62, 62)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addComponent(RegistreerVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RegistreerAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(RegistreerGeslacht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(RegistreerButton))
+                    .addGroup(LoginPanelLayout.createSequentialGroup()
+                        .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LoginPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(LidID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LoginButton)))
+                        .addGap(63, 63, 63)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addComponent(RegistreerResultaat, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addGap(60, 60, 60))
         );
 
         Library.addTab("Inloggen", LoginPanel);
+
+        SearchPanel.setPreferredSize(new java.awt.Dimension(1150, 400));
 
         AlleRadioButton.setText("Alle");
         AlleRadioButton.setMnemonic(1);
@@ -200,112 +227,147 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Zoekresultaat:");
+
+        jScrollPane2.setViewportView(BeschikbaarLijst);
+
+        jLabel4.setText("Beschikbare boeken:");
+
+        jButton1.setText("Dibs");
+
         javax.swing.GroupLayout SearchPanelLayout = new javax.swing.GroupLayout(SearchPanel);
         SearchPanel.setLayout(SearchPanelLayout);
         SearchPanelLayout.setHorizontalGroup(
             SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SearchPanelLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(AlleRadioButton)
-                    .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(ZoekButton)
-                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SearchPanelLayout.createSequentialGroup()
-                                .addComponent(IDRadioButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(KeuzeComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createSequentialGroup()
+                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(SearchPanelLayout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AlleRadioButton)
+                                    .addGroup(SearchPanelLayout.createSequentialGroup()
+                                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(NaamRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(IDRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(53, 53, 53)
+                                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(IDTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(NaamTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ZoekButton, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(SearchPanelLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(KeuzeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE))))
                     .addGroup(SearchPanelLayout.createSequentialGroup()
-                        .addComponent(NaamRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(NaamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         SearchPanelLayout.setVerticalGroup(
             SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SearchPanelLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(KeuzeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(AlleRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IDRadioButton)
-                    .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NaamRadioButton)
-                    .addComponent(NaamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(ZoekButton)
-                .addContainerGap(158, Short.MAX_VALUE))
-            .addGroup(SearchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(SearchPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel4))
+                    .addGroup(SearchPanelLayout.createSequentialGroup()
+                        .addComponent(KeuzeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(AlleRadioButton)
+                        .addGap(18, 18, 18)
+                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IDRadioButton)
+                            .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NaamRadioButton)
+                            .addComponent(NaamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16)))
+                .addGap(20, 20, 20)
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ZoekButton))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        Library.addTab("Opzoeken", SearchPanel);
-
-        javax.swing.GroupLayout LoanPanelLayout = new javax.swing.GroupLayout(LoanPanel);
-        LoanPanel.setLayout(LoanPanelLayout);
-        LoanPanelLayout.setHorizontalGroup(
-            LoanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 634, Short.MAX_VALUE)
-        );
-        LoanPanelLayout.setVerticalGroup(
-            LoanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 357, Short.MAX_VALUE)
-        );
-
-        Library.addTab("Uitlenen", LoanPanel);
+        Library.addTab("Opzoeken en uitlenen", SearchPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(Library, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Library, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(Library, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Library, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AlleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlleRadioButtonActionPerformed
+    private void RegistreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistreerButtonActionPerformed
         // TODO add your handling code here:
-        IDTextField.setEnabled(false);
-        NaamTextField.setEnabled(false);
-    }//GEN-LAST:event_AlleRadioButtonActionPerformed
+        try {
+            String voornaam = RegistreerVoornaam.getText();
+            String achternaam = RegistreerAchternaam.getText();
+            String geslacht = RegistreerGeslacht.getSelectedItem().toString();
+            if (voornaam.isEmpty() || achternaam.isEmpty()) {
+                throw new Exception("Er is een veld niet ingevuld");
+            } else {
+                Lid lid;
+                if (geslacht.equalsIgnoreCase("man")) {
+                    lid = factory.maakLid(voornaam, achternaam, 'M', null);
+                } else {
+                    lid = factory.maakLid(voornaam, achternaam, 'V', null);
+                }
+                dao.addLid(lid);
+            }
 
-    private void KeuzeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeuzeComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_KeuzeComboBoxActionPerformed
+            RegistreerResultaat.setText("Registratie gelukt, uw ID (onthouden!):" + dao.getLid(voornaam, achternaam).getId());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_RegistreerButtonActionPerformed
 
-    private void IDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDTextFieldActionPerformed
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_IDTextFieldActionPerformed
+        try {
+            int id = Integer.parseInt(LidID.getText());
 
-    private void IDRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDRadioButtonActionPerformed
-        // TODO add your handling code here:
-        IDTextField.setEnabled(true);
-        NaamTextField.setEnabled(false);
-    }//GEN-LAST:event_IDRadioButtonActionPerformed
+            //Als lid bestaat: opzoeken en uitlenen activeren
+            Lid lid = dao.getLid(id);
+            if (lid != null) {
+                Library.setEnabledAt(1, true);
+            } else {
+                throw new Exception("Lid bestaat niet!");
+            }
 
-    private void NaamRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NaamRadioButtonActionPerformed
-        // TODO add your handling code here:
-        IDTextField.setEnabled(false);
-        NaamTextField.setEnabled(true);
-    }//GEN-LAST:event_NaamRadioButtonActionPerformed
+            RegistreerResultaat.setText("Welkom " + lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+
+    }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void NaamTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NaamTextFieldActionPerformed
         // TODO add your handling code here:
@@ -317,65 +379,46 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         int keuze = ZoekButtonGroup.getSelection().getMnemonic();
 
         try {
-            comboboxHulpMethode(s, keuze);
+            hulpmethodeZoekResultaat(s, keuze);
             ResultTextArea.setText(s.toString());
+
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Het ingevoerde ID kan enkel uit cijfers bestaan");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Het gevraagde item bestaat niet");
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_ZoekButtonActionPerformed
 
-    private void RegistreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistreerButtonActionPerformed
+    private void IDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDTextFieldActionPerformed
         // TODO add your handling code here:
-        try{
-            String voornaam = RegistreerVoornaam.getText();
-            String achternaam = RegistreerAchternaam.getText();
-            String geslacht = RegistreerGeslacht.getSelectedItem().toString();
-            if( voornaam.isEmpty() || achternaam.isEmpty()){
-                throw new Exception("Er is een veld niet ingevuld");
-            } else {
-                Lid lid;
-                if(geslacht.equalsIgnoreCase("man")){
-                    lid = factory.maakLid(voornaam, achternaam, 'M', null);
-                } else {
-                    lid = factory.maakLid(voornaam, achternaam, 'V', null);                   
-                }
-                dao.addLid(lid);
-            }
-            
-            RegistreerResultaat.setText("Registratie gelukt, uw ID (onthouden!):" + dao.getLid(voornaam, achternaam).getId());
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    }//GEN-LAST:event_RegistreerButtonActionPerformed
+    }//GEN-LAST:event_IDTextFieldActionPerformed
 
-    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+    private void KeuzeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeuzeComboBoxActionPerformed
         // TODO add your handling code here:
-        try{
-            int id = Integer.parseInt(LidID.getText());
-            
-            //Als lid bestaat: opzoeken en uitlenen activeren
-            Lid lid = dao.getLid(id);
-            if(lid != null){
-                Library.setEnabledAt(1, true);
-                Library.setEnabledAt(2, true);
-            } else {
-                throw new Exception("Lid bestaat niet!");
-            }
-            
-            RegistreerResultaat.setText("Welkom "+ lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
-        } catch (NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-        
-        
-    }//GEN-LAST:event_LoginButtonActionPerformed
-    
-    private void comboboxHulpMethode(StringBuilder b, int keuze) throws Exception {
+        String keuze = KeuzeComboBox.getSelectedItem().toString();
+    }//GEN-LAST:event_KeuzeComboBoxActionPerformed
+
+    private void NaamRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NaamRadioButtonActionPerformed
+        // TODO add your handling code here:
+        IDTextField.setEnabled(false);
+        NaamTextField.setEnabled(true);
+    }//GEN-LAST:event_NaamRadioButtonActionPerformed
+
+    private void IDRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDRadioButtonActionPerformed
+        // TODO add your handling code here:
+        IDTextField.setEnabled(true);
+        NaamTextField.setEnabled(false);
+    }//GEN-LAST:event_IDRadioButtonActionPerformed
+
+    private void AlleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlleRadioButtonActionPerformed
+        // TODO add your handling code here:
+        IDTextField.setEnabled(false);
+        NaamTextField.setEnabled(false);
+    }//GEN-LAST:event_AlleRadioButtonActionPerformed
+
+    private void hulpmethodeZoekResultaat(StringBuilder b, int keuze) throws Exception {
         String comboBoxSelectie = KeuzeComboBox.getSelectedItem().toString();
+        System.out.println(comboBoxSelectie);
 
         switch (comboBoxSelectie) {
             case "Bibliotheken":
@@ -386,15 +429,17 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         for (Bibliotheek bib : lijst) {
                             b.append(bib.toString()).append("\n");
                         }
-                        return;
+                        break;
                     //ID
                     case 2:
-                        return;
+                        throw new Exception("Nog niet ondersteund");
+                    //break;
                     //NAAM
                     case 3:
                         b.append(dao.getBibliotheek(NaamTextField.getText()).toString());
-                        return;
+                        break;
                 }
+                break;
             case "Auteurs":
                 switch (keuze) {
                     //ALLE
@@ -403,14 +448,23 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         for (Auteur a : lijst) {
                             b.append(a.toString()).append("\n");
                         }
-                        return;
+                        break;
                     //ID
                     case 2:
-                        return;
+                        List<Auteur> result = dao.getAuteurs();
+                        int i = Integer.parseInt(IDTextField.getText());
+                        for (Auteur a : result) {
+                            if (a.getId() == i) {
+                                b.append(a.toString());
+                            }
+                        }
+                        break;
                     //NAAM
                     case 3:
-                        return;
+                        throw new Exception("Nog niet ondersteund");
+                    //break;
                 }
+                break;
             case "Collecties":
                 switch (keuze) {
                     //ALLE
@@ -419,23 +473,40 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         for (Collectie c : lijst) {
                             b.append(c.toString()).append("\n");
                         }
-                        return;
+                        break;
                     //ID
                     case 2:
-                        return;
+                        List<Collectie> result = dao.getCollecties();
+                        for (Collectie c : result) {
+                            if (c.getId() == Integer.parseInt(IDTextField.getText())) {
+                                b.append(c.toString()).append("\n");
+                            }
+                        }
+                        break;
                     //NAAM
                     case 3:
-                        return;
+                        throw new Exception("Nog niet ondersteund");
+                    //break;
                 }
+                break;
             case "Boeken":
                 switch (keuze) {
                     //ALLE
                     case 1:
                         List<Boek> lijst = dao.getBoeken();
+                        List<Boek> beschikbaar = new ArrayList<>();
+                        DefaultListModel listmodel = new DefaultListModel();
+                       
                         for (Boek a : lijst) {
                             b.append(a.toString()).append("\n");
+                            if (a.isBeschikbaar()) {
+                                beschikbaar.add(a);
+                                listmodel.addElement(a);
+                            }
                         }
-                        return;
+                        
+                        BeschikbaarLijst.setModel(listmodel);
+                        break;
                     //ID
                     case 2:
                         Boek s = dao.getBoek(Integer.parseInt(IDTextField.getText()));
@@ -444,11 +515,13 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                         } else {
                             b.append(s);
                         }
-                        return;
+                        break;
                     //NAAM
                     case 3:
-                        return;
+                        throw new Exception("Nog niet ondersteund");
+                    //break;
                 }
+                break;
         }
 
     }
@@ -487,7 +560,7 @@ public class BibliotheekGUI extends javax.swing.JFrame {
                 //Maak bibliotheek
                 factory = new BibliotheekFactory();
                 dao = new BibliotheekDao();
-                Bibliotheek bib = factory.maakDeKrookMetCollecties();
+                Bibliotheek bib = factory.maakDeKrookVolledig();
                 dao.addBibliotheek(bib);
                 //start GUI
                 new BibliotheekGUI().setVisible(true);
@@ -497,12 +570,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AlleRadioButton;
+    private javax.swing.JList<String> BeschikbaarLijst;
     private javax.swing.JRadioButton IDRadioButton;
     private javax.swing.JTextField IDTextField;
     private javax.swing.JComboBox<String> KeuzeComboBox;
     private javax.swing.JTabbedPane Library;
     private javax.swing.JTextField LidID;
-    private javax.swing.JPanel LoanPanel;
     private javax.swing.JButton LoginButton;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JRadioButton NaamRadioButton;
@@ -516,8 +589,12 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private javax.swing.JPanel SearchPanel;
     private javax.swing.JButton ZoekButton;
     private javax.swing.ButtonGroup ZoekButtonGroup;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
