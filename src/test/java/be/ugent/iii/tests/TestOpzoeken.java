@@ -78,26 +78,42 @@ public class TestOpzoeken {
         toonBibliotheek(bibliotheek);
         System.out.println(bibliotheek.getCollecties());
         System.out.println(resultaat.getCollecties());
-        assertEquals(bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
+        assertEquals("alle collecties mee opgevraagd?", bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
         //assertThat(bibliotheek.getCollecties(), is(resultaat.getCollecties()));
     }
     
+    // Deze test gaat na of boeken correct kunnen worden opgevraagd via
+    // de naam en voornaam van één van hun auteurs
+    // Opmerking: we gaan er hier (wat onvoorzichtig) vanuit dat geen 2 verschillende auteurs dezelfde naam hebben
     @Test
     public void GeefBoekenVanAuteur() {
+        int aantalVoor = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum").size();
         //Andrew Tanenbaum krijgt 2 boeken in deze factory methode:
-        Bibliotheek b = factory.maakDeKrookVolledig();
-        dao.addBibliotheek(b);
-
-        List<Integer> boeken = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-
-        assertEquals(boeken.size(), 2);
+        dao.addBibliotheek(factory.maakDeKrookVolledig());
+        int aantalNa = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum").size();
+        assertEquals(aantalVoor + 2, aantalNa);
     }
 
+    // Deze test gaat na of een collectie boeken kan worden opgevraagd via hun taal
     @Test
     public void ZoekBoekenMetTaal() {
+        int aantalEngels = dao.getBoekenByTaal("EN").size();
+        int aantalNederlands = dao.getBoekenByTaal("NL").size();
+        Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
+        for (Boek boek : bibliotheek.getBoeken()) {
+            if (boek.getTaal().equals("EN")) {
+                aantalEngels++;
+            }
+            else if (boek.getTaal().equals("NL")) {
+                aantalNederlands++;
+            }
+        }
+        dao.addBibliotheek(bibliotheek);
+        assertEquals("engelstalige boeken toegevoegd?", dao.getBoekenByTaal("EN").size(), aantalEngels);
+        assertEquals("nederlandstalige boeken toegevoegd?", dao.getBoekenByTaal("NL").size(), aantalNederlands);
+       
         //Test engels
         List<Boek> resultEngels = dao.getBoekenByTaal("EN");
-
         boolean allesEngels = true;
         for (Boek b : resultEngels) {
             if (!b.getTaal().equalsIgnoreCase("EN")) {
@@ -105,7 +121,7 @@ public class TestOpzoeken {
                 break;
             }
         }
-        assertTrue("ALLES ENGELS: OK", allesEngels);
+        assertTrue("alle boeken engelstalig?", allesEngels);
 
         //Test nederlands
         List<Boek> resultNederlands = dao.getBoekenByTaal("NL");
@@ -117,9 +133,11 @@ public class TestOpzoeken {
                 break;
             }
         }
-        assertTrue("ALLES NEDERLANDS: OK", allesNederlands);
+        assertTrue("alle boeken nederlandstalig?", allesNederlands);
     }
     
+    
+    // hulpmethode
     private static void toonBibliotheek(Bibliotheek bibliotheek) {
         System.out.println("-----BIBLIOTHEEK-----");
         System.out.println(bibliotheek);
