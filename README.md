@@ -29,6 +29,29 @@
 
 20 t.e.m 22-12-2018: Debuggen, unit tests schrijven en GUI maken
 
+## Structuur database
+
+- Een bibliotheek bevat leden en collecties, collecties bevatten boeken
+- Een lid heeft leningen, die bestaan uit een lid-ID en een boek-ID
+- Een boek heeft één of meerdere auteurs
+
+## Datalaag functionaliteiten
+- Bibliotheek
+  - Verhuizen (naam/adres wijziging)
+  - Volledig met collecties en boeken opvragen
+  - Leden opvragen 
+- Collectie
+  - Opvragen
+- Auteur
+  - Boeken van auteur opvragen
+- Boeken
+  - Toevoegen/verwijderen
+  - Verhuizen van bibliotheek/collectie 
+  - Opzoeken op taal/auteur
+- Lid
+  - Toevoegen en verwijderen
+- Lening
+  - Toevoegen en verwijderen
 ## GUI functionaliteiten
 - Lid registreren met voor- en achternaam
 - Inloggen met user ID
