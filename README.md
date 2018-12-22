@@ -31,7 +31,7 @@
 
 
 ## Structuur
-Zie klassendiagram
+Zie klassendiagram.pdf
 - Een bibliotheek bevat leden en collecties
 - Een collectie bevat boeken en behoort tot een bibliotheek
 - Een lid heeft leningen, die bestaan uit een lid-ID en een boek-ID
@@ -56,7 +56,7 @@ Zie klassendiagram
 * Lazy opvraging: o.a. Collectie met geassocieerde Boeken
 * Eager opvraging: Bibliotheek met geassocieerde Collecties
 
-### Functionaliteiten datalaag
+## Functionaliteiten datalaag
 We hebben unittests voorzien om objecten toe te voegen, aan te passen, op te zoeken en te verwijderen.
 * Bibliotheek
   * Verhuizen (naam/adres wijziging)
