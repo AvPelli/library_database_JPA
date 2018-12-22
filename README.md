@@ -31,11 +31,13 @@
 
 ## Structuur database
 
-- Een bibliotheek bevat leden en collecties, collecties bevatten boeken
+- Een bibliotheek bevat leden en collecties
+- Een collectie bevat boeken en behoort tot een bibliotheek
 - Een lid heeft leningen, die bestaan uit een lid-ID en een boek-ID
-- Een boek heeft één of meerdere auteurs
+- Een boek heeft één of meerdere auteurs en behoort tot een collectie
 
 ## Datalaag functionaliteiten
+
 - Bibliotheek
   - Verhuizen (naam/adres wijziging)
   - Volledig met collecties en boeken opvragen
@@ -52,6 +54,7 @@
   - Toevoegen en verwijderen
 - Lening
   - Toevoegen en verwijderen
+
 ## GUI functionaliteiten
 - Lid registreren met voor- en achternaam
 - Inloggen met user ID
