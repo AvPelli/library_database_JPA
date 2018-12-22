@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="main.java.be.ugent.iii.entiteiten">
+  <ClassDiagramComponents>
+    <Class name="Adres" package="be.ugent.iii.entiteiten" visibility="public" xPosition="2437.0" yPosition="117.0">
+      <Fields>
+        <Field name="straatNaam" type="String" visibility="private"/>
+        <Field name="huisNr" type="int" visibility="private"/>
+        <Field name="postcode" type="String" visibility="private"/>
+        <Field name="gemeente" type="String" visibility="private"/>
+        <Field name="land" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getStraatNaam" returnType="String" visibility="public"/>
+        <Method name="setStraatNaam" returnType="void" visibility="public">
+          <Argument type="String" name="straatNaam"/>
+        </Method>
+        <Method name="getHuisNr" returnType="int" visibility="public"/>
+        <Method name="setHuisNr" returnType="void" visibility="public">
+          <Argument type="int" name="huisNr"/>
+        </Method>
+        <Method name="getPostcode" returnType="String" visibility="public"/>
+        <Method name="setPostcode" returnType="void" visibility="public">
+          <Argument type="String" name="postcode"/>
+        </Method>
+        <Method name="getGemeente" returnType="String" visibility="public"/>
+        <Method name="setGemeente" returnType="void" visibility="public">
+          <Argument type="String" name="gemeente"/>
+        </Method>
+        <Method name="getLand" returnType="String" visibility="public"/>
+        <Method name="setLand" returnType="void" visibility="public">
+          <Argument type="String" name="land"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Auteur" package="be.ugent.iii.entiteiten" visibility="public" xPosition="1312.0" yPosition="802.0">
+      <Fields>
+        <Field name="boeken" type="Set&lt;Boek&gt;" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getBoeken" returnType="Set&lt;Boek&gt;" visibility="public"/>
+        <Method name="add" returnType="void" visibility="public">
+          <Argument type="Boek" name="boek"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Boek" name="boek"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Bibliotheek" package="be.ugent.iii.entiteiten" visibility="public" xPosition="1312.0" yPosition="117.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="int" visibility="private"/>
+        <Field name="naam" type="String" visibility="private"/>
+        <Field name="adres" type="Adres" visibility="private"/>
+        <Field name="collecties" type="Set&lt;Collectie&gt;" visibility="private"/>
+        <Field name="leden" type="Set&lt;Lid&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="getNaam" returnType="String" visibility="public"/>
+        <Method name="setNaam" returnType="void" visibility="public">
+          <Argument type="String" name="naam"/>
+        </Method>
+        <Method name="getAdres" returnType="Adres" visibility="public"/>
+        <Method name="setAdres" returnType="void" visibility="public">
+          <Argument type="Adres" name="adres"/>
+        </Method>
+        <Method name="getCollecties" returnType="Set&lt;Collectie&gt;" visibility="public"/>
+        <Method name="setCollecties" returnType="void" visibility="public">
+          <Argument type="Set&lt;Collectie&gt;" name="collecties"/>
+        </Method>
+        <Method name="add" returnType="boolean" visibility="public">
+          <Argument type="Collectie" name="collectie"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Collectie" name="collectie"/>
+        </Method>
+        <Method name="getLeden" returnType="Set&lt;Lid&gt;" visibility="public"/>
+        <Method name="setLeden" returnType="void" visibility="public">
+          <Argument type="Set&lt;Lid&gt;" name="leden"/>
+        </Method>
+        <Method name="add" returnType="boolean" visibility="public">
+          <Argument type="Lid" name="lid"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Lid" name="lid"/>
+        </Method>
+        <Method name="getBoeken" returnType="List&lt;Boek&gt;" visibility="public"/>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Boek" package="be.ugent.iii.entiteiten" visibility="public" xPosition="595.0" yPosition="921.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="int" visibility="private"/>
+        <Field name="titel" type="String" visibility="private"/>
+        <Field name="taal" type="String" visibility="private"/>
+        <Field name="jaarVanUitgave" type="int" visibility="private"/>
+        <Field name="ISBN" type="int" visibility="private"/>
+        <Field name="collectie" type="Collectie" visibility="private"/>
+        <Field name="auteurs" type="Set&lt;Auteur&gt;" visibility="private" isFinal="true"/>
+        <Field name="ontlening" type="Lening" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="isBeschikbaar" returnType="boolean" visibility="public"/>
+        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="getTitel" returnType="String" visibility="public"/>
+        <Method name="setTitel" returnType="void" visibility="public">
+          <Argument type="String" name="titel"/>
+        </Method>
+        <Method name="getTaal" returnType="String" visibility="public"/>
+        <Method name="setTaal" returnType="void" visibility="public">
+          <Argument type="String" name="taal"/>
+        </Method>
+        <Method name="getJaarVanUitgave" returnType="int" visibility="public"/>
+        <Method name="setJaarVanUitgave" returnType="void" visibility="public">
+          <Argument type="int" name="jaarVanUitgave"/>
+        </Method>
+        <Method name="getISBN" returnType="int" visibility="public"/>
+        <Method name="setISBN" returnType="void" visibility="public">
+          <Argument type="int" name="ISBN"/>
+        </Method>
+        <Method name="getCollectie" returnType="Collectie" visibility="public"/>
+        <Method name="setCollectie" returnType="void" visibility="public">
+          <Argument type="Collectie" name="collectie"/>
+        </Method>
+        <Method name="getAuteurs" returnType="Set&lt;Auteur&gt;" visibility="public"/>
+        <Method name="add" returnType="boolean" visibility="public">
+          <Argument type="Auteur" name="auteur"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Auteur" name="auteur"/>
+        </Method>
+        <Method name="getOntlening" returnType="Lening" visibility="public"/>
+        <Method name="setOntlening" returnType="void" visibility="public">
+          <Argument type="Lening" name="ontlening"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Collectie" package="be.ugent.iii.entiteiten" visibility="public" xPosition="595.0" yPosition="117.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="int" visibility="private"/>
+        <Field name="klasse" type="String" visibility="private"/>
+        <Field name="bibliotheek" type="Bibliotheek" visibility="private"/>
+        <Field name="boeken" type="Set&lt;Boek&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="getKlasse" returnType="String" visibility="public"/>
+        <Method name="setKlasse" returnType="void" visibility="public">
+          <Argument type="String" name="klasse"/>
+        </Method>
+        <Method name="getBibliotheek" returnType="Bibliotheek" visibility="public"/>
+        <Method name="setBibliotheek" returnType="void" visibility="public">
+          <Argument type="Bibliotheek" name="bibliotheek"/>
+        </Method>
+        <Method name="getBoeken" returnType="Set&lt;Boek&gt;" visibility="public"/>
+        <Method name="setBoeken" returnType="void" visibility="public">
+          <Argument type="Set&lt;Boek&gt;" name="boeken"/>
+        </Method>
+        <Method name="add" returnType="boolean" visibility="public">
+          <Argument type="Boek" name="boek"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Boek" name="boek"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Lening" package="be.ugent.iii.entiteiten" visibility="public" xPosition="1312.0" yPosition="1187.0">
+      <Fields>
+        <Field name="id" type="int" visibility="private"/>
+        <Field name="checkOutDatum" type="Date" visibility="private"/>
+        <Field name="lid" type="Lid" visibility="private"/>
+        <Field name="boek" type="Boek" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="getCheckOutDatum" returnType="Date" visibility="public"/>
+        <Method name="setCheckOutDatum" returnType="void" visibility="public">
+          <Argument type="Date" name="checkOutDatum"/>
+        </Method>
+        <Method name="setCheckOutDatum" returnType="void" visibility="public">
+          <Argument type="int" name="jaar"/>
+          <Argument type="int" name="maand"/>
+          <Argument type="int" name="dag"/>
+        </Method>
+        <Method name="getLid" returnType="Lid" visibility="public"/>
+        <Method name="setLid" returnType="void" visibility="public">
+          <Argument type="Lid" name="lid"/>
+        </Method>
+        <Method name="getBoek" returnType="Boek" visibility="public"/>
+        <Method name="setBoek" returnType="void" visibility="public">
+          <Argument type="Boek" name="boek"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Lid" package="be.ugent.iii.entiteiten" visibility="public" xPosition="2418.0" yPosition="858.0">
+      <Fields>
+        <Field name="adres" type="Adres" visibility="private"/>
+        <Field name="bibliotheek" type="Bibliotheek" visibility="private"/>
+        <Field name="leningen" type="Set&lt;Lening&gt;" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getAdres" returnType="Adres" visibility="public"/>
+        <Method name="setAdres" returnType="void" visibility="public">
+          <Argument type="Adres" name="adres"/>
+        </Method>
+        <Method name="getBibliotheek" returnType="Bibliotheek" visibility="public"/>
+        <Method name="setBibliotheek" returnType="void" visibility="public">
+          <Argument type="Bibliotheek" name="bibliotheek"/>
+        </Method>
+        <Method name="getLeningen" returnType="Set&lt;Lening&gt;" visibility="public"/>
+        <Method name="add" returnType="boolean" visibility="public">
+          <Argument type="Lening" name="lening"/>
+        </Method>
+        <Method name="remove" returnType="boolean" visibility="public">
+          <Argument type="Lening" name="lening"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Persoon" package="be.ugent.iii.entiteiten" visibility="public" isAbstract="true" xPosition="1676.0" yPosition="764.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="int" visibility="private"/>
+        <Field name="voorNaam" type="String" visibility="protected"/>
+        <Field name="achterNaam" type="String" visibility="protected"/>
+        <Field name="geslacht" type="char" visibility="protected"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="getVoorNaam" returnType="String" visibility="public"/>
+        <Method name="setVoorNaam" returnType="void" visibility="public">
+          <Argument type="String" name="voorNaam"/>
+        </Method>
+        <Method name="getAchterNaam" returnType="String" visibility="public"/>
+        <Method name="setAchterNaam" returnType="void" visibility="public">
+          <Argument type="String" name="achterNaam"/>
+        </Method>
+        <Method name="getGeslacht" returnType="char" visibility="public"/>
+        <Method name="setGeslacht" returnType="void" visibility="public">
+          <Argument type="char" name="geslacht"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="obj"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="be.ugent.iii.entiteiten.Collectie" target="be.ugent.iii.entiteiten.Boek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Collectie" target="be.ugent.iii.entiteiten.Bibliotheek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Boek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Lid" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="be.ugent.iii.entiteiten.Auteur" target="be.ugent.iii.entiteiten.Persoon"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Auteur" target="be.ugent.iii.entiteiten.Boek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Lening" target="be.ugent.iii.entiteiten.Boek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Lening" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Lening" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="adres" source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Adres" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="bibliotheek" source="be.ugent.iii.entiteiten.Collectie" target="be.ugent.iii.entiteiten.Bibliotheek" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="bibliotheek" source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Bibliotheek" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="collectie" source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Collectie" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="leningen" source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Lening" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Lening&gt;"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Bibliotheek" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="collecties" source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Collectie" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Collectie&gt;"/>
+    <HasRelation name="boek" source="be.ugent.iii.entiteiten.Lening" target="be.ugent.iii.entiteiten.Boek" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Adres" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="boeken" source="be.ugent.iii.entiteiten.Auteur" target="be.ugent.iii.entiteiten.Boek" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Boek&gt;"/>
+    <HasRelation name="lid" source="be.ugent.iii.entiteiten.Lening" target="be.ugent.iii.entiteiten.Lid" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="auteurs" source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Auteur" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Auteur&gt;"/>
+    <HasRelation name="ontlening" source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Lening" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Collectie" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="boeken" source="be.ugent.iii.entiteiten.Collectie" target="be.ugent.iii.entiteiten.Boek" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Boek&gt;"/>
+    <IsRelation name="is" source="be.ugent.iii.entiteiten.Lid" target="be.ugent.iii.entiteiten.Persoon"/>
+    <HasRelation name="adres" source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Adres" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Collectie" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Boek" target="be.ugent.iii.entiteiten.Auteur" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="leden" source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Lid" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Lid&gt;"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Bibliotheek" target="be.ugent.iii.entiteiten.Adres" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="be.ugent.iii.entiteiten.Lening" target="be.ugent.iii.entiteiten.Lid" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
