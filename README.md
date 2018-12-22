@@ -4,9 +4,9 @@
 
 ## Instellingen en installatie
 
--Project clonen
--Rechts klikken op het project in Netbeans "build with dependencies"
--GUI: rechts klikken op BibliotheekGUI "run file"
+- Project clonen
+- Rechts klikken op het project in Netbeans "build with dependencies"
+- GUI: rechts klikken op BibliotheekGUI "run file"
 
 ### Database properties
 url = jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
@@ -30,10 +30,10 @@ password: iiipwd
 20 t.e.m 22-12-2018: Debuggen, unit tests schrijven en GUI maken
 
 ## GUI functionaliteiten
--Lid registreren met voor- en achternaam
--Inloggen met user ID
--Opzoeken bibliotheken,collecties,auteurs,... : alle, op ID of op naam (met enkele uitzonderingen)
--Bij het zoeken naar boeken worden apart ook de beschikbare boeken getoond
+- Lid registreren met voor- en achternaam
+- Inloggen met user ID
+- Opzoeken bibliotheken,collecties,auteurs,... : alle, op ID of op naam (met enkele uitzonderingen)
+- Bij het zoeken naar boeken worden apart ook de beschikbare boeken getoond
 
 ## Bugs
 ``` 
