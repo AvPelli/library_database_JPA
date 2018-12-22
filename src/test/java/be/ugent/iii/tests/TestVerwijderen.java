@@ -85,7 +85,7 @@ public class TestVerwijderen {
 
     }
 
-    // Deze lening gaat na of een lid correct kan worden verwijderd via het geassocieerde boek en lid
+    // Deze test gaat na of een lening correct kan worden verwijderd via het geassocieerde boek en lid
     @Test
     public void LeningVerwijderen() {
         int leningenVoor = dao.getLeningen().size();

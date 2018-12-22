@@ -12,12 +12,8 @@ import be.ugent.iii.projectJPA.ProjectJpaBibApplication;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import org.hibernate.Hibernate;
 
 /**
  *
@@ -406,15 +402,8 @@ public class BibliotheekGUI extends javax.swing.JFrame {
             RegistreerResultaat.setText("Welkom " + lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
             huidigLid = lid;
             GeleendeLabel.setText(lid.getVoorNaam() + " " + lid.getAchterNaam() + ", dit zijn uw geleende boeken:");
-            
-            Set<Lening> leningen = huidigLid.getLeningen();
-            DefaultListModel listmodel = new DefaultListModel();
 
-            for (Lening a : leningen) {
-                Boek b = a.getBoek();
-                listmodel.addElement(b);
-            }
-            GeleendeBoeken.setModel(listmodel);
+            updateLeningen();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
         } catch (Exception ex) {
@@ -473,17 +462,24 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private void LeenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeenButtonActionPerformed
         // TODO add your handling code here:
         List<Boek> gekozenBoeken = BeschikbaarLijst.getSelectedValuesList();
-        Hibernate.initialize(huidigLid.getLeningen());
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("projectJpaPU");
-        EntityManager em = emf.createEntityManager();
+        int[] indices = BeschikbaarLijst.getSelectedIndices();
+
         for (Boek b : gekozenBoeken) {
-            Boek boek = em.find(Boek.class, b.getId());
-            Lening lening = factory.leenBoekAanLid(huidigLid, b);
-            dao.addLening(lening);
+            Set<Lening> leningen = huidigLid.getLeningen();
+            for (Lening le : leningen) {
+                if (le.getBoek().equals(b)) {
+                    huidigLid.remove(le);
+                }
+            }
         }
+        
+        for (Integer i : indices) {
+            BeschikbaarLijst.remove(i);
+        }
+        updateLeningen();
         try {
             //update beschikbaarlijst
-            hulpmethodeZoekResultaat(new StringBuilder(), ZoekButtonGroup.getSelection().getMnemonic());
+            //hulpmethodeZoekResultaat(new StringBuilder(), ZoekButtonGroup.getSelection().getMnemonic());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Er is iets misgelopen");
         }
@@ -677,4 +673,15 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
+
+    private void updateLeningen() {
+        Set<Lening> leningen = huidigLid.getLeningen();
+        DefaultListModel listmodel = new DefaultListModel();
+
+        for (Lening a : leningen) {
+            Boek b = a.getBoek();
+            listmodel.addElement(b);
+        }
+        GeleendeBoeken.setModel(listmodel);
+    }
 }
