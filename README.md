@@ -50,7 +50,7 @@ Zie klassendiagram.pdf
 * Relatie met cascade
   * o.a. Bibliotheek -> Collectie -> Boek
 * Relatie zonder cascade
-  * o.a. Boek -> Boek
+  * o.a. Boek -> Collectie
 * Overerving: Lid en Auteur zijn afgeleid van Persoon, we hebben voor table per class strategie gekozen
 * Value-object: Adres voor Bibliotheek en Lid
 * Lazy opvraging: o.a. Collectie met geassocieerde Boeken
