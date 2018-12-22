@@ -32,7 +32,6 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         this.setTitle("Bibliotheek");
         initComponents();
         Library.setEnabledAt(1, false);
-        Library.setEnabledAt(2, false);
 
         IDTextField.setEnabled(false);
         NaamTextField.setEnabled(false);
@@ -74,11 +73,6 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         BeschikbaarLijst = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
         LeenButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        GeleendeBoeken = new javax.swing.JList<>();
-        GeleendeLabel = new javax.swing.JLabel();
-        TerugbrengButton = new javax.swing.JButton();
 
         ZoekButtonGroup.add(AlleRadioButton);
         ZoekButtonGroup.add(IDRadioButton);
@@ -317,36 +311,6 @@ public class BibliotheekGUI extends javax.swing.JFrame {
 
         Library.addTab("Opzoeken en uitlenen", SearchPanel);
 
-        jScrollPane3.setViewportView(GeleendeBoeken);
-
-        TerugbrengButton.setText("Terugbrengen");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(304, 304, 304)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(TerugbrengButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                    .addComponent(GeleendeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(401, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(GeleendeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(TerugbrengButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-
-        Library.addTab("Geleende boeken", jPanel1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -361,56 +325,30 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RegistreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistreerButtonActionPerformed
+    private void LeenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeenButtonActionPerformed
         // TODO add your handling code here:
-        try {
-            String voornaam = RegistreerVoornaam.getText();
-            String achternaam = RegistreerAchternaam.getText();
-            String geslacht = RegistreerGeslacht.getSelectedItem().toString();
-            if (voornaam.isEmpty() || achternaam.isEmpty()) {
-                throw new Exception("Er is een veld niet ingevuld");
-            } else {
-                Lid lid;
-                if (geslacht.equalsIgnoreCase("man")) {
-                    lid = factory.maakLid(voornaam, achternaam, 'M', null);
-                } else {
-                    lid = factory.maakLid(voornaam, achternaam, 'V', null);
+        List<Boek> gekozenBoeken = BeschikbaarLijst.getSelectedValuesList();
+        int[] indices = BeschikbaarLijst.getSelectedIndices();
+
+        for (Boek b : gekozenBoeken) {
+            Set<Lening> leningen = huidigLid.getLeningen();
+            for (Lening le : leningen) {
+                if (le.getBoek().equals(b)) {
+                    huidigLid.remove(le);
                 }
-                dao.addLid(lid);
             }
-
-            RegistreerResultaat.setText("Registratie gelukt, uw ID (onthouden!):" + dao.getLid(voornaam, achternaam).getId());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_RegistreerButtonActionPerformed
 
-    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
+        for (Integer i : indices) {
+            BeschikbaarLijst.remove(i);
+        }
         try {
-            int id = Integer.parseInt(LidID.getText());
-
-            //Als lid bestaat: opzoeken en uitlenen activeren
-            Lid lid = dao.getLid(id);
-            if (lid != null) {
-                Library.setEnabledAt(1, true);
-                Library.setEnabledAt(2, true);
-            } else {
-                throw new Exception("Lid bestaat niet!");
-            }
-
-            RegistreerResultaat.setText("Welkom " + lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
-            huidigLid = lid;
-            GeleendeLabel.setText(lid.getVoorNaam() + " " + lid.getAchterNaam() + ", dit zijn uw geleende boeken:");
-
-            updateLeningen();
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
+            //update beschikbaarlijst
+            //hulpmethodeZoekResultaat(new StringBuilder(), ZoekButtonGroup.getSelection().getMnemonic());
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Er is iets misgelopen");
         }
-
-    }//GEN-LAST:event_LoginButtonActionPerformed
+    }//GEN-LAST:event_LeenButtonActionPerformed
 
     private void NaamTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NaamTextFieldActionPerformed
         // TODO add your handling code here:
@@ -459,31 +397,51 @@ public class BibliotheekGUI extends javax.swing.JFrame {
         NaamTextField.setEnabled(false);
     }//GEN-LAST:event_AlleRadioButtonActionPerformed
 
-    private void LeenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeenButtonActionPerformed
+    private void RegistreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistreerButtonActionPerformed
         // TODO add your handling code here:
-        List<Boek> gekozenBoeken = BeschikbaarLijst.getSelectedValuesList();
-        int[] indices = BeschikbaarLijst.getSelectedIndices();
-
-        for (Boek b : gekozenBoeken) {
-            Set<Lening> leningen = huidigLid.getLeningen();
-            for (Lening le : leningen) {
-                if (le.getBoek().equals(b)) {
-                    huidigLid.remove(le);
-                }
-            }
-        }
-        
-        for (Integer i : indices) {
-            BeschikbaarLijst.remove(i);
-        }
-        updateLeningen();
         try {
-            //update beschikbaarlijst
-            //hulpmethodeZoekResultaat(new StringBuilder(), ZoekButtonGroup.getSelection().getMnemonic());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Er is iets misgelopen");
+            String voornaam = RegistreerVoornaam.getText();
+            String achternaam = RegistreerAchternaam.getText();
+            String geslacht = RegistreerGeslacht.getSelectedItem().toString();
+            if (voornaam.isEmpty() || achternaam.isEmpty()) {
+                throw new Exception("Er is een veld niet ingevuld");
+            } else {
+                Lid lid;
+                if (geslacht.equalsIgnoreCase("man")) {
+                    lid = factory.maakLid(voornaam, achternaam, 'M', null);
+                } else {
+                    lid = factory.maakLid(voornaam, achternaam, 'V', null);
+                }
+                dao.addLid(lid);
+            }
+
+            RegistreerResultaat.setText("Registratie gelukt, uw ID (onthouden!):" + dao.getLid(voornaam, achternaam).getId());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_LeenButtonActionPerformed
+    }//GEN-LAST:event_RegistreerButtonActionPerformed
+
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            int id = Integer.parseInt(LidID.getText());
+
+            //Als lid bestaat: opzoeken en uitlenen activeren
+            Lid lid = dao.getLid(id);
+            if (lid != null) {
+                Library.setEnabledAt(1, true);
+            } else {
+                throw new Exception("Lid bestaat niet!");
+            }
+
+            RegistreerResultaat.setText("Welkom " + lid.getVoorNaam() + " " + lid.getAchterNaam() + ", u kunt nu opzoeken of uitlenen");
+            huidigLid = lid;
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Een ID is een geheel getal!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void hulpmethodeZoekResultaat(StringBuilder b, int keuze) throws Exception {
         String comboBoxSelectie = KeuzeComboBox.getSelectedItem().toString();
@@ -642,8 +600,6 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton AlleRadioButton;
     private javax.swing.JList<Boek> BeschikbaarLijst;
-    private javax.swing.JList<Boek> GeleendeBoeken;
-    private javax.swing.JLabel GeleendeLabel;
     private javax.swing.JRadioButton IDRadioButton;
     private javax.swing.JTextField IDTextField;
     private javax.swing.JComboBox<String> KeuzeComboBox;
@@ -661,27 +617,13 @@ public class BibliotheekGUI extends javax.swing.JFrame {
     private javax.swing.JTextField RegistreerVoornaam;
     private javax.swing.JTextArea ResultTextArea;
     private javax.swing.JPanel SearchPanel;
-    private javax.swing.JButton TerugbrengButton;
     private javax.swing.JButton ZoekButton;
     private javax.swing.ButtonGroup ZoekButtonGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
-
-    private void updateLeningen() {
-        Set<Lening> leningen = huidigLid.getLeningen();
-        DefaultListModel listmodel = new DefaultListModel();
-
-        for (Lening a : leningen) {
-            Boek b = a.getBoek();
-            listmodel.addElement(b);
-        }
-        GeleendeBoeken.setModel(listmodel);
-    }
 }

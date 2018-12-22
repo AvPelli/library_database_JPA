@@ -4,6 +4,10 @@
 
 ## Instellingen en installatie
 
+-Project clonen
+-Rechts klikken op het project in Netbeans "build with dependencies"
+-GUI: rechts klikken op BibliotheekGUI "run file"
+
 ### Database properties
 url = jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
 
@@ -13,7 +17,7 @@ password: iiipwd
 
 ## Overzicht activiteiten
 
-14-12-2018: Communiceren met database via HTTP requests 
+14-12-2018: ~~Communiceren met database via HTTP requests~~ 
 
 15-12-2018: Eerste versie GUI, overleg structuur database
 
@@ -23,27 +27,17 @@ password: iiipwd
 
 19-12-2018: Uitzoeken transient/detached state + verder uitwerken database en unit tests
 
-## To Do
-- Functionaliteiten toevoegen:
-  - Objecten opvragen ("lazy" + niet "lazy")
-  - Objecten aanpassen
-- Unittests schrijven
-  - speciale gevallen bedenken en testen
-- Eventueel:
-  - GUI afwerken
+20 t.e.m 22-12-2018: Debuggen, unit tests schrijven en GUI maken
+
+## GUI functionaliteiten
+-Lid registreren met voor- en achternaam
+-Inloggen met user ID
+-Opzoeken bibliotheken,collecties,auteurs,... : alle, op ID of op naam (met enkele uitzonderingen)
+-Bij het zoeken naar boeken worden apart ook de beschikbare boeken getoond
 
 ## Bugs
-- objecten met associaties toevoegen geeft errors van het type:
+``` 
+GUI werkt niet volledig, een bug die we niet konden oplossen i.v.m. "lazy initialization"
+zorgt ervoor dat een boek uitlenen en terugbrengen in de GUI niet lukt (wel in de unit tests).
+Deze error zal zichtbaar zijn in de console wanneer op de "leen" knop geduwd wordt
 ```
-object references an unsaved transient instance...
-```
-Deze error is te wijten doordat het object een verwijzing bevat naar een ander object die zich in transient state bevindt (new Object())
-Om deze te vermijden moet men eerst deze referentie naar de persistent state omzetten via entitymanager.persist
-```
-detached entity passed to persist
-```
-Deze error is te wijten aan een entity die al door de entitymanager opgeslagen is in de database (typisch na commit()), ze detached en dus niet meer beschikbaar voor de entitymanager
-Oplossing: entity pas committen als er geen andere entities meer beroep op doen.
-
-- entiteiten kunnen niet via hun ID vergeleken worden voor ze in de database worden opgeslagen (nog niet toegekend door de entitymanager)
- 
