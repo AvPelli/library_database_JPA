@@ -10,7 +10,6 @@ import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.HashSet;
 import java.util.List;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -84,11 +83,6 @@ public class TestOpzoeken {
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
         Bibliotheek resultaat = dao.getBibliotheekMetCatalogus(bibliotheek.getId());
-        System.out.println(resultaat.getCollecties());
-        System.out.println(resultaat);
-        toonBibliotheek(bibliotheek);
-        System.out.println(bibliotheek.getCollecties());
-        System.out.println(resultaat.getCollecties());
         assertEquals("correct aantal collecties opgevraagd?", bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
         assertEquals("correcte collecties opgevraagd?", new HashSet<>(bibliotheek.getCollecties()), new HashSet<>(resultaat.getCollecties()));
     }

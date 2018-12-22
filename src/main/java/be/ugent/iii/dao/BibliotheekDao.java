@@ -305,10 +305,34 @@ public class BibliotheekDao implements AutoCloseable {
         em.getTransaction().commit();
         em.close();
     }
+    //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="methodes om gegevens van entiteiten uit de database te wijzigen">
+    public void verhuisBibliotheek(Bibliotheek bibliotheek, Adres adres) {
+        EntityManager em = emf.createEntityManager();
+        bibliotheek.setAdres(adres);
+        em.getTransaction().begin();
+        em.merge(bibliotheek);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    public void veranderNaamBibliotheek(Bibliotheek bibliotheek, String naam) {
+        EntityManager em = emf.createEntityManager();
+        bibliotheek.setNaam(naam);
+        em.getTransaction().begin();
+        em.merge(bibliotheek);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
     public void verplaatsBoek(Collectie collectie, Boek boek) {
         EntityManager em = emf.createEntityManager();
-        //em.persist();
+        em.getTransaction().begin();
+        collectie = em.merge(collectie);
+        boek = em.merge(boek);
+        boek.setCollectie(collectie);
+        
         em.close();
     }
     //</editor-fold>

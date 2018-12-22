@@ -6,6 +6,7 @@
 package be.ugent.iii.entiteiten;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -63,7 +64,48 @@ public class Adres implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="toString">
+    // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.straatNaam);
+        hash = 29 * hash + this.huisNr;
+        hash = 29 * hash + Objects.hashCode(this.postcode);
+        hash = 29 * hash + Objects.hashCode(this.gemeente);
+        hash = 29 * hash + Objects.hashCode(this.land);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Adres other = (Adres) obj;
+        if (this.huisNr != other.huisNr) {
+            return false;
+        }
+        if (!Objects.equals(this.straatNaam, other.straatNaam)) {
+            return false;
+        }
+        if (!Objects.equals(this.postcode, other.postcode)) {
+            return false;
+        }
+        if (!Objects.equals(this.gemeente, other.gemeente)) {
+            return false;
+        }
+        if (!Objects.equals(this.land, other.land)) {
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public String toString() {
         return ""+straatNaam+" "+huisNr+"-"+postcode+" "+gemeente;
