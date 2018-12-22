@@ -35,7 +35,7 @@ public class Collectie implements Serializable {
     
     // GEBRUIK CascadeType.ALL => geassocieerde boeken worden samen met de collectie verwijderd
     // 1-veel bidirectionele compositie met als ouder compositie
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectie", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "collectie")
     private Set<Boek> boeken = new HashSet<>();
     
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">

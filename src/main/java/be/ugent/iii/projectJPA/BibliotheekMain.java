@@ -25,27 +25,15 @@ public class BibliotheekMain {
         BibliotheekDao dao = new BibliotheekDao();
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
-        /*
-        Bibliotheek bibliotheek2 = factory.maakBibliotheek("Stadsbibliotheek Dendermonde", null);
-        Collectie collectie = factory.maakCollectie("Sociale Wetenschappen");
-        collectie.setBibliotheek(bibliotheek2);
-        Boek boek = factory.maakTheRighteousMind();
-        boek.setCollectie(collectie);
-        dao.addBoek(boek);
-        int id = boek.getId();
-        dao.VerwijderBoek(id);
-        //dao.addCollectie(collectie);
-        //System.out.println(boek.getCollectie().getBibliotheek().getId());
-        */
         toonBibliotheek(bibliotheek);
-        //dao.VerwijderLid("Axel", "De Decker");
-        /*
+        dao.VerwijderLid("Axel", "De Decker");
+        
         dao.VerwijderBoek(1);
         dao.VerwijderBoek(2);
         dao.VerwijderBoek(3);
         dao.VerwijderBoek(4);
         dao.VerwijderBoek(5);
-        */
+        
         Bibliotheek bibliotheek1 = factory.maakBibliotheekDendermonde();
         dao.addBibliotheek(bibliotheek1);
         Lid lid = dao.getLid(21);
@@ -56,8 +44,8 @@ public class BibliotheekMain {
         System.out.println(boek);
         System.out.println(dao.getBoek(17));
         dao.close();
-        toonBibliotheek(bibliotheek);
-        toonBibliotheek(bibliotheek1);
+        //toonBibliotheek(bibliotheek);
+        //toonBibliotheek(bibliotheek1);
     }
     
     private static void toonBibliotheek(Bibliotheek bibliotheek) {

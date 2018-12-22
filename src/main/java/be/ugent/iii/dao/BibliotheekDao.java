@@ -69,8 +69,8 @@ public class BibliotheekDao implements AutoCloseable {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Collectie collectie = boek.getCollectie();
-        em.persist(collectie);
         em.persist(boek);
+        em.merge(collectie);
         em.getTransaction().commit();
         em.close();
     }
@@ -143,6 +143,15 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
         return boek;
     }
+    
+    public Collectie getCollectie(int id) {
+        EntityManager em = emf.createEntityManager();
+        Collectie collectie = em.find(Collectie.class, id);
+        Set<Boek> boeken = new HashSet<>(collectie.getBoeken());
+        em.close();
+        collectie.setBoeken(boeken);
+        return collectie;
+    }
 
     public List<Boek> getBoekenByTaal(String taal) {
         EntityManager em = emf.createEntityManager();
@@ -186,11 +195,31 @@ public class BibliotheekDao implements AutoCloseable {
             return result;
         }
     }
+    
+    public Bibliotheek zoekBibMetBoeken(int id) {
+        EntityManager em = emf.createEntityManager();
+        Bibliotheek bib = em.find(Bibliotheek.class, id);
+        Set<Collectie> collecties = bib.getCollecties();
+        List<Set<Boek>> boeken = new ArrayList<>();
+        for (Collectie c : collecties) {
+            boeken.add(new HashSet<>(c.getBoeken()));
+        }
+        em.close();
+        int i = 0;
+        for (Collectie c : collecties) {
+            
+            c.setBoeken(boeken.get(i));
+            i++;
+        }
+        return bib;
+    }
 
     public Bibliotheek zoekBib(int id) {
         EntityManager em = emf.createEntityManager();
         Bibliotheek bib = em.find(Bibliotheek.class, id);
+        Set<Lid> leden = new HashSet<>(bib.getLeden());
         em.close();
+        bib.setLeden(leden);
         return bib;
     }
     
@@ -326,14 +355,28 @@ public class BibliotheekDao implements AutoCloseable {
         em.close();
     }
     
+    public void voegBoekToe(Collectie collectie, Boek boek) {
+        boek.setCollectie(collectie);
+        collectie.add(boek);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(collectie);
+        em.persist(boek);
+        em.getTransaction().commit();
+        em.close();
+    }
+    
     public void verplaatsBoek(Collectie collectie, Boek boek) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        collectie = em.merge(collectie);
         boek = em.merge(boek);
+        collectie = em.merge(collectie);
+        collectie.add(boek);
         boek.setCollectie(collectie);
-        
+        em.getTransaction().commit();
         em.close();
+        //System.out.println(boek.getCollectie());
+        //System.out.println(collectie.getBoeken());
     }
     //</editor-fold>
 

@@ -45,13 +45,13 @@ public class Bibliotheek implements Serializable {
     
     // GEBRUIK CascadeType.ALL => geassocieerde collecties worden samen met de bibliotheek verwijderd
     // 1-veel bidirectionele compositie met als ouder bibliotheek
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek", fetch = FetchType.EAGER)
     private Set<Collectie> collecties = new HashSet<>();
     
     // GEBRUIK CascadeType.ALL => geassocieerde leden worden samen met de bibliotheek verwijderd
     // 1-veel bidirectionele compositie met als ouder bibliotheek
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotheek")
-    private final Set<Lid> leden = new HashSet<>();
+    private Set<Lid> leden = new HashSet<>();
 
     // <editor-fold defaultstate="collapsed" desc="getters/setters + add/remove">
     public int getId() {
@@ -102,6 +102,10 @@ public class Bibliotheek implements Serializable {
 
     public Set<Lid> getLeden() {
         return leden;
+    }
+
+    public void setLeden(Set<Lid> leden) {
+        this.leden = leden;
     }
     
     public boolean add(Lid lid) {

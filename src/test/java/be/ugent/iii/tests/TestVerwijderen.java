@@ -52,10 +52,7 @@ public class TestVerwijderen {
     }
 
     // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    // Deze test gaat na of een boek correct kan verwijderd worden via de naam van de auteur
     @Test
     public void VerwijderBoekMetId() {
         //Verwijderen boek in tabel "boeken", in tabel "collectie
@@ -71,9 +68,10 @@ public class TestVerwijderen {
 
         //Alle boeken van Andrew Tanenbaum zijn verwijderd:
         List<Integer> result = dao.getIdOfBoekenByAuteur("Andrew", "Tanenbaum");
-        assertNull(result);
+        assertTrue(result.isEmpty());
     }
 
+    // Deze test gaat na of een lid correct kan worden verwijderd via zijn naam
     @Test
     public void VerwijderLidMetId() {
         Bibliotheek b = factory.maakDeKrookVolledig();
@@ -87,6 +85,7 @@ public class TestVerwijderen {
 
     }
 
+    // Deze lening gaat na of een lid correct kan worden verwijderd via het geassocieerde boek en lid
     @Test
     public void LeningVerwijderen() {
         int leningenVoor = dao.getLeningen().size();

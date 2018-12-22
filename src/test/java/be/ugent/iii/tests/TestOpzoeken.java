@@ -10,6 +10,7 @@ import be.ugent.iii.entiteiten.*;
 import be.ugent.iii.factory.BibliotheekFactory;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Arthur
+ * @author axeld
  */
 public class TestOpzoeken {
 
@@ -63,10 +64,20 @@ public class TestOpzoeken {
         List<Collectie> werkelijk = dao.getCollecties();
         assertEquals("alle collecties opgevraagd?", new HashSet<>(verwacht), new HashSet<>(werkelijk));
     }
-     
-    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden met lazy opvraging
+    
+    // Deze test gaat na of een bibliotheek samen met haar collecties (EAGER) en met haar boeken (LAZY) kan worden opgevraagd
     @Test
-    public void testGetBibliotheekLazy() {
+    public void testGetBibliotheekMetCatalogus() {
+        Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
+        dao.addBibliotheek(bibliotheek);
+        Bibliotheek bibOpId = dao.zoekBibMetBoeken(bibliotheek.getId());
+        assertEquals("collecties mee opgevraagd?", new HashSet<>(bibliotheek.getCollecties()), new HashSet<>(bibOpId.getCollecties()));
+        assertEquals("boeken mee opgevraagd?", new HashSet<>(bibOpId.getBoeken()), new HashSet<>(bibliotheek.getBoeken()));
+    }
+     
+    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden 
+    @Test
+    public void testGetBibliotheek() {
         int aantalVoor = dao.getBibliotheken().size();
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
@@ -76,15 +87,14 @@ public class TestOpzoeken {
         assertEquals("bilbiotheek opgevraagd op id?", resultaat, bibliotheek);
     }
     
-    // Deze test gaat na of een bibliotheek correct op id kan opgevraagd worden
-    // en het resultaat de correcte geassocieerde collecties, boeken en auteurs bevat 
+    // Deze test gaat na of een bib samen met haar leden correct LAZY wordt opgevraagd
     @Test
-    public void testGetBibliotheekMetCatalogus() {
+    public void testGetBibliotheekMetLedenLazy() {
         Bibliotheek bibliotheek = factory.maakDeKrookVolledig();
         dao.addBibliotheek(bibliotheek);
-        Bibliotheek resultaat = dao.getBibliotheekMetCatalogus(bibliotheek.getId());
-        assertEquals("correct aantal collecties opgevraagd?", bibliotheek.getCollecties().size(), resultaat.getCollecties().size());
-        assertEquals("correcte collecties opgevraagd?", new HashSet<>(bibliotheek.getCollecties()), new HashSet<>(resultaat.getCollecties()));
+        Bibliotheek bibOpId = dao.zoekBib(bibliotheek.getId());
+        assertEquals("alle leden opgevraagd?", new HashSet<>(bibliotheek.getLeden()), new HashSet<>(bibOpId.getLeden()));
+        
     }
     
     // Deze test gaat na of boeken correct kunnen worden opgevraagd via
