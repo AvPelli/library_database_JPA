@@ -9,11 +9,11 @@
 - GUI: rechts klikken op BibliotheekGUI "run file"
 
 ### Database properties
-url = jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+- url = jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
 
-username: iii
+- username: iii
 
-password: iiipwd
+- password: iiipwd
 
 ## Overzicht activiteiten
 
