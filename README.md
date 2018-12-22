@@ -29,31 +29,53 @@
 
 20 t.e.m 22-12-2018: Debuggen, unit tests schrijven en GUI maken
 
-## Structuur database
 
+## Structuur
+Zie klassendiagram
 - Een bibliotheek bevat leden en collecties
 - Een collectie bevat boeken en behoort tot een bibliotheek
 - Een lid heeft leningen, die bestaan uit een lid-ID en een boek-ID
 - Een boek heeft één of meerdere auteurs en behoort tot een collectie
+- Een auteur heeft één of meerde boeken
 
-## Datalaag functionaliteiten
+* 1-1 relatie
+  * Boek - lening
+* 1-n relatie
+  * Bibliotheek - Collecties
+  * Bibliotheek - Leden
+  * Collectie - Boeken
+  * Lid - Leningen
+* n - n relaties
+  * Boeken - Auteurs
+* Relatie met cascade
+  * o.a. Bibliotheek -> Collectie -> Boek
+* Relatie zonder cascade
+  * o.a. Boek -> Boek
+* Overerving: Lid en Auteur zijn afgeleid van Persoon, we hebben voor table per class strategie gekozen
+* Value-object: Adres voor Bibliotheek en Lid
+* Lazy opvraging: o.a. Collectie met geassocieerde Boeken
+* Eager opvraging: Bibliotheek met geassocieerde Collecties
 
-- Bibliotheek
-  - Verhuizen (naam/adres wijziging)
-  - Volledig met collecties en boeken opvragen
-  - Leden opvragen 
-- Collectie
-  - Opvragen
-- Auteur
-  - Boeken van auteur opvragen
-- Boeken
-  - Toevoegen/verwijderen
-  - Verhuizen van bibliotheek/collectie 
-  - Opzoeken op taal/auteur
-- Lid
-  - Toevoegen en verwijderen
-- Lening
-  - Toevoegen en verwijderen
+### Functionaliteiten datalaag
+We hebben unittests voorzien om objecten toe te voegen, aan te passen, op te zoeken en te verwijderen.
+* Bibliotheek
+  * Verhuizen (naam/adres wijziging)
+  * Volledig met collecties en boeken opvragen
+  * Leden opvragen 
+* Collectie
+  * Opvragen
+* Auteur
+  * Boeken van auteur opvragen
+* Boeken
+  * Toevoegen/verwijderen
+  * Verhuizen van bibliotheek/collectie 
+  * Opzoeken op taal/auteur
+* Lid
+  * Toevoegen en verwijderen
+* Lening
+  * Toevoegen en verwijderen
+  
+  ##
 
 ## GUI functionaliteiten
 - Lid registreren met voor- en achternaam
