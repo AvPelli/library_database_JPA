@@ -1,6 +1,4 @@
-# groep-9
-
-# Datalayer Bibliotheek 
+# Datalayer for Library 
 
 ## Settings and installation
 
