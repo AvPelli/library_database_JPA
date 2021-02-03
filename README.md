@@ -1,4 +1,4 @@
-# Datalayer for Library 
+# Datalayer for a library 
 
 ## Settings and installation
 
