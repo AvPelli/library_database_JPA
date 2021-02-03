@@ -1,12 +1,12 @@
 # groep-9
 
-# Datalaag Bibliotheek 
+# Datalayer Bibliotheek 
 
-## Instellingen en installatie
+## Settings and installation
 
-- Project clonen
-- Rechts klikken op het project in Netbeans "build with dependencies"
-- GUI: rechts klikken op BibliotheekGUI "run file"
+- Clone project
+- Right click on project in Netbeans "build with dependencies"
+- GUI: right click on BibliotheekGUI "run file"
 
 ### Database properties
 - url = jdbc:mysql://localhost:3306/jpadb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
@@ -15,77 +15,70 @@
 
 - password: iiipwd
 
-## Overzicht activiteiten
+## Overview of activities
 
-14-12-2018: ~~Communiceren met database via HTTP requests~~ 
+14-12-2018: ~~Communicate with database using HTTP~~ 
 
-15-12-2018: Eerste versie GUI, overleg structuur database
+15-12-2018: First version GUI, discuss database structure
 
-17-12-2018: Entiteiten toegevoegd + DAO klasse met entitymanager ipv controller met http requests
+17-12-2018: Add entities + DAO class with entitymanager instead of controller with HTTP requests
 
-18-12-2018: GUI die gebruik maakt van de nieuwe DAO klasse, verder uitwerken database
+18-12-2018: GUI using new DAO class, further implementation database
 
-19-12-2018: Uitzoeken transient/detached state + verder uitwerken database en unit tests
+19-12-2018: Research on transient/detached state + further implementation database and unit tests
 
-20 t.e.m 22-12-2018: Debuggen, unit tests schrijven en GUI maken
+20 t.e.m 22-12-2018: Debugging, unit tests and GUI 
 
 
-## Structuur
-Zie klassendiagram.pdf
-- Een bibliotheek bevat leden en collecties
-- Een collectie bevat boeken en behoort tot een bibliotheek
-- Een lid heeft leningen, die bestaan uit een lid-ID en een boek-ID
-- Een boek heeft één of meerdere auteurs en behoort tot een collectie
-- Een auteur heeft één of meerde boeken
+## Database structure
+See klassendiagram.pdf
+- A library contains members and collections
+- A collection contains books and belongs to a library
+- A member has loans, those consist of a member-id and a book-id
+- A book has one or more authors and belongs to a collection
+- An author has one or more books
 
-* 1-1 relatie
-  * Boek - lening
-* 1-n relatie
-  * Bibliotheek - Collecties
-  * Bibliotheek - Leden
-  * Collectie - Boeken
-  * Lid - Leningen
+* 1-1 relation
+  * Book - loan
+* 1-n relation
+  * Library - Collections
+  * Library - Members
+  * Collections - Books
+  * Member - Loans
 * n - n relaties
-  * Boeken - Auteurs
-* Relatie met cascade
-  * o.a. Bibliotheek -> Collectie -> Boek
-* Relatie zonder cascade
-  * o.a. Boek -> Collectie
-* Overerving: Lid en Auteur zijn afgeleid van Persoon, we hebben voor table per class strategie gekozen
-* Value-object: Adres voor Bibliotheek en Lid
-* Lazy opvraging: o.a. Collectie met geassocieerde Boeken
-* Eager opvraging: Bibliotheek met geassocieerde Collecties
+  * Books - Authors
+* Relations with cascading
+  * Library -> Collection -> Book
+* Relations without cascading
+  * Book -> Collection
+* Inheritance: Member and Author are derived from Person, we chose for the table-per-class database strategy
+* Value-object: The Adress object in Library and Member objects
+* Lazy loading: Collection with associated Books
+* Eager loading: Library with associated Collections
 
-## Functionaliteiten datalaag
-We hebben unittests voorzien om objecten toe te voegen, aan te passen, op te zoeken en te verwijderen.
-* Bibliotheek
-  * Verhuizen (naam/adres wijziging)
-  * Volledig met collecties en boeken opvragen
-  * Leden opvragen 
-* Collectie
-  * Opvragen
-* Auteur
-  * Boeken van auteur opvragen
-* Boeken
-  * Toevoegen/verwijderen
-  * Verhuizen van bibliotheek/collectie 
-  * Opzoeken op taal/auteur
-* Lid
-  * Toevoegen en verwijderen
-* Lening
-  * Toevoegen en verwijderen
+## Functionalities of datalayer
+We provided unittests for the CRUD operations on objects.
+* Library
+  * Moving to new place (name/adress update)
+  * Requesting all collections and books
+  * Requesting all members 
+* Collection
+  * Requesting 
+* Author
+  * Requesting all books of an author
+* Books
+  * Adding/removing
+  * Changing library/collection 
+  * Searching on language/author
+* Member
+  * Adding and removing
+* Loans
+  * Adding and removing
   
   ##
 
-## GUI functionaliteiten
-- Lid registreren met voor- en achternaam
-- Inloggen met user ID
-- Opzoeken bibliotheken,collecties,auteurs,... : alle, op ID of op naam (met enkele uitzonderingen)
-- Bij het zoeken naar boeken worden apart ook de beschikbare boeken getoond
-
-## Bugs
-``` 
-GUI werkt niet volledig, een bug die we niet konden oplossen i.v.m. "lazy initialization"
-zorgt ervoor dat een boek uitlenen en terugbrengen in de GUI niet lukt (wel in de unit tests).
-Deze error zal zichtbaar zijn in de console wanneer op de "leen" knop geduwd wordt
-```
+## GUI functionalities
+- Register member with first name and surname
+- Logging in with user ID
+- Searching for libraries,collections,authors,... : all, by ID or by name
+- Display available books
